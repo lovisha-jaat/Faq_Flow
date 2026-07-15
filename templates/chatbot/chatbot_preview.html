@@ -1,0 +1,1046 @@
+{% extends "base.html" %}
+
+{% block title %}
+Chatbot Preview | FAQFlow AI
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-page">
+
+    <div class="dashboard-layout">
+
+        <!-- ================= SIDEBAR ================= -->
+
+        <aside class="dashboard-sidebar">
+
+            <div class="sidebar-top">
+
+                <div class="sidebar-company">
+
+                    <div class="company-avatar">
+                        <i class="fa-solid fa-building"></i>
+                    </div>
+
+                    <div>
+                        <h3>
+                            {{ session.get("company_name", "Company") }}
+                        </h3>
+
+                        <p>FAQ Workspace</p>
+                    </div>
+
+                </div>
+
+                <nav class="sidebar-menu">
+
+                    <a
+                        href="{{ url_for('dashboard.dashboard') }}"
+                        class="sidebar-link"
+                    >
+                        <i class="fa-solid fa-table-columns"></i>
+                        <span>Dashboard</span>
+                    </a>
+
+                    <a
+                        href="{{ url_for('faq.faq_list') }}"
+                        class="sidebar-link"
+                    >
+                        <i class="fa-solid fa-circle-question"></i>
+                        <span>Manage FAQs</span>
+                    </a>
+
+                    <a
+                        href="{{ url_for('faq.add_faq') }}"
+                        class="sidebar-link"
+                    >
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Add FAQ</span>
+                    </a>
+
+                    <a
+                        href="{{ url_for('chatbot.chatbot') }}"
+                        class="sidebar-link"
+                    >
+                        <i class="fa-solid fa-robot"></i>
+                        <span>Chatbot</span>
+                    </a>
+
+                    <a
+                        href="{{ url_for('chatbot.chatbot_preview') }}"
+                        class="sidebar-link active"
+                    >
+                        <i class="fa-solid fa-eye"></i>
+                        <span>Preview</span>
+                    </a>
+
+                    <a
+                        href="{{ url_for('chatbot.integration') }}"
+                        class="sidebar-link"
+                    >
+                        <i class="fa-solid fa-code"></i>
+                        <span>Integration</span>
+                    </a>
+
+                    <div class="sidebar-divider"></div>
+
+                    <a
+                        href="{{ url_for('dashboard.profile') }}"
+                        class="sidebar-link"
+                    >
+                        <i class="fa-regular fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+
+                    <a
+                        href="{{ url_for('dashboard.settings') }}"
+                        class="sidebar-link"
+                    >
+                        <i class="fa-solid fa-gear"></i>
+                        <span>Settings</span>
+                    </a>
+
+                </nav>
+
+            </div>
+
+            <div class="sidebar-bottom">
+
+                <a
+                    href="{{ url_for('auth.logout') }}"
+                    class="sidebar-logout"
+                >
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
+
+            </div>
+
+        </aside>
+
+
+        <!-- ================= MAIN CONTENT ================= -->
+
+        <main class="dashboard-main">
+
+            <header class="dashboard-header">
+
+                <div>
+
+                    <p class="dashboard-label">
+                        Website Widget
+                    </p>
+
+                    <h1>Chatbot Preview</h1>
+
+                    <p class="dashboard-subtitle">
+
+                        Preview how your FAQ assistant will appear on your
+                        company website.
+
+                    </p>
+
+                </div>
+
+                <div class="dashboard-header-actions">
+
+                    <a
+                        href="{{ url_for('chatbot.chatbot') }}"
+                        class="dashboard-outline-button"
+                    >
+                        <i class="fa-solid fa-message"></i>
+                        Test Chatbot
+                    </a>
+
+                    <a
+                        href="{{ url_for('chatbot.integration') }}"
+                        class="dashboard-primary-button"
+                    >
+                        <i class="fa-solid fa-code"></i>
+                        Get Integration Code
+                    </a>
+
+                </div>
+
+            </header>
+
+
+            <section class="preview-page-grid">
+
+                <!-- ================= WEBSITE PREVIEW ================= -->
+
+                <article class="website-preview-card">
+
+                    <div class="browser-topbar">
+
+                        <div class="browser-controls">
+
+                            <span class="browser-dot red-dot"></span>
+                            <span class="browser-dot yellow-dot"></span>
+                            <span class="browser-dot green-dot"></span>
+
+                        </div>
+
+                        <div class="browser-address">
+
+                            <i class="fa-solid fa-lock"></i>
+
+                            <span>
+                                www.yourcompany.com
+                            </span>
+
+                        </div>
+
+                        <div class="browser-menu">
+
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="preview-website">
+
+                        <!-- Mock Website Navbar -->
+
+                        <nav class="mock-navbar">
+
+                            <div class="mock-brand">
+
+                                <div class="mock-logo">
+
+                                    <i class="fa-solid fa-building"></i>
+
+                                </div>
+
+                                <span>
+                                    {{ session.get("company_name", "Your Company") }}
+                                </span>
+
+                            </div>
+
+                            <div class="mock-nav-links">
+
+                                <span>Home</span>
+                                <span>About</span>
+                                <span>Services</span>
+                                <span>Contact</span>
+
+                            </div>
+
+                        </nav>
+
+
+                        <!-- Mock Hero -->
+
+                        <div class="mock-hero">
+
+                            <span class="mock-badge">
+                                Welcome to our website
+                            </span>
+
+                            <h2>
+                                Better services for every customer
+                            </h2>
+
+                            <p>
+
+                                This is a sample website preview showing how
+                                your FAQFlow AI chatbot will appear to visitors.
+
+                            </p>
+
+                            <div class="mock-buttons">
+
+                                <span class="mock-primary-button">
+                                    Get Started
+                                </span>
+
+                                <span class="mock-secondary-button">
+                                    Learn More
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Mock Cards -->
+
+                        <div class="mock-service-grid">
+
+                            <div class="mock-service-card">
+
+                                <i class="fa-solid fa-bolt"></i>
+
+                                <h3>Fast Service</h3>
+
+                                <p>
+                                    Reliable and quick support for customers.
+                                </p>
+
+                            </div>
+
+                            <div class="mock-service-card">
+
+                                <i class="fa-solid fa-shield-halved"></i>
+
+                                <h3>Secure Process</h3>
+
+                                <p>
+                                    Your information remains protected.
+                                </p>
+
+                            </div>
+
+                            <div class="mock-service-card">
+
+                                <i class="fa-solid fa-headset"></i>
+
+                                <h3>Customer Support</h3>
+
+                                <p>
+                                    Get help whenever you need it.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Chatbot Floating Button -->
+
+                        <button
+                            type="button"
+                            id="previewChatButton"
+                            class="preview-chat-button"
+                            aria-label="Open chatbot"
+                        >
+
+                            <i class="fa-solid fa-comment-dots"></i>
+
+                            <span class="preview-notification-dot"></span>
+
+                        </button>
+
+
+                        <!-- Chatbot Widget -->
+
+                        <div
+                            id="previewChatWidget"
+                            class="preview-chat-widget"
+                        >
+
+                            <div class="preview-widget-header">
+
+                                <div class="preview-widget-heading">
+
+                                    <div class="preview-widget-avatar">
+
+                                        <i class="fa-solid fa-robot"></i>
+
+                                        <span></span>
+
+                                    </div>
+
+                                    <div>
+
+                                        <h3>
+                                            {{ session.get("company_name", "Company") }}
+                                            Assistant
+                                        </h3>
+
+                                        <p>
+                                            Online
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                                <button
+                                    type="button"
+                                    id="closePreviewWidget"
+                                    class="preview-widget-close"
+                                    aria-label="Close chatbot"
+                                >
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+
+                            </div>
+
+
+                            <div
+                                id="previewMessages"
+                                class="preview-widget-messages"
+                            >
+
+                                <div class="preview-widget-bot-message">
+
+                                    <div class="preview-small-avatar">
+
+                                        <i class="fa-solid fa-robot"></i>
+
+                                    </div>
+
+                                    <div>
+
+                                        <p>
+
+                                            Hello! How can I help you today?
+
+                                        </p>
+
+                                        <span>Just now</span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="preview-suggestions">
+
+                                <button
+                                    type="button"
+                                    class="preview-suggestion"
+                                    data-question="What services do you provide?"
+                                >
+                                    What services do you provide?
+                                </button>
+
+                                <button
+                                    type="button"
+                                    class="preview-suggestion"
+                                    data-question="How can I contact support?"
+                                >
+                                    How can I contact support?
+                                </button>
+
+                            </div>
+
+
+                            <form
+                                id="previewChatForm"
+                                class="preview-widget-input"
+                            >
+
+                                <input
+                                    type="text"
+                                    id="previewQuestionInput"
+                                    placeholder="Type your question..."
+                                    maxlength="500"
+                                    autocomplete="off"
+                                    required
+                                >
+
+                                <button
+                                    type="submit"
+                                    id="previewSendButton"
+                                    aria-label="Send question"
+                                >
+                                    <i class="fa-solid fa-paper-plane"></i>
+                                </button>
+
+                            </form>
+
+                            <div class="preview-widget-footer">
+
+                                <i class="fa-solid fa-bolt"></i>
+
+                                Powered by FAQFlow AI
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <!-- ================= CUSTOMIZATION PANEL ================= -->
+
+                <aside class="preview-settings-column">
+
+                    <article class="dashboard-card preview-settings-card">
+
+                        <div class="dashboard-card-header">
+
+                            <div>
+
+                                <span class="card-label">
+                                    Widget Preview
+                                </span>
+
+                                <h2>Display Controls</h2>
+
+                                <p>
+                                    Adjust the preview appearance.
+                                </p>
+
+                            </div>
+
+                            <div class="card-header-icon">
+
+                                <i class="fa-solid fa-sliders"></i>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="preview-control-list">
+
+                            <div class="preview-control-group">
+
+                                <label for="previewPosition">
+                                    Widget Position
+                                </label>
+
+                                <select id="previewPosition">
+
+                                    <option value="right">
+                                        Bottom Right
+                                    </option>
+
+                                    <option value="left">
+                                        Bottom Left
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                            <div class="preview-control-group">
+
+                                <label for="previewColor">
+                                    Primary Color
+                                </label>
+
+                                <div class="preview-color-control">
+
+                                    <input
+                                        type="color"
+                                        id="previewColor"
+                                        value="#0f2f75"
+                                    >
+
+                                    <span id="previewColorValue">
+                                        #0F2F75
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="preview-control-group">
+
+                                <label for="previewTitle">
+                                    Assistant Name
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="previewTitle"
+                                    value="{{ session.get('company_name', 'Company') }} Assistant"
+                                    maxlength="50"
+                                >
+
+                            </div>
+
+
+                            <div class="preview-control-group">
+
+                                <label for="previewWelcome">
+                                    Welcome Message
+                                </label>
+
+                                <textarea
+                                    id="previewWelcome"
+                                    rows="4"
+                                    maxlength="150"
+                                >Hello! How can I help you today?</textarea>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="preview-control-actions">
+
+                            <button
+                                type="button"
+                                id="openWidgetButton"
+                                class="dashboard-outline-button"
+                            >
+                                <i class="fa-solid fa-eye"></i>
+                                Open Widget
+                            </button>
+
+                            <a
+                                href="{{ url_for('chatbot.integration') }}"
+                                class="dashboard-primary-button"
+                            >
+                                <i class="fa-solid fa-code"></i>
+                                Integrate
+                            </a>
+
+                        </div>
+
+                    </article>
+
+
+                    <article class="dashboard-card preview-info-card">
+
+                        <div class="preview-info-icon">
+
+                            <i class="fa-solid fa-circle-info"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h3>Preview Mode</h3>
+
+                            <p>
+
+                                This page simulates how the chatbot will appear
+                                on a company website. The actual widget will use
+                                the same company ID and FAQ data.
+
+                            </p>
+
+                        </div>
+
+                    </article>
+
+
+                    <article class="dashboard-card preview-checklist-card">
+
+                        <h3>Before Integration</h3>
+
+                        <div class="preview-checklist">
+
+                            <div>
+
+                                <i class="fa-solid fa-check"></i>
+
+                                <span>
+                                    Add approved FAQs
+                                </span>
+
+                            </div>
+
+                            <div>
+
+                                <i class="fa-solid fa-check"></i>
+
+                                <span>
+                                    Test chatbot answers
+                                </span>
+
+                            </div>
+
+                            <div>
+
+                                <i class="fa-solid fa-check"></i>
+
+                                <span>
+                                    Preview widget design
+                                </span>
+
+                            </div>
+
+                            <div>
+
+                                <i class="fa-solid fa-check"></i>
+
+                                <span>
+                                    Copy integration code
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+                </aside>
+
+            </section>
+
+        </main>
+
+    </div>
+
+</section>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script>
+
+    const previewChatButton =
+        document.getElementById("previewChatButton");
+
+    const previewChatWidget =
+        document.getElementById("previewChatWidget");
+
+    const closePreviewWidget =
+        document.getElementById("closePreviewWidget");
+
+    const openWidgetButton =
+        document.getElementById("openWidgetButton");
+
+    const previewPosition =
+        document.getElementById("previewPosition");
+
+    const previewColor =
+        document.getElementById("previewColor");
+
+    const previewColorValue =
+        document.getElementById("previewColorValue");
+
+    const previewTitle =
+        document.getElementById("previewTitle");
+
+    const previewWelcome =
+        document.getElementById("previewWelcome");
+
+    const previewChatForm =
+        document.getElementById("previewChatForm");
+
+    const previewQuestionInput =
+        document.getElementById("previewQuestionInput");
+
+    const previewMessages =
+        document.getElementById("previewMessages");
+
+    const previewSendButton =
+        document.getElementById("previewSendButton");
+
+    const previewSuggestions =
+        document.querySelectorAll(".preview-suggestion");
+
+
+    function openPreviewChat() {
+
+        previewChatWidget.classList.add("show");
+
+        previewQuestionInput.focus();
+
+    }
+
+
+    function closePreviewChat() {
+
+        previewChatWidget.classList.remove("show");
+
+    }
+
+
+    previewChatButton.addEventListener(
+        "click",
+        openPreviewChat
+    );
+
+
+    openWidgetButton.addEventListener(
+        "click",
+        openPreviewChat
+    );
+
+
+    closePreviewWidget.addEventListener(
+        "click",
+        closePreviewChat
+    );
+
+
+    previewPosition.addEventListener(
+        "change",
+        function() {
+
+            const previewWebsite =
+                document.querySelector(".preview-website");
+
+            previewWebsite.classList.remove(
+                "widget-left",
+                "widget-right"
+            );
+
+            previewWebsite.classList.add(
+                this.value === "left"
+                    ? "widget-left"
+                    : "widget-right"
+            );
+
+        }
+    );
+
+
+    previewColor.addEventListener(
+        "input",
+        function() {
+
+            const selectedColor = this.value;
+
+            previewColorValue.textContent =
+                selectedColor.toUpperCase();
+
+            previewChatButton.style.background =
+                selectedColor;
+
+            document
+                .querySelector(".preview-widget-header")
+                .style.background = selectedColor;
+
+            previewSendButton.style.background =
+                selectedColor;
+
+        }
+    );
+
+
+    previewTitle.addEventListener(
+        "input",
+        function() {
+
+            const widgetTitle =
+                document.querySelector(
+                    ".preview-widget-heading h3"
+                );
+
+            widgetTitle.textContent =
+                this.value.trim() ||
+                "Company Assistant";
+
+        }
+    );
+
+
+    previewWelcome.addEventListener(
+        "input",
+        function() {
+
+            const welcomeMessage =
+                document.querySelector(
+                    ".preview-widget-bot-message p"
+                );
+
+            welcomeMessage.textContent =
+                this.value.trim() ||
+                "Hello! How can I help you today?";
+
+        }
+    );
+
+
+    function appendPreviewUserMessage(message) {
+
+        const messageElement =
+            document.createElement("div");
+
+        messageElement.className =
+            "preview-widget-user-message";
+
+        const paragraph =
+            document.createElement("p");
+
+        paragraph.textContent = message;
+
+        messageElement.appendChild(paragraph);
+
+        previewMessages.appendChild(messageElement);
+
+    }
+
+
+    function appendPreviewBotMessage(message) {
+
+        const messageElement =
+            document.createElement("div");
+
+        messageElement.className =
+            "preview-widget-bot-message";
+
+        messageElement.innerHTML = `
+            <div class="preview-small-avatar">
+                <i class="fa-solid fa-robot"></i>
+            </div>
+
+            <div>
+                <p></p>
+                <span>Just now</span>
+            </div>
+        `;
+
+        messageElement
+            .querySelector("p")
+            .textContent = message;
+
+        previewMessages.appendChild(messageElement);
+
+    }
+
+
+    function appendTypingMessage() {
+
+        const typingElement =
+            document.createElement("div");
+
+        typingElement.className =
+            "preview-widget-bot-message preview-typing-message";
+
+        typingElement.innerHTML = `
+            <div class="preview-small-avatar">
+                <i class="fa-solid fa-robot"></i>
+            </div>
+
+            <div class="preview-typing-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        `;
+
+        previewMessages.appendChild(typingElement);
+
+        return typingElement;
+
+    }
+
+
+    function scrollPreviewToBottom() {
+
+        previewMessages.scrollTop =
+            previewMessages.scrollHeight;
+
+    }
+
+
+    async function sendPreviewQuestion(question) {
+
+        appendPreviewUserMessage(question);
+
+        previewQuestionInput.value = "";
+
+        previewQuestionInput.disabled = true;
+        previewSendButton.disabled = true;
+
+        const typingMessage =
+            appendTypingMessage();
+
+        scrollPreviewToBottom();
+
+
+        try {
+
+            const response = await fetch(
+                "{{ url_for('api.chat') }}",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        company_id:
+                            {{ session.get("company_id") | tojson }},
+                        question: question
+                    })
+                }
+            );
+
+
+            const data = await response.json();
+
+            typingMessage.remove();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.message ||
+                    "Unable to get an answer."
+                );
+
+            }
+
+
+            appendPreviewBotMessage(
+                data.answer
+            );
+
+        } catch (error) {
+
+            typingMessage.remove();
+
+            appendPreviewBotMessage(
+                error.message ||
+                "Something went wrong. Please try again."
+            );
+
+        } finally {
+
+            previewQuestionInput.disabled = false;
+            previewSendButton.disabled = false;
+
+            previewQuestionInput.focus();
+
+            scrollPreviewToBottom();
+
+        }
+
+    }
+
+
+    previewChatForm.addEventListener(
+        "submit",
+        function(event) {
+
+            event.preventDefault();
+
+            const question =
+                previewQuestionInput.value.trim();
+
+            if (!question) {
+                return;
+            }
+
+            sendPreviewQuestion(question);
+
+        }
+    );
+
+
+    previewSuggestions.forEach(
+        function(button) {
+
+            button.addEventListener(
+                "click",
+                function() {
+
+                    openPreviewChat();
+
+                    sendPreviewQuestion(
+                        this.dataset.question
+                    );
+
+                }
+            );
+
+        }
+    );
+
+</script>
+
+{% endblock %}

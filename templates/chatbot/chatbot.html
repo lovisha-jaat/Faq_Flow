@@ -1,0 +1,488 @@
+{% extends "base.html" %}
+
+{% block title %}
+Chatbot | FAQFlow AI
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-page">
+
+    <div class="dashboard-layout">
+
+        <!-- ================= SIDEBAR ================= -->
+
+        <aside class="dashboard-sidebar">
+
+            <div class="sidebar-top">
+
+                <div class="sidebar-company">
+
+                    <div class="company-avatar">
+                        <i class="fa-solid fa-building"></i>
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            {{ session.get("company_name", "Company") }}
+                        </h3>
+
+                        <p>FAQ Workspace</p>
+
+                    </div>
+
+                </div>
+
+                <nav class="sidebar-menu">
+
+                    <a href="{{ url_for('dashboard.dashboard') }}" class="sidebar-link">
+                        <i class="fa-solid fa-table-columns"></i>
+                        <span>Dashboard</span>
+                    </a>
+
+                    <a href="{{ url_for('faq.faq_list') }}" class="sidebar-link">
+                        <i class="fa-solid fa-circle-question"></i>
+                        <span>Manage FAQs</span>
+                    </a>
+
+                    <a href="{{ url_for('faq.add_faq') }}" class="sidebar-link">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Add FAQ</span>
+                    </a>
+
+                    <a href="{{ url_for('chatbot.chatbot') }}" class="sidebar-link active">
+                        <i class="fa-solid fa-robot"></i>
+                        <span>Chatbot</span>
+                    </a>
+
+                    <a href="{{ url_for('chatbot.chatbot_preview') }}" class="sidebar-link">
+                        <i class="fa-solid fa-eye"></i>
+                        <span>Preview</span>
+                    </a>
+
+                    <a href="{{ url_for('chatbot.integration') }}" class="sidebar-link">
+                        <i class="fa-solid fa-code"></i>
+                        <span>Integration</span>
+                    </a>
+
+                    <div class="sidebar-divider"></div>
+
+                    <a href="{{ url_for('dashboard.profile') }}" class="sidebar-link">
+                        <i class="fa-regular fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+
+                    <a href="{{ url_for('dashboard.settings') }}" class="sidebar-link">
+                        <i class="fa-solid fa-gear"></i>
+                        <span>Settings</span>
+                    </a>
+
+                </nav>
+
+            </div>
+
+            <div class="sidebar-bottom">
+
+                <a href="{{ url_for('auth.logout') }}" class="sidebar-logout">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
+
+            </div>
+
+        </aside>
+
+
+        <!-- ================= MAIN CONTENT ================= -->
+
+        <main class="dashboard-main">
+
+            <header class="dashboard-header">
+
+                <div>
+
+                    <p class="dashboard-label">
+                        AI Assistant
+                    </p>
+
+                    <h1>Test Your Chatbot</h1>
+
+                    <p class="dashboard-subtitle">
+
+                        Ask questions and test answers from your company FAQ
+                        knowledge base.
+
+                    </p>
+
+                </div>
+
+                <div class="dashboard-header-actions">
+
+                    <a href="{{ url_for('faq.faq_list') }}" class="dashboard-outline-button">
+                        <i class="fa-solid fa-list-check"></i>
+                        Manage FAQs
+                    </a>
+
+                    <a href="{{ url_for('chatbot.chatbot_preview') }}" class="dashboard-primary-button">
+                        <i class="fa-solid fa-eye"></i>
+                        Preview Widget
+                    </a>
+
+                </div>
+
+            </header>
+
+
+            <section class="chatbot-page-grid">
+
+                <!-- ================= CHAT WINDOW ================= -->
+
+                <article class="chatbot-main-card">
+
+                    <div class="chatbot-window-header">
+
+                        <div class="chatbot-header-info">
+
+                            <div class="chatbot-avatar">
+
+                                <i class="fa-solid fa-robot"></i>
+
+                                <span class="chatbot-online-dot"></span>
+
+                            </div>
+
+                            <div>
+
+                                <h2>
+                                    {{ session.get("company_name", "Company") }}
+                                    Assistant
+                                </h2>
+
+                                <p>
+                                    Online and ready to help
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <div class="chatbot-header-actions">
+
+                            <button type="button" id="clearChatButton" class="chatbot-icon-button"
+                                title="Clear conversation">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Chat Messages -->
+
+                    <div id="chatMessages" class="chatbot-messages">
+
+                        <div class="chatbot-message bot-chat-message">
+
+                            <div class="message-avatar">
+
+                                <i class="fa-solid fa-robot"></i>
+
+                            </div>
+
+                            <div class="message-wrapper">
+
+                                <div class="message-bubble">
+
+                                    <p>
+
+                                        Hello! I am the
+                                        {{ session.get("company_name", "Company") }}
+                                        FAQ assistant. Ask me a question about
+                                        the company.
+
+                                    </p>
+
+                                </div>
+
+                                <span class="message-time">
+                                    Just now
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Suggested Questions -->
+
+                    <div class="suggested-question-section">
+
+                        <span class="suggested-label">
+                            Try asking:
+                        </span>
+
+                        <div class="suggested-question-list">
+
+                            <button type="button" class="suggested-question"
+                                data-question="What services do you provide?">
+                                What services do you provide?
+                            </button>
+
+                            <button type="button" class="suggested-question"
+                                data-question="What payment methods are available?">
+                                What payment methods are available?
+                            </button>
+
+                            <button type="button" class="suggested-question" data-question="How can I contact support?">
+                                How can I contact support?
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Chat Input -->
+
+                    <form id="chatForm" class="chatbot-input-area">
+
+                        <div class="chatbot-input-wrapper">
+
+                            <textarea id="questionInput" rows="1" maxlength="500" placeholder="Ask a question..."
+                                autocomplete="off" required></textarea>
+
+                            <span id="chatCharacterCount" class="chat-character-count">
+                                0 / 500
+                            </span>
+
+                        </div>
+
+                        <button type="submit" id="sendMessageButton" class="chatbot-send-button"
+                            aria-label="Send message">
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+
+                    </form>
+
+                </article>
+
+
+                <!-- ================= INFORMATION PANEL ================= -->
+
+                <aside class="chatbot-information-column">
+
+                    <article class="dashboard-card chatbot-info-card">
+
+                        <div class="chatbot-info-header">
+
+                            <div class="chatbot-info-icon">
+
+                                <i class="fa-solid fa-brain"></i>
+
+                            </div>
+
+                            <div>
+
+                                <h3>How It Works</h3>
+
+                                <p>
+                                    FAQ matching process
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <div class="chatbot-process-list">
+
+                            <div class="chatbot-process-item">
+
+                                <span>1</span>
+
+                                <div>
+
+                                    <h4>Visitor asks a question</h4>
+
+                                    <p>
+                                        The message is sent to the Flask API.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                            <div class="chatbot-process-item">
+
+                                <span>2</span>
+
+                                <div>
+
+                                    <h4>FAQs are searched</h4>
+
+                                    <p>
+                                        The system compares the question with
+                                        company FAQs.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                            <div class="chatbot-process-item">
+
+                                <span>3</span>
+
+                                <div>
+
+                                    <h4>Best answer is returned</h4>
+
+                                    <p>
+                                        The closest approved answer is shown.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+                    <article class="dashboard-card chatbot-tips-card">
+
+                        <div class="chatbot-info-header">
+
+                            <div class="chatbot-info-icon">
+
+                                <i class="fa-solid fa-lightbulb"></i>
+
+                            </div>
+
+                            <div>
+
+                                <h3>Testing Tips</h3>
+
+                                <p>
+                                    Get better results
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <div class="chatbot-tip-list">
+
+                            <div class="chatbot-tip-item">
+
+                                <i class="fa-solid fa-check"></i>
+
+                                <span>
+                                    Add FAQs before testing the chatbot.
+                                </span>
+
+                            </div>
+
+                            <div class="chatbot-tip-item">
+
+                                <i class="fa-solid fa-check"></i>
+
+                                <span>
+                                    Ask questions similar to saved FAQs.
+                                </span>
+
+                            </div>
+
+                            <div class="chatbot-tip-item">
+
+                                <i class="fa-solid fa-check"></i>
+
+                                <span>
+                                    Use clear and complete questions.
+                                </span>
+
+                            </div>
+
+                            <div class="chatbot-tip-item">
+
+                                <i class="fa-solid fa-check"></i>
+
+                                <span>
+                                    Review unanswered queries in the dashboard.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+                    <article class="dashboard-card chatbot-api-status">
+
+                        <div class="api-status-row">
+
+                            <div>
+
+                                <span class="api-status-label">
+                                    API Status
+                                </span>
+
+                                <h3>FAQFlow API</h3>
+
+                            </div>
+
+                            <span class="api-online-status">
+
+                                <i class="fa-solid fa-circle"></i>
+                                Online
+
+                            </span>
+
+                        </div>
+
+                        <p>
+                            Messages are processed using the company ID:
+                            <strong>
+                                {{ session.get("company_id") }}
+                            </strong>
+                        </p>
+
+                        <a href="{{ url_for('chatbot.integration') }}" class="faq-test-link">
+                            View Integration
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+
+                    </article>
+
+                </aside>
+
+            </section>
+
+        </main>
+
+    </div>
+
+</section>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script>
+
+    window.FAQFLOW_CONFIG = {
+        apiUrl: "{{ url_for('api.chat') }}",
+        companyId: {{ session.get("company_id") | tojson }}
+    };
+
+</script>
+
+<script src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
+
+{% endblock %}

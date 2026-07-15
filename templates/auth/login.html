@@ -1,0 +1,334 @@
+{% extends "base.html" %}
+
+{% block title %}
+Login | FAQFlow AI
+{% endblock %}
+
+{% block content %}
+
+<section class="auth-page">
+
+    <div class="auth-wrapper">
+
+        <!-- Left Information Panel -->
+
+        <div class="auth-info-panel">
+
+            <div class="auth-info-content">
+
+                <a href="{{ url_for('index') }}" class="auth-brand">
+
+                    <div class="auth-brand-icon">
+
+                        <i class="fa-solid fa-robot"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h2>FAQFlow AI</h2>
+
+                        <p>Intelligent FAQ Assistant</p>
+
+                    </div>
+
+                </a>
+
+                <div class="auth-info-text">
+
+                    <span class="auth-badge">
+
+                        <i class="fa-solid fa-shield-halved"></i>
+
+                        Secure company workspace
+
+                    </span>
+
+                    <h1>
+
+                        Welcome back to your
+
+                        <span>AI support dashboard.</span>
+
+                    </h1>
+
+                    <p>
+
+                        Manage your company FAQs, test your chatbot and
+                        monitor customer questions from one place.
+
+                    </p>
+
+                </div>
+
+                <div class="auth-feature-list">
+
+                    <div class="auth-feature-item">
+
+                        <div class="auth-feature-icon">
+
+                            <i class="fa-solid fa-list-check"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h3>Manage FAQs</h3>
+
+                            <p>Add, edit and organize approved answers.</p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="auth-feature-item">
+
+                        <div class="auth-feature-icon">
+
+                            <i class="fa-solid fa-robot"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h3>Test Your Chatbot</h3>
+
+                            <p>Ask questions using company-specific data.</p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="auth-feature-item">
+
+                        <div class="auth-feature-icon">
+
+                            <i class="fa-solid fa-chart-line"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h3>Track Queries</h3>
+
+                            <p>Monitor answered and unanswered questions.</p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Login Form Panel -->
+
+        <div class="auth-form-panel">
+
+            <div class="auth-form-container">
+
+                <div class="mobile-auth-brand">
+
+                    <div class="auth-brand-icon">
+
+                        <i class="fa-solid fa-robot"></i>
+
+                    </div>
+
+                    <h2>FAQFlow AI</h2>
+
+                </div>
+
+                <div class="auth-form-header">
+
+                    <span class="form-label">
+
+                        Company Login
+
+                    </span>
+
+                    <h2>Welcome back</h2>
+
+                    <p>
+
+                        Enter your account details to continue.
+
+                    </p>
+
+                </div>
+
+                <form
+                    method="POST"
+                    action="{{ url_for('auth.login') }}"
+                    class="auth-form"
+                >
+
+                    <div class="form-group">
+
+                        <label for="email">
+
+                            Email Address
+
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <i class="fa-regular fa-envelope"></i>
+
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="name@company.com"
+                                value="{{ request.form.get('email', '') }}"
+                                autocomplete="email"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="label-row">
+
+                            <label for="password">
+
+                                Password
+
+                            </label>
+
+                            <span class="password-hint">
+
+                                Minimum 6 characters
+
+                            </span>
+
+                        </div>
+
+                        <div class="input-wrapper">
+
+                            <i class="fa-solid fa-lock"></i>
+
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Enter your password"
+                                autocomplete="current-password"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="password-toggle"
+                                onclick="togglePassword('password', this)"
+                                aria-label="Show or hide password"
+                            >
+
+                                <i class="fa-regular fa-eye"></i>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                    <div class="login-options">
+
+                        <label class="remember-checkbox">
+
+                            <input
+                                type="checkbox"
+                                name="remember"
+                            >
+
+                            <span>Remember me</span>
+
+                        </label>
+
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="auth-submit-button"
+                    >
+
+                        <span>Login to Dashboard</span>
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </button>
+
+                </form>
+
+                <div class="auth-divider">
+
+                    <span>New to FAQFlow AI?</span>
+
+                </div>
+
+                <a
+                    href="{{ url_for('auth.register') }}"
+                    class="auth-secondary-button"
+                >
+
+                    Create Company Account
+
+                </a>
+
+                <p class="auth-terms">
+
+                    By continuing, you agree to use the platform responsibly
+                    and protect your company account information.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script>
+
+    function togglePassword(inputId, button) {
+
+        const passwordInput = document.getElementById(inputId);
+
+        const icon = button.querySelector("i");
+
+        if (passwordInput.type === "password") {
+
+            passwordInput.type = "text";
+
+            icon.classList.remove("fa-eye");
+
+            icon.classList.add("fa-eye-slash");
+
+        } else {
+
+            passwordInput.type = "password";
+
+            icon.classList.remove("fa-eye-slash");
+
+            icon.classList.add("fa-eye");
+
+        }
+
+    }
+
+</script>
+
+{% endblock %}

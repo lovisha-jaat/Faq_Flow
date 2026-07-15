@@ -1,0 +1,917 @@
+{% extends "base.html" %}
+
+{% block title %}
+Dashboard | FAQFlow AI
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-page">
+
+    <div class="dashboard-layout">
+
+        <!-- ================= SIDEBAR ================= -->
+
+        <aside class="dashboard-sidebar">
+
+            <div class="sidebar-top">
+
+                <div class="sidebar-company">
+
+                    <div class="company-avatar">
+
+                        <i class="fa-solid fa-building"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            {{ session.get("company_name", "Company") }}
+                        </h3>
+
+                        <p>
+                            FAQ Workspace
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <nav class="sidebar-menu">
+
+                    <a
+                        href="{{ url_for('dashboard.dashboard') }}"
+                        class="sidebar-link active"
+                    >
+
+                        <i class="fa-solid fa-grid-2"></i>
+
+                        <span>Dashboard</span>
+
+                    </a>
+
+                    <a
+                        href="{{ url_for('faq.faq_list') }}"
+                        class="sidebar-link"
+                    >
+
+                        <i class="fa-solid fa-circle-question"></i>
+
+                        <span>Manage FAQs</span>
+
+                    </a>
+
+                    <a
+                        href="{{ url_for('faq.add_faq') }}"
+                        class="sidebar-link"
+                    >
+
+                        <i class="fa-solid fa-plus"></i>
+
+                        <span>Add FAQ</span>
+
+                    </a>
+
+                    <a
+                        href="{{ url_for('chatbot.chatbot') }}"
+                        class="sidebar-link"
+                    >
+
+                        <i class="fa-solid fa-robot"></i>
+
+                        <span>Chatbot</span>
+
+                    </a>
+
+                    <a
+                        href="{{ url_for('chatbot.chatbot_preview') }}"
+                        class="sidebar-link"
+                    >
+
+                        <i class="fa-solid fa-eye"></i>
+
+                        <span>Preview</span>
+
+                    </a>
+
+                    <a
+                        href="{{ url_for('chatbot.integration') }}"
+                        class="sidebar-link"
+                    >
+
+                        <i class="fa-solid fa-code"></i>
+
+                        <span>Integration</span>
+
+                    </a>
+
+                    <div class="sidebar-divider"></div>
+
+                    <a
+                        href="{{ url_for('dashboard.profile') }}"
+                        class="sidebar-link"
+                    >
+
+                        <i class="fa-regular fa-user"></i>
+
+                        <span>Profile</span>
+
+                    </a>
+
+                    <a
+                        href="{{ url_for('dashboard.settings') }}"
+                        class="sidebar-link"
+                    >
+
+                        <i class="fa-solid fa-gear"></i>
+
+                        <span>Settings</span>
+
+                    </a>
+
+                </nav>
+
+            </div>
+
+            <div class="sidebar-bottom">
+
+                <div class="sidebar-support-card">
+
+                    <div class="support-icon">
+
+                        <i class="fa-solid fa-headset"></i>
+
+                    </div>
+
+                    <h4>Need Help?</h4>
+
+                    <p>
+                        Review your FAQs or test the chatbot.
+                    </p>
+
+                    <a href="{{ url_for('chatbot.chatbot') }}">
+
+                        Test Chatbot
+
+                    </a>
+
+                </div>
+
+                <a
+                    href="{{ url_for('auth.logout') }}"
+                    class="sidebar-logout"
+                >
+
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+
+                    <span>Logout</span>
+
+                </a>
+
+            </div>
+
+        </aside>
+
+
+        <!-- ================= MAIN CONTENT ================= -->
+
+        <main class="dashboard-main">
+
+            <!-- Dashboard Header -->
+
+            <header class="dashboard-header">
+
+                <div>
+
+                    <p class="dashboard-label">
+
+                        Company Dashboard
+
+                    </p>
+
+                    <h1>
+
+                        Welcome back,
+                        {{ session.get("user_name", "User") }}
+
+                    </h1>
+
+                    <p class="dashboard-subtitle">
+
+                        Monitor your FAQs, chatbot queries and support
+                        performance.
+
+                    </p>
+
+                </div>
+
+                <div class="dashboard-header-actions">
+
+                    <a
+                        href="{{ url_for('chatbot.chatbot') }}"
+                        class="dashboard-outline-button"
+                    >
+
+                        <i class="fa-solid fa-robot"></i>
+
+                        Test Chatbot
+
+                    </a>
+
+                    <a
+                        href="{{ url_for('faq.add_faq') }}"
+                        class="dashboard-primary-button"
+                    >
+
+                        <i class="fa-solid fa-plus"></i>
+
+                        Add FAQ
+
+                    </a>
+
+                </div>
+
+            </header>
+
+
+            <!-- ================= STATISTICS ================= -->
+
+            <section class="dashboard-stats">
+
+                <article class="dashboard-stat-card">
+
+                    <div class="stat-card-top">
+
+                        <div class="stat-card-icon blue-icon">
+
+                            <i class="fa-solid fa-circle-question"></i>
+
+                        </div>
+
+                        <span class="stat-badge">
+
+                            Knowledge Base
+
+                        </span>
+
+                    </div>
+
+                    <div class="stat-card-content">
+
+                        <p>Total FAQs</p>
+
+                        <h2>{{ total_faqs }}</h2>
+
+                        <span>
+
+                            Approved company answers
+
+                        </span>
+
+                    </div>
+
+                </article>
+
+
+                <article class="dashboard-stat-card">
+
+                    <div class="stat-card-top">
+
+                        <div class="stat-card-icon purple-icon">
+
+                            <i class="fa-solid fa-comments"></i>
+
+                        </div>
+
+                        <span class="stat-badge">
+
+                            Conversations
+
+                        </span>
+
+                    </div>
+
+                    <div class="stat-card-content">
+
+                        <p>Total Queries</p>
+
+                        <h2>{{ total_queries }}</h2>
+
+                        <span>
+
+                            Questions asked to chatbot
+
+                        </span>
+
+                    </div>
+
+                </article>
+
+
+                <article class="dashboard-stat-card">
+
+                    <div class="stat-card-top">
+
+                        <div class="stat-card-icon green-icon">
+
+                            <i class="fa-solid fa-check"></i>
+
+                        </div>
+
+                        <span class="stat-badge success-badge">
+
+                            Resolved
+
+                        </span>
+
+                    </div>
+
+                    <div class="stat-card-content">
+
+                        <p>Answered Queries</p>
+
+                        <h2>{{ answered_queries }}</h2>
+
+                        <span>
+
+                            Successfully matched answers
+
+                        </span>
+
+                    </div>
+
+                </article>
+
+
+                <article class="dashboard-stat-card">
+
+                    <div class="stat-card-top">
+
+                        <div class="stat-card-icon red-icon">
+
+                            <i class="fa-solid fa-circle-exclamation"></i>
+
+                        </div>
+
+                        <span class="stat-badge danger-badge">
+
+                            Attention
+
+                        </span>
+
+                    </div>
+
+                    <div class="stat-card-content">
+
+                        <p>Unanswered Queries</p>
+
+                        <h2>{{ unanswered_queries }}</h2>
+
+                        <span>
+
+                            Questions needing new FAQs
+
+                        </span>
+
+                    </div>
+
+                </article>
+
+            </section>
+
+
+            <!-- ================= DASHBOARD GRID ================= -->
+
+            <section class="dashboard-content-grid">
+
+                <!-- Query Performance -->
+
+                <article class="dashboard-card analytics-card">
+
+                    <div class="dashboard-card-header">
+
+                        <div>
+
+                            <span class="card-label">
+
+                                Performance
+
+                            </span>
+
+                            <h2>Query Overview</h2>
+
+                            <p>
+                                Answered and unanswered chatbot questions.
+                            </p>
+
+                        </div>
+
+                        <div class="card-header-icon">
+
+                            <i class="fa-solid fa-chart-pie"></i>
+
+                        </div>
+
+                    </div>
+
+                    <div class="query-performance">
+
+                        {% set total = total_queries if total_queries > 0 else 1 %}
+
+                        {% set answered_percentage =
+                            ((answered_queries / total) * 100) | round | int
+                        %}
+
+                        {% set unanswered_percentage =
+                            ((unanswered_queries / total) * 100) | round | int
+                        %}
+
+                        <div class="performance-circle">
+
+                            <div class="circle-content">
+
+                                <strong>
+                                    {{ answered_percentage }}%
+                                </strong>
+
+                                <span>
+                                    Answer Rate
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="performance-details">
+
+                            <div class="performance-item">
+
+                                <div>
+
+                                    <span class="legend-dot answered-dot"></span>
+
+                                    <p>Answered</p>
+
+                                </div>
+
+                                <strong>
+                                    {{ answered_queries }}
+                                </strong>
+
+                            </div>
+
+                            <div class="performance-progress">
+
+                                <div
+                                    class="progress-bar answered-progress"
+                                    style="width: {{ answered_percentage }}%;"
+                                ></div>
+
+                            </div>
+
+                            <div class="performance-item">
+
+                                <div>
+
+                                    <span class="legend-dot unanswered-dot"></span>
+
+                                    <p>Unanswered</p>
+
+                                </div>
+
+                                <strong>
+                                    {{ unanswered_queries }}
+                                </strong>
+
+                            </div>
+
+                            <div class="performance-progress">
+
+                                <div
+                                    class="progress-bar unanswered-progress"
+                                    style="width: {{ unanswered_percentage }}%;"
+                                ></div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <!-- Chatbot Status -->
+
+                <article class="dashboard-card chatbot-status-card">
+
+                    <div class="dashboard-card-header">
+
+                        <div>
+
+                            <span class="card-label">
+
+                                Assistant Status
+
+                            </span>
+
+                            <h2>Chatbot Activity</h2>
+
+                            <p>
+                                Current knowledge base readiness.
+                            </p>
+
+                        </div>
+
+                        <div class="status-indicator">
+
+                            <span></span>
+
+                            Online
+
+                        </div>
+
+                    </div>
+
+                    <div class="chatbot-status-content">
+
+                        <div class="large-bot-icon">
+
+                            <i class="fa-solid fa-robot"></i>
+
+                        </div>
+
+                        <h3>
+
+                            {{ session.get("company_name", "Company") }}
+                            Assistant
+
+                        </h3>
+
+                        {% if total_faqs > 0 %}
+
+                            <p>
+
+                                Your chatbot is ready with
+                                <strong>{{ total_faqs }}</strong>
+                                approved FAQs.
+
+                            </p>
+
+                            <span class="knowledge-status ready-status">
+
+                                <i class="fa-solid fa-circle-check"></i>
+
+                                Knowledge Base Ready
+
+                            </span>
+
+                        {% else %}
+
+                            <p>
+
+                                Add your first FAQ to start answering
+                                visitor questions.
+
+                            </p>
+
+                            <span class="knowledge-status pending-status">
+
+                                <i class="fa-solid fa-clock"></i>
+
+                                Setup Required
+
+                            </span>
+
+                        {% endif %}
+
+                        <a
+                            href="{{ url_for('chatbot.chatbot') }}"
+                            class="chatbot-test-button"
+                        >
+
+                            Start Test Conversation
+
+                            <i class="fa-solid fa-arrow-right"></i>
+
+                        </a>
+
+                    </div>
+
+                </article>
+
+            </section>
+
+
+            <!-- ================= QUICK ACTIONS ================= -->
+
+            <section class="dashboard-card quick-actions-section">
+
+                <div class="dashboard-card-header">
+
+                    <div>
+
+                        <span class="card-label">
+
+                            Quick Access
+
+                        </span>
+
+                        <h2>Manage Your Workspace</h2>
+
+                        <p>
+                            Access important FAQFlow AI features.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="quick-action-grid">
+
+                    <a
+                        href="{{ url_for('faq.add_faq') }}"
+                        class="quick-action-card"
+                    >
+
+                        <div class="quick-action-icon">
+
+                            <i class="fa-solid fa-plus"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h3>Add New FAQ</h3>
+
+                            <p>
+                                Add a new approved question and answer.
+                            </p>
+
+                        </div>
+
+                        <i class="fa-solid fa-chevron-right"></i>
+
+                    </a>
+
+
+                    <a
+                        href="{{ url_for('faq.faq_list') }}"
+                        class="quick-action-card"
+                    >
+
+                        <div class="quick-action-icon">
+
+                            <i class="fa-solid fa-list-check"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h3>Manage FAQs</h3>
+
+                            <p>
+                                View, edit, search and delete FAQs.
+                            </p>
+
+                        </div>
+
+                        <i class="fa-solid fa-chevron-right"></i>
+
+                    </a>
+
+
+                    <a
+                        href="{{ url_for('chatbot.chatbot_preview') }}"
+                        class="quick-action-card"
+                    >
+
+                        <div class="quick-action-icon">
+
+                            <i class="fa-solid fa-eye"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h3>Preview Chatbot</h3>
+
+                            <p>
+                                Preview how the chatbot appears to visitors.
+                            </p>
+
+                        </div>
+
+                        <i class="fa-solid fa-chevron-right"></i>
+
+                    </a>
+
+
+                    <a
+                        href="{{ url_for('chatbot.integration') }}"
+                        class="quick-action-card"
+                    >
+
+                        <div class="quick-action-icon">
+
+                            <i class="fa-solid fa-code"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h3>Website Integration</h3>
+
+                            <p>
+                                Get the code for adding the chatbot.
+                            </p>
+
+                        </div>
+
+                        <i class="fa-solid fa-chevron-right"></i>
+
+                    </a>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= RECENT QUERIES ================= -->
+
+            <section class="dashboard-card recent-queries-section">
+
+                <div class="dashboard-card-header recent-header">
+
+                    <div>
+
+                        <span class="card-label">
+
+                            Customer Questions
+
+                        </span>
+
+                        <h2>Recent Queries</h2>
+
+                        <p>
+                            Latest questions received by your chatbot.
+                        </p>
+
+                    </div>
+
+                    <span class="query-count">
+
+                        {{ total_queries }} Total
+
+                    </span>
+
+                </div>
+
+                {% if recent_queries %}
+
+                    <div class="query-table-wrapper">
+
+                        <table class="query-table">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>Question</th>
+
+                                    <th>Bot Answer</th>
+
+                                    <th>Status</th>
+
+                                    <th>Date</th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                {% for query in recent_queries %}
+
+                                    <tr>
+
+                                        <td>
+
+                                            <div class="query-question">
+
+                                                <div class="query-icon">
+
+                                                    <i class="fa-regular fa-message"></i>
+
+                                                </div>
+
+                                                <span>
+
+                                                    {{ query["user_question"] }}
+
+                                                </span>
+
+                                            </div>
+
+                                        </td>
+
+                                        <td>
+
+                                            <p class="query-answer">
+
+                                                {{ query["bot_answer"] }}
+
+                                            </p>
+
+                                        </td>
+
+                                        <td>
+
+                                            {% if query["status"] == "answered" %}
+
+                                                <span class="query-status answered-status">
+
+                                                    <i class="fa-solid fa-check"></i>
+
+                                                    Answered
+
+                                                </span>
+
+                                            {% else %}
+
+                                                <span class="query-status unanswered-status">
+
+                                                    <i class="fa-solid fa-exclamation"></i>
+
+                                                    Unanswered
+
+                                                </span>
+
+                                            {% endif %}
+
+                                        </td>
+
+                                        <td>
+
+                                            <span class="query-date">
+
+                                                {{ query["created_at"] }}
+
+                                            </span>
+
+                                        </td>
+
+                                    </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                {% else %}
+
+                    <div class="dashboard-empty-state">
+
+                        <div class="empty-state-icon">
+
+                            <i class="fa-regular fa-comments"></i>
+
+                        </div>
+
+                        <h3>No queries received yet</h3>
+
+                        <p>
+
+                            Test your chatbot to create your first
+                            conversation.
+
+                        </p>
+
+                        <a
+                            href="{{ url_for('chatbot.chatbot') }}"
+                            class="dashboard-primary-button"
+                        >
+
+                            <i class="fa-solid fa-robot"></i>
+
+                            Test Chatbot
+
+                        </a>
+
+                    </div>
+
+                {% endif %}
+
+            </section>
+
+        </main>
+
+    </div>
+
+</section>
+
+{% endblock %}

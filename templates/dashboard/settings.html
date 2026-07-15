@@ -1,0 +1,1101 @@
+{% extends "base.html" %}
+
+{% block title %}
+Settings | FAQFlow AI
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-page">
+
+    <div class="dashboard-layout">
+
+        <!-- ================= SIDEBAR ================= -->
+
+        <aside class="dashboard-sidebar">
+
+            <div class="sidebar-top">
+
+                <div class="sidebar-company">
+
+                    <div class="company-avatar">
+
+                        <i class="fa-solid fa-building"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            {{ session.get("company_name", "Company") }}
+                        </h3>
+
+                        <p>FAQ Workspace</p>
+
+                    </div>
+
+                </div>
+
+                <nav class="sidebar-menu">
+
+                    <a
+                        href="{{ url_for('dashboard.dashboard') }}"
+                        class="sidebar-link"
+                    >
+                        <i class="fa-solid fa-table-columns"></i>
+                        <span>Dashboard</span>
+                    </a>
+
+                    <a
+                        href="{{ url_for('faq.faq_list') }}"
+                        class="sidebar-link"
+                    >
+                        <i class="fa-solid fa-circle-question"></i>
+                        <span>Manage FAQs</span>
+                    </a>
+
+                    <a
+                        href="{{ url_for('faq.add_faq') }}"
+                        class="sidebar-link"
+                    >
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Add FAQ</span>
+                    </a>
+
+                    <a
+                        href="{{ url_for('chatbot.chatbot') }}"
+                        class="sidebar-link"
+                    >
+                        <i class="fa-solid fa-robot"></i>
+                        <span>Chatbot</span>
+                    </a>
+
+                    <a
+                        href="{{ url_for('chatbot.chatbot_preview') }}"
+                        class="sidebar-link"
+                    >
+                        <i class="fa-solid fa-eye"></i>
+                        <span>Preview</span>
+                    </a>
+
+                    <a
+                        href="{{ url_for('chatbot.integration') }}"
+                        class="sidebar-link"
+                    >
+                        <i class="fa-solid fa-code"></i>
+                        <span>Integration</span>
+                    </a>
+
+                    <div class="sidebar-divider"></div>
+
+                    <a
+                        href="{{ url_for('dashboard.profile') }}"
+                        class="sidebar-link"
+                    >
+                        <i class="fa-regular fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+
+                    <a
+                        href="{{ url_for('dashboard.settings') }}"
+                        class="sidebar-link active"
+                    >
+                        <i class="fa-solid fa-gear"></i>
+                        <span>Settings</span>
+                    </a>
+
+                </nav>
+
+            </div>
+
+            <div class="sidebar-bottom">
+
+                <a
+                    href="{{ url_for('auth.logout') }}"
+                    class="sidebar-logout"
+                >
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
+
+            </div>
+
+        </aside>
+
+
+        <!-- ================= MAIN CONTENT ================= -->
+
+        <main class="dashboard-main">
+
+            <header class="dashboard-header">
+
+                <div>
+
+                    <p class="dashboard-label">
+                        Workspace Configuration
+                    </p>
+
+                    <h1>Settings</h1>
+
+                    <p class="dashboard-subtitle">
+
+                        Manage your company workspace, chatbot preferences
+                        and account security.
+
+                    </p>
+
+                </div>
+
+                <a
+                    href="{{ url_for('dashboard.dashboard') }}"
+                    class="dashboard-outline-button"
+                >
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Back to Dashboard
+                </a>
+
+            </header>
+
+
+            <!-- ================= SETTINGS NAVIGATION ================= -->
+
+            <section class="settings-navigation">
+
+                <button
+                    type="button"
+                    class="settings-tab active"
+                    data-target="company-settings"
+                >
+                    <i class="fa-solid fa-building"></i>
+                    Company
+                </button>
+
+                <button
+                    type="button"
+                    class="settings-tab"
+                    data-target="chatbot-settings"
+                >
+                    <i class="fa-solid fa-robot"></i>
+                    Chatbot
+                </button>
+
+                <button
+                    type="button"
+                    class="settings-tab"
+                    data-target="security-settings"
+                >
+                    <i class="fa-solid fa-shield-halved"></i>
+                    Security
+                </button>
+
+                <button
+                    type="button"
+                    class="settings-tab"
+                    data-target="notification-settings"
+                >
+                    <i class="fa-regular fa-bell"></i>
+                    Notifications
+                </button>
+
+            </section>
+
+
+            <!-- ================= COMPANY SETTINGS ================= -->
+
+            <section
+                id="company-settings"
+                class="settings-panel active"
+            >
+
+                <article class="dashboard-card settings-card">
+
+                    <div class="dashboard-card-header">
+
+                        <div>
+
+                            <span class="card-label">
+                                Organization
+                            </span>
+
+                            <h2>Company Information</h2>
+
+                            <p>
+                                Update the information displayed in your
+                                FAQFlow AI workspace.
+                            </p>
+
+                        </div>
+
+                        <div class="card-header-icon">
+
+                            <i class="fa-solid fa-building"></i>
+
+                        </div>
+
+                    </div>
+
+                    <form class="settings-form">
+
+                        <div class="settings-form-grid">
+
+                            <div class="form-group">
+
+                                <label for="company-name">
+                                    Company Name
+                                </label>
+
+                                <div class="input-wrapper">
+
+                                    <i class="fa-solid fa-building"></i>
+
+                                    <input
+                                        type="text"
+                                        id="company-name"
+                                        value="{{ session.get('company_name', '') }}"
+                                        placeholder="Enter company name"
+                                    >
+
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+
+                                <label for="company-email">
+                                    Support Email
+                                </label>
+
+                                <div class="input-wrapper">
+
+                                    <i class="fa-regular fa-envelope"></i>
+
+                                    <input
+                                        type="email"
+                                        id="company-email"
+                                        placeholder="support@company.com"
+                                    >
+
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+
+                                <label for="company-website">
+                                    Company Website
+                                </label>
+
+                                <div class="input-wrapper">
+
+                                    <i class="fa-solid fa-globe"></i>
+
+                                    <input
+                                        type="url"
+                                        id="company-website"
+                                        placeholder="https://company.com"
+                                    >
+
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+
+                                <label for="company-industry">
+                                    Industry
+                                </label>
+
+                                <div class="input-wrapper">
+
+                                    <i class="fa-solid fa-briefcase"></i>
+
+                                    <select id="company-industry">
+
+                                        <option value="">
+                                            Select industry
+                                        </option>
+
+                                        <option value="education">
+                                            Education
+                                        </option>
+
+                                        <option value="technology">
+                                            Technology
+                                        </option>
+
+                                        <option value="ecommerce">
+                                            E-Commerce
+                                        </option>
+
+                                        <option value="healthcare">
+                                            Healthcare
+                                        </option>
+
+                                        <option value="finance">
+                                            Finance
+                                        </option>
+
+                                        <option value="other">
+                                            Other
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="company-description">
+                                Company Description
+                            </label>
+
+                            <textarea
+                                id="company-description"
+                                rows="5"
+                                placeholder="Describe your company and its services"
+                            ></textarea>
+
+                        </div>
+
+                        <div class="settings-form-actions">
+
+                            <button
+                                type="reset"
+                                class="dashboard-outline-button"
+                            >
+                                Reset
+                            </button>
+
+                            <button
+                                type="button"
+                                class="dashboard-primary-button"
+                                onclick="showSettingsMessage()"
+                            >
+                                <i class="fa-solid fa-floppy-disk"></i>
+                                Save Changes
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </article>
+
+            </section>
+
+
+            <!-- ================= CHATBOT SETTINGS ================= -->
+
+            <section
+                id="chatbot-settings"
+                class="settings-panel"
+            >
+
+                <article class="dashboard-card settings-card">
+
+                    <div class="dashboard-card-header">
+
+                        <div>
+
+                            <span class="card-label">
+                                Assistant Appearance
+                            </span>
+
+                            <h2>Chatbot Preferences</h2>
+
+                            <p>
+                                Customize how your chatbot appears to website
+                                visitors.
+                            </p>
+
+                        </div>
+
+                        <div class="card-header-icon">
+
+                            <i class="fa-solid fa-robot"></i>
+
+                        </div>
+
+                    </div>
+
+                    <div class="chatbot-settings-grid">
+
+                        <form class="settings-form">
+
+                            <div class="form-group">
+
+                                <label for="chatbot-name">
+                                    Chatbot Name
+                                </label>
+
+                                <div class="input-wrapper">
+
+                                    <i class="fa-solid fa-robot"></i>
+
+                                    <input
+                                        type="text"
+                                        id="chatbot-name"
+                                        value="{{ session.get('company_name', 'Company') }} Assistant"
+                                    >
+
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+
+                                <label for="welcome-message">
+                                    Welcome Message
+                                </label>
+
+                                <textarea
+                                    id="welcome-message"
+                                    rows="4"
+                                >Hello! How can I help you today?</textarea>
+
+                            </div>
+
+                            <div class="form-group">
+
+                                <label for="fallback-message">
+                                    Unanswered Query Message
+                                </label>
+
+                                <textarea
+                                    id="fallback-message"
+                                    rows="4"
+                                >Sorry, I could not find an approved answer. Please contact our support team.</textarea>
+
+                            </div>
+
+                            <div class="settings-form-grid">
+
+                                <div class="form-group">
+
+                                    <label for="chatbot-position">
+                                        Widget Position
+                                    </label>
+
+                                    <select id="chatbot-position">
+
+                                        <option value="bottom-right">
+                                            Bottom Right
+                                        </option>
+
+                                        <option value="bottom-left">
+                                            Bottom Left
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+                                <div class="form-group">
+
+                                    <label for="chatbot-language">
+                                        Default Language
+                                    </label>
+
+                                    <select id="chatbot-language">
+
+                                        <option value="english">
+                                            English
+                                        </option>
+
+                                        <option value="hindi">
+                                            Hindi
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+
+                                <label for="theme-color">
+                                    Primary Theme Color
+                                </label>
+
+                                <div class="color-input-wrapper">
+
+                                    <input
+                                        type="color"
+                                        id="theme-color"
+                                        value="#0f2f75"
+                                    >
+
+                                    <span>#0F2F75</span>
+
+                                </div>
+
+                            </div>
+
+                            <div class="settings-form-actions">
+
+                                <button
+                                    type="button"
+                                    class="dashboard-primary-button"
+                                    onclick="showSettingsMessage()"
+                                >
+                                    <i class="fa-solid fa-floppy-disk"></i>
+                                    Save Chatbot Settings
+                                </button>
+
+                            </div>
+
+                        </form>
+
+
+                        <!-- Chatbot Preview -->
+
+                        <div class="settings-chatbot-preview">
+
+                            <div class="preview-label">
+
+                                <span>Live Preview</span>
+
+                                <span class="preview-online">
+                                    <i class="fa-solid fa-circle"></i>
+                                    Online
+                                </span>
+
+                            </div>
+
+                            <div class="mini-chatbot">
+
+                                <div class="mini-chatbot-header">
+
+                                    <div class="mini-chatbot-avatar">
+
+                                        <i class="fa-solid fa-robot"></i>
+
+                                    </div>
+
+                                    <div>
+
+                                        <h3>
+                                            {{ session.get("company_name", "Company") }}
+                                            Assistant
+                                        </h3>
+
+                                        <p>Ask us anything</p>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="mini-chatbot-body">
+
+                                    <div class="mini-bot-message">
+
+                                        Hello! How can I help you today?
+
+                                    </div>
+
+                                    <div class="mini-user-message">
+
+                                        What are your services?
+
+                                    </div>
+
+                                    <div class="mini-bot-message">
+
+                                        I will search our approved company
+                                        FAQs for the best answer.
+
+                                    </div>
+
+                                </div>
+
+                                <div class="mini-chatbot-input">
+
+                                    <span>Type a message...</span>
+
+                                    <i class="fa-solid fa-paper-plane"></i>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </section>
+
+
+            <!-- ================= SECURITY SETTINGS ================= -->
+
+            <section
+                id="security-settings"
+                class="settings-panel"
+            >
+
+                <article class="dashboard-card settings-card">
+
+                    <div class="dashboard-card-header">
+
+                        <div>
+
+                            <span class="card-label">
+                                Account Protection
+                            </span>
+
+                            <h2>Security Settings</h2>
+
+                            <p>
+                                Keep your account protected with a secure
+                                password.
+                            </p>
+
+                        </div>
+
+                        <div class="card-header-icon">
+
+                            <i class="fa-solid fa-shield-halved"></i>
+
+                        </div>
+
+                    </div>
+
+                    <form class="settings-form security-form">
+
+                        <div class="form-group">
+
+                            <label for="current-password">
+                                Current Password
+                            </label>
+
+                            <div class="input-wrapper">
+
+                                <i class="fa-solid fa-lock"></i>
+
+                                <input
+                                    type="password"
+                                    id="current-password"
+                                    placeholder="Enter current password"
+                                >
+
+                            </div>
+
+                        </div>
+
+                        <div class="settings-form-grid">
+
+                            <div class="form-group">
+
+                                <label for="new-password">
+                                    New Password
+                                </label>
+
+                                <div class="input-wrapper">
+
+                                    <i class="fa-solid fa-key"></i>
+
+                                    <input
+                                        type="password"
+                                        id="new-password"
+                                        placeholder="Enter new password"
+                                    >
+
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+
+                                <label for="confirm-password">
+                                    Confirm New Password
+                                </label>
+
+                                <div class="input-wrapper">
+
+                                    <i class="fa-solid fa-key"></i>
+
+                                    <input
+                                        type="password"
+                                        id="confirm-password"
+                                        placeholder="Confirm new password"
+                                    >
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="security-information">
+
+                            <i class="fa-solid fa-circle-info"></i>
+
+                            <p>
+                                Use at least 8 characters with uppercase,
+                                lowercase, numbers and special characters.
+                            </p>
+
+                        </div>
+
+                        <div class="settings-form-actions">
+
+                            <button
+                                type="button"
+                                class="dashboard-primary-button"
+                                onclick="showSettingsMessage()"
+                            >
+                                <i class="fa-solid fa-shield-halved"></i>
+                                Update Password
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </article>
+
+
+                <article class="dashboard-card danger-zone-card">
+
+                    <div class="dashboard-card-header">
+
+                        <div>
+
+                            <span class="danger-label">
+                                Danger Zone
+                            </span>
+
+                            <h2>Account Actions</h2>
+
+                            <p>
+                                These actions may affect access to your
+                                workspace.
+                            </p>
+
+                        </div>
+
+                        <div class="danger-header-icon">
+
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+
+                        </div>
+
+                    </div>
+
+                    <div class="danger-action">
+
+                        <div>
+
+                            <h3>Sign Out From Current Session</h3>
+
+                            <p>
+                                End your current login session securely.
+                            </p>
+
+                        </div>
+
+                        <a
+                            href="{{ url_for('auth.logout') }}"
+                            class="danger-outline-button"
+                        >
+                            Logout
+                        </a>
+
+                    </div>
+
+                </article>
+
+            </section>
+
+
+            <!-- ================= NOTIFICATION SETTINGS ================= -->
+
+            <section
+                id="notification-settings"
+                class="settings-panel"
+            >
+
+                <article class="dashboard-card settings-card">
+
+                    <div class="dashboard-card-header">
+
+                        <div>
+
+                            <span class="card-label">
+                                Alerts
+                            </span>
+
+                            <h2>Notification Preferences</h2>
+
+                            <p>
+                                Choose which chatbot activities should
+                                generate notifications.
+                            </p>
+
+                        </div>
+
+                        <div class="card-header-icon">
+
+                            <i class="fa-regular fa-bell"></i>
+
+                        </div>
+
+                    </div>
+
+                    <div class="notification-list">
+
+                        <div class="notification-item">
+
+                            <div class="notification-information">
+
+                                <div class="notification-icon">
+
+                                    <i class="fa-solid fa-circle-question"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <h3>Unanswered Queries</h3>
+
+                                    <p>
+                                        Receive an alert when the chatbot
+                                        cannot find an answer.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                            <label class="toggle-switch">
+
+                                <input type="checkbox" checked>
+
+                                <span class="toggle-slider"></span>
+
+                            </label>
+
+                        </div>
+
+                        <div class="notification-item">
+
+                            <div class="notification-information">
+
+                                <div class="notification-icon">
+
+                                    <i class="fa-solid fa-chart-line"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <h3>Weekly Performance Summary</h3>
+
+                                    <p>
+                                        Receive a weekly report of chatbot
+                                        activity.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                            <label class="toggle-switch">
+
+                                <input type="checkbox" checked>
+
+                                <span class="toggle-slider"></span>
+
+                            </label>
+
+                        </div>
+
+                        <div class="notification-item">
+
+                            <div class="notification-information">
+
+                                <div class="notification-icon">
+
+                                    <i class="fa-solid fa-database"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <h3>Knowledge Base Updates</h3>
+
+                                    <p>
+                                        Receive confirmation when FAQs are
+                                        added or changed.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                            <label class="toggle-switch">
+
+                                <input type="checkbox">
+
+                                <span class="toggle-slider"></span>
+
+                            </label>
+
+                        </div>
+
+                        <div class="notification-item">
+
+                            <div class="notification-information">
+
+                                <div class="notification-icon">
+
+                                    <i class="fa-solid fa-shield-halved"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <h3>Security Alerts</h3>
+
+                                    <p>
+                                        Receive alerts for important account
+                                        activity.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                            <label class="toggle-switch">
+
+                                <input type="checkbox" checked>
+
+                                <span class="toggle-slider"></span>
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                    <div class="settings-form-actions">
+
+                        <button
+                            type="button"
+                            class="dashboard-primary-button"
+                            onclick="showSettingsMessage()"
+                        >
+                            <i class="fa-solid fa-floppy-disk"></i>
+                            Save Preferences
+                        </button>
+
+                    </div>
+
+                </article>
+
+            </section>
+
+        </main>
+
+    </div>
+
+</section>
+
+
+<!-- Temporary message -->
+
+<div
+    id="settingsMessage"
+    class="settings-message"
+>
+    <i class="fa-solid fa-circle-info"></i>
+
+    <span>
+        The settings interface is ready. Backend update logic will be added
+        later.
+    </span>
+</div>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script>
+
+    const settingsTabs = document.querySelectorAll(".settings-tab");
+
+    const settingsPanels = document.querySelectorAll(".settings-panel");
+
+
+    settingsTabs.forEach(function(tab) {
+
+        tab.addEventListener("click", function() {
+
+            const targetId = this.dataset.target;
+
+
+            settingsTabs.forEach(function(item) {
+
+                item.classList.remove("active");
+
+            });
+
+
+            settingsPanels.forEach(function(panel) {
+
+                panel.classList.remove("active");
+
+            });
+
+
+            this.classList.add("active");
+
+            document
+                .getElementById(targetId)
+                .classList.add("active");
+
+        });
+
+    });
+
+
+    function showSettingsMessage() {
+
+        const message = document.getElementById("settingsMessage");
+
+        message.classList.add("show");
+
+
+        setTimeout(function() {
+
+            message.classList.remove("show");
+
+        }, 3500);
+
+    }
+
+
+    const themeColorInput = document.getElementById("theme-color");
+
+    if (themeColorInput) {
+
+        themeColorInput.addEventListener("input", function() {
+
+            const colorText = this.nextElementSibling;
+
+            colorText.textContent = this.value.toUpperCase();
+
+        });
+
+    }
+
+</script>
+
+{% endblock %}

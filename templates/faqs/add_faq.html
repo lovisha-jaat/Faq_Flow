@@ -1,0 +1,641 @@
+{% extends "base.html" %}
+
+{% block title %}
+Add FAQ | FAQFlow AI
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-page">
+
+    <div class="dashboard-layout">
+
+        <!-- ================= SIDEBAR ================= -->
+
+        <aside class="dashboard-sidebar">
+
+            <div class="sidebar-top">
+
+                <div class="sidebar-company">
+
+                    <div class="company-avatar">
+
+                        <i class="fa-solid fa-building"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            {{ session.get("company_name", "Company") }}
+                        </h3>
+
+                        <p>FAQ Workspace</p>
+
+                    </div>
+
+                </div>
+
+                <nav class="sidebar-menu">
+
+                    <a
+                        href="{{ url_for('dashboard.dashboard') }}"
+                        class="sidebar-link"
+                    >
+                        <i class="fa-solid fa-table-columns"></i>
+                        <span>Dashboard</span>
+                    </a>
+
+                    <a
+                        href="{{ url_for('faq.faq_list') }}"
+                        class="sidebar-link"
+                    >
+                        <i class="fa-solid fa-circle-question"></i>
+                        <span>Manage FAQs</span>
+                    </a>
+
+                    <a
+                        href="{{ url_for('faq.add_faq') }}"
+                        class="sidebar-link active"
+                    >
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Add FAQ</span>
+                    </a>
+
+                    <a
+                        href="{{ url_for('chatbot.chatbot') }}"
+                        class="sidebar-link"
+                    >
+                        <i class="fa-solid fa-robot"></i>
+                        <span>Chatbot</span>
+                    </a>
+
+                    <a
+                        href="{{ url_for('chatbot.chatbot_preview') }}"
+                        class="sidebar-link"
+                    >
+                        <i class="fa-solid fa-eye"></i>
+                        <span>Preview</span>
+                    </a>
+
+                    <a
+                        href="{{ url_for('chatbot.integration') }}"
+                        class="sidebar-link"
+                    >
+                        <i class="fa-solid fa-code"></i>
+                        <span>Integration</span>
+                    </a>
+
+                    <div class="sidebar-divider"></div>
+
+                    <a
+                        href="{{ url_for('dashboard.profile') }}"
+                        class="sidebar-link"
+                    >
+                        <i class="fa-regular fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+
+                    <a
+                        href="{{ url_for('dashboard.settings') }}"
+                        class="sidebar-link"
+                    >
+                        <i class="fa-solid fa-gear"></i>
+                        <span>Settings</span>
+                    </a>
+
+                </nav>
+
+            </div>
+
+            <div class="sidebar-bottom">
+
+                <a
+                    href="{{ url_for('auth.logout') }}"
+                    class="sidebar-logout"
+                >
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
+
+            </div>
+
+        </aside>
+
+
+        <!-- ================= MAIN CONTENT ================= -->
+
+        <main class="dashboard-main">
+
+            <header class="dashboard-header">
+
+                <div>
+
+                    <p class="dashboard-label">
+                        Knowledge Base
+                    </p>
+
+                    <h1>Add New FAQ</h1>
+
+                    <p class="dashboard-subtitle">
+
+                        Add an approved question and answer for your chatbot.
+
+                    </p>
+
+                </div>
+
+                <a
+                    href="{{ url_for('faq.faq_list') }}"
+                    class="dashboard-outline-button"
+                >
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Back to FAQs
+                </a>
+
+            </header>
+
+
+            <section class="faq-form-layout">
+
+                <!-- ================= FORM ================= -->
+
+                <article class="dashboard-card faq-form-card">
+
+                    <div class="dashboard-card-header">
+
+                        <div>
+
+                            <span class="card-label">
+                                New Entry
+                            </span>
+
+                            <h2>FAQ Information</h2>
+
+                            <p>
+                                Write a clear question and an accurate company
+                                answer.
+                            </p>
+
+                        </div>
+
+                        <div class="card-header-icon">
+
+                            <i class="fa-solid fa-circle-question"></i>
+
+                        </div>
+
+                    </div>
+
+                    <form
+                        method="POST"
+                        action="{{ url_for('faq.add_faq') }}"
+                        class="faq-entry-form"
+                        id="addFaqForm"
+                    >
+
+                        <div class="form-group">
+
+                            <label for="question">
+
+                                FAQ Question
+                                <span class="required-mark">*</span>
+
+                            </label>
+
+                            <div class="input-wrapper">
+
+                                <i class="fa-regular fa-circle-question"></i>
+
+                                <input
+                                    type="text"
+                                    id="question"
+                                    name="question"
+                                    placeholder="Example: Can I pay fees through UPI?"
+                                    value="{{ request.form.get('question', '') }}"
+                                    minlength="5"
+                                    maxlength="250"
+                                    required
+                                >
+
+                            </div>
+
+                            <div class="field-information">
+
+                                <span>
+                                    Write the question as a customer may ask it.
+                                </span>
+
+                                <span id="questionCount">
+                                    0 / 250
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="answer">
+
+                                Approved Answer
+                                <span class="required-mark">*</span>
+
+                            </label>
+
+                            <textarea
+                                id="answer"
+                                name="answer"
+                                rows="7"
+                                placeholder="Enter the complete and approved company answer..."
+                                minlength="5"
+                                maxlength="1500"
+                                required
+                            >{{ request.form.get('answer', '') }}</textarea>
+
+                            <div class="field-information">
+
+                                <span>
+                                    Keep the answer clear, useful and accurate.
+                                </span>
+
+                                <span id="answerCount">
+                                    0 / 1500
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="category">
+
+                                Category
+                                <span class="required-mark">*</span>
+
+                            </label>
+
+                            <div class="input-wrapper">
+
+                                <i class="fa-solid fa-layer-group"></i>
+
+                                <select
+                                    id="category"
+                                    name="category"
+                                    required
+                                >
+
+                                    <option value="">
+                                        Select FAQ category
+                                    </option>
+
+                                    <option
+                                        value="Admission"
+                                        {% if request.form.get('category') == 'Admission' %}
+                                            selected
+                                        {% endif %}
+                                    >
+                                        Admission
+                                    </option>
+
+                                    <option
+                                        value="Fees"
+                                        {% if request.form.get('category') == 'Fees' %}
+                                            selected
+                                        {% endif %}
+                                    >
+                                        Fees
+                                    </option>
+
+                                    <option
+                                        value="Courses"
+                                        {% if request.form.get('category') == 'Courses' %}
+                                            selected
+                                        {% endif %}
+                                    >
+                                        Courses
+                                    </option>
+
+                                    <option
+                                        value="Payments"
+                                        {% if request.form.get('category') == 'Payments' %}
+                                            selected
+                                        {% endif %}
+                                    >
+                                        Payments
+                                    </option>
+
+                                    <option
+                                        value="Delivery"
+                                        {% if request.form.get('category') == 'Delivery' %}
+                                            selected
+                                        {% endif %}
+                                    >
+                                        Delivery
+                                    </option>
+
+                                    <option
+                                        value="Returns"
+                                        {% if request.form.get('category') == 'Returns' %}
+                                            selected
+                                        {% endif %}
+                                    >
+                                        Returns
+                                    </option>
+
+                                    <option
+                                        value="Account"
+                                        {% if request.form.get('category') == 'Account' %}
+                                            selected
+                                        {% endif %}
+                                    >
+                                        Account
+                                    </option>
+
+                                    <option
+                                        value="Technical Support"
+                                        {% if request.form.get('category') == 'Technical Support' %}
+                                            selected
+                                        {% endif %}
+                                    >
+                                        Technical Support
+                                    </option>
+
+                                    <option
+                                        value="General"
+                                        {% if request.form.get('category') == 'General' %}
+                                            selected
+                                        {% endif %}
+                                    >
+                                        General
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="faq-form-actions">
+
+                            <a
+                                href="{{ url_for('faq.faq_list') }}"
+                                class="dashboard-outline-button"
+                            >
+                                Cancel
+                            </a>
+
+                            <button
+                                type="reset"
+                                class="faq-reset-button"
+                                id="resetButton"
+                            >
+                                <i class="fa-solid fa-rotate-left"></i>
+                                Reset
+                            </button>
+
+                            <button
+                                type="submit"
+                                class="dashboard-primary-button"
+                                id="submitFaqButton"
+                            >
+                                <i class="fa-solid fa-plus"></i>
+                                Add FAQ
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </article>
+
+
+                <!-- ================= GUIDANCE PANEL ================= -->
+
+                <aside class="faq-guidance-column">
+
+                    <article class="dashboard-card faq-guidance-card">
+
+                        <div class="guidance-icon">
+
+                            <i class="fa-solid fa-lightbulb"></i>
+
+                        </div>
+
+                        <h3>Write Better FAQs</h3>
+
+                        <p>
+                            Clear FAQs help the chatbot find the correct answer
+                            quickly.
+                        </p>
+
+                        <div class="guidance-list">
+
+                            <div class="guidance-item">
+
+                                <i class="fa-solid fa-check"></i>
+
+                                <span>
+                                    Use simple and direct questions.
+                                </span>
+
+                            </div>
+
+                            <div class="guidance-item">
+
+                                <i class="fa-solid fa-check"></i>
+
+                                <span>
+                                    Add only approved company information.
+                                </span>
+
+                            </div>
+
+                            <div class="guidance-item">
+
+                                <i class="fa-solid fa-check"></i>
+
+                                <span>
+                                    Avoid very short or unclear answers.
+                                </span>
+
+                            </div>
+
+                            <div class="guidance-item">
+
+                                <i class="fa-solid fa-check"></i>
+
+                                <span>
+                                    Select the most suitable category.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+                    <article class="dashboard-card faq-example-card">
+
+                        <span class="example-label">
+                            Good FAQ Example
+                        </span>
+
+                        <div class="example-question">
+
+                            <i class="fa-regular fa-circle-question"></i>
+
+                            <p>
+                                Can I pay my course fees through UPI?
+                            </p>
+
+                        </div>
+
+                        <div class="example-answer">
+
+                            <i class="fa-regular fa-comment-dots"></i>
+
+                            <p>
+                                Yes. Course fees can be paid through UPI,
+                                debit card or net banking.
+                            </p>
+
+                        </div>
+
+                        <span class="faq-category-badge">
+                            Payments
+                        </span>
+
+                    </article>
+
+
+                    <article class="dashboard-card faq-status-card">
+
+                        <div class="faq-status-header">
+
+                            <div class="faq-status-icon">
+
+                                <i class="fa-solid fa-robot"></i>
+
+                            </div>
+
+                            <div>
+
+                                <h3>Chatbot Knowledge</h3>
+
+                                <p>
+                                    New FAQ entries become available
+                                    immediately.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <a
+                            href="{{ url_for('chatbot.chatbot') }}"
+                            class="faq-test-link"
+                        >
+                            Test Chatbot
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+
+                    </article>
+
+                </aside>
+
+            </section>
+
+        </main>
+
+    </div>
+
+</section>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script>
+
+    const questionInput = document.getElementById("question");
+    const answerInput = document.getElementById("answer");
+
+    const questionCount = document.getElementById("questionCount");
+    const answerCount = document.getElementById("answerCount");
+
+    const addFaqForm = document.getElementById("addFaqForm");
+    const submitFaqButton = document.getElementById("submitFaqButton");
+    const resetButton = document.getElementById("resetButton");
+
+
+    function updateQuestionCount() {
+
+        questionCount.textContent =
+            questionInput.value.length + " / 250";
+
+    }
+
+
+    function updateAnswerCount() {
+
+        answerCount.textContent =
+            answerInput.value.length + " / 1500";
+
+    }
+
+
+    questionInput.addEventListener(
+        "input",
+        updateQuestionCount
+    );
+
+
+    answerInput.addEventListener(
+        "input",
+        updateAnswerCount
+    );
+
+
+    resetButton.addEventListener(
+        "click",
+        function() {
+
+            setTimeout(function() {
+
+                updateQuestionCount();
+                updateAnswerCount();
+
+            }, 0);
+
+        }
+    );
+
+
+    addFaqForm.addEventListener(
+        "submit",
+        function() {
+
+            submitFaqButton.disabled = true;
+
+            submitFaqButton.innerHTML = `
+                <i class="fa-solid fa-spinner fa-spin"></i>
+                Adding FAQ...
+            `;
+
+        }
+    );
+
+
+    updateQuestionCount();
+    updateAnswerCount();
+
+</script>
+
+{% endblock %}

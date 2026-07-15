@@ -1,0 +1,564 @@
+{% extends "base.html" %}
+
+{% block title %}
+Profile | FAQFlow AI
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-page">
+
+    <div class="dashboard-layout">
+
+        <!-- ================= SIDEBAR ================= -->
+
+        <aside class="dashboard-sidebar">
+
+            <div class="sidebar-top">
+
+                <div class="sidebar-company">
+
+                    <div class="company-avatar">
+
+                        <i class="fa-solid fa-building"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            {{ session.get("company_name", "Company") }}
+                        </h3>
+
+                        <p>FAQ Workspace</p>
+
+                    </div>
+
+                </div>
+
+                <nav class="sidebar-menu">
+
+                    <a
+                        href="{{ url_for('dashboard.dashboard') }}"
+                        class="sidebar-link"
+                    >
+                        <i class="fa-solid fa-table-columns"></i>
+                        <span>Dashboard</span>
+                    </a>
+
+                    <a
+                        href="{{ url_for('faq.faq_list') }}"
+                        class="sidebar-link"
+                    >
+                        <i class="fa-solid fa-circle-question"></i>
+                        <span>Manage FAQs</span>
+                    </a>
+
+                    <a
+                        href="{{ url_for('faq.add_faq') }}"
+                        class="sidebar-link"
+                    >
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Add FAQ</span>
+                    </a>
+
+                    <a
+                        href="{{ url_for('chatbot.chatbot') }}"
+                        class="sidebar-link"
+                    >
+                        <i class="fa-solid fa-robot"></i>
+                        <span>Chatbot</span>
+                    </a>
+
+                    <a
+                        href="{{ url_for('chatbot.chatbot_preview') }}"
+                        class="sidebar-link"
+                    >
+                        <i class="fa-solid fa-eye"></i>
+                        <span>Preview</span>
+                    </a>
+
+                    <a
+                        href="{{ url_for('chatbot.integration') }}"
+                        class="sidebar-link"
+                    >
+                        <i class="fa-solid fa-code"></i>
+                        <span>Integration</span>
+                    </a>
+
+                    <div class="sidebar-divider"></div>
+
+                    <a
+                        href="{{ url_for('dashboard.profile') }}"
+                        class="sidebar-link active"
+                    >
+                        <i class="fa-regular fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+
+                    <a
+                        href="{{ url_for('dashboard.settings') }}"
+                        class="sidebar-link"
+                    >
+                        <i class="fa-solid fa-gear"></i>
+                        <span>Settings</span>
+                    </a>
+
+                </nav>
+
+            </div>
+
+            <div class="sidebar-bottom">
+
+                <a
+                    href="{{ url_for('auth.logout') }}"
+                    class="sidebar-logout"
+                >
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
+
+            </div>
+
+        </aside>
+
+
+        <!-- ================= MAIN CONTENT ================= -->
+
+        <main class="dashboard-main">
+
+            <header class="dashboard-header">
+
+                <div>
+
+                    <p class="dashboard-label">
+                        Account Information
+                    </p>
+
+                    <h1>Profile</h1>
+
+                    <p class="dashboard-subtitle">
+
+                        View your personal and company account details.
+
+                    </p>
+
+                </div>
+
+                <a
+                    href="{{ url_for('dashboard.settings') }}"
+                    class="dashboard-primary-button"
+                >
+                    <i class="fa-solid fa-pen"></i>
+                    Manage Settings
+                </a>
+
+            </header>
+
+
+            <!-- ================= PROFILE OVERVIEW ================= -->
+
+            <section class="profile-overview-card">
+
+                <div class="profile-cover">
+
+                    <div class="profile-cover-pattern"></div>
+
+                </div>
+
+                <div class="profile-overview-content">
+
+                    <div class="profile-avatar-large">
+
+                        {% if user and user["name"] %}
+
+                            {{ user["name"][0] | upper }}
+
+                        {% else %}
+
+                            U
+
+                        {% endif %}
+
+                    </div>
+
+                    <div class="profile-main-info">
+
+                        <div>
+
+                            <h2>
+                                {{ user["name"] if user else "User" }}
+                            </h2>
+
+                            <p>
+                                {{ user["email"] if user else "" }}
+                            </p>
+
+                        </div>
+
+                        <span class="profile-role">
+
+                            <i class="fa-solid fa-shield-halved"></i>
+
+                            Company Administrator
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= INFORMATION GRID ================= -->
+
+            <section class="profile-content-grid">
+
+                <!-- Personal Details -->
+
+                <article class="dashboard-card profile-card">
+
+                    <div class="dashboard-card-header">
+
+                        <div>
+
+                            <span class="card-label">
+                                Personal Details
+                            </span>
+
+                            <h2>Account Information</h2>
+
+                            <p>
+                                Basic information connected to your account.
+                            </p>
+
+                        </div>
+
+                        <div class="card-header-icon">
+
+                            <i class="fa-regular fa-user"></i>
+
+                        </div>
+
+                    </div>
+
+                    <div class="profile-detail-list">
+
+                        <div class="profile-detail-item">
+
+                            <div class="profile-detail-icon">
+
+                                <i class="fa-regular fa-user"></i>
+
+                            </div>
+
+                            <div>
+
+                                <span>Full Name</span>
+
+                                <strong>
+                                    {{ user["name"] if user else "Not available" }}
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                        <div class="profile-detail-item">
+
+                            <div class="profile-detail-icon">
+
+                                <i class="fa-regular fa-envelope"></i>
+
+                            </div>
+
+                            <div>
+
+                                <span>Email Address</span>
+
+                                <strong>
+                                    {{ user["email"] if user else "Not available" }}
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                        <div class="profile-detail-item">
+
+                            <div class="profile-detail-icon">
+
+                                <i class="fa-solid fa-id-badge"></i>
+
+                            </div>
+
+                            <div>
+
+                                <span>User ID</span>
+
+                                <strong>
+                                    #{{ user["id"] if user else "-" }}
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                        <div class="profile-detail-item">
+
+                            <div class="profile-detail-icon">
+
+                                <i class="fa-regular fa-calendar"></i>
+
+                            </div>
+
+                            <div>
+
+                                <span>Account Created</span>
+
+                                <strong>
+                                    {{ user["created_at"] if user else "Not available" }}
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <!-- Company Details -->
+
+                <article class="dashboard-card profile-card">
+
+                    <div class="dashboard-card-header">
+
+                        <div>
+
+                            <span class="card-label">
+                                Organization
+                            </span>
+
+                            <h2>Company Information</h2>
+
+                            <p>
+                                Information used by your FAQ workspace.
+                            </p>
+
+                        </div>
+
+                        <div class="card-header-icon">
+
+                            <i class="fa-solid fa-building"></i>
+
+                        </div>
+
+                    </div>
+
+                    <div class="profile-detail-list">
+
+                        <div class="profile-detail-item">
+
+                            <div class="profile-detail-icon">
+
+                                <i class="fa-solid fa-building"></i>
+
+                            </div>
+
+                            <div>
+
+                                <span>Company Name</span>
+
+                                <strong>
+                                    {{ user["company_name"] if user else "Not available" }}
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                        <div class="profile-detail-item">
+
+                            <div class="profile-detail-icon">
+
+                                <i class="fa-solid fa-globe"></i>
+
+                            </div>
+
+                            <div>
+
+                                <span>Company Website</span>
+
+                                {% if user and user["website"] %}
+
+                                    <a
+                                        href="{{ user['website'] }}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="profile-website-link"
+                                    >
+                                        {{ user["website"] }}
+
+                                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                    </a>
+
+                                {% else %}
+
+                                    <strong>Not added</strong>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                        <div class="profile-detail-item description-item">
+
+                            <div class="profile-detail-icon">
+
+                                <i class="fa-regular fa-file-lines"></i>
+
+                            </div>
+
+                            <div>
+
+                                <span>Company Description</span>
+
+                                <p>
+
+                                    {% if user and user["description"] %}
+
+                                        {{ user["description"] }}
+
+                                    {% else %}
+
+                                        No company description has been added.
+
+                                    {% endif %}
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </section>
+
+
+            <!-- ================= WORKSPACE SUMMARY ================= -->
+
+            <section class="dashboard-card profile-workspace-card">
+
+                <div class="dashboard-card-header">
+
+                    <div>
+
+                        <span class="card-label">
+                            Workspace
+                        </span>
+
+                        <h2>Your FAQFlow AI Workspace</h2>
+
+                        <p>
+                            Access the main tools connected to your company.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="profile-action-grid">
+
+                    <a
+                        href="{{ url_for('faq.faq_list') }}"
+                        class="profile-action-item"
+                    >
+
+                        <div class="profile-action-icon">
+
+                            <i class="fa-solid fa-list-check"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h3>FAQ Knowledge Base</h3>
+
+                            <p>
+                                View and organize company FAQs.
+                            </p>
+
+                        </div>
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </a>
+
+                    <a
+                        href="{{ url_for('chatbot.chatbot') }}"
+                        class="profile-action-item"
+                    >
+
+                        <div class="profile-action-icon">
+
+                            <i class="fa-solid fa-robot"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h3>Chatbot Testing</h3>
+
+                            <p>
+                                Test responses from your saved FAQs.
+                            </p>
+
+                        </div>
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </a>
+
+                    <a
+                        href="{{ url_for('chatbot.integration') }}"
+                        class="profile-action-item"
+                    >
+
+                        <div class="profile-action-icon">
+
+                            <i class="fa-solid fa-code"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h3>Website Integration</h3>
+
+                            <p>
+                                Get your chatbot integration code.
+                            </p>
+
+                        </div>
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </a>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,803 @@
+{% extends "base.html" %}
+
+{% block title %}
+Website Integration | FAQFlow AI
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-page">
+
+    <div class="dashboard-layout">
+
+        <!-- ================= SIDEBAR ================= -->
+
+        <aside class="dashboard-sidebar">
+
+            <div class="sidebar-top">
+
+                <div class="sidebar-company">
+
+                    <div class="company-avatar">
+                        <i class="fa-solid fa-building"></i>
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            {{ session.get("company_name", "Company") }}
+                        </h3>
+
+                        <p>FAQ Workspace</p>
+
+                    </div>
+
+                </div>
+
+                <nav class="sidebar-menu">
+
+                    <a
+                        href="{{ url_for('dashboard.dashboard') }}"
+                        class="sidebar-link"
+                    >
+                        <i class="fa-solid fa-table-columns"></i>
+                        <span>Dashboard</span>
+                    </a>
+
+                    <a
+                        href="{{ url_for('faq.faq_list') }}"
+                        class="sidebar-link"
+                    >
+                        <i class="fa-solid fa-circle-question"></i>
+                        <span>Manage FAQs</span>
+                    </a>
+
+                    <a
+                        href="{{ url_for('faq.add_faq') }}"
+                        class="sidebar-link"
+                    >
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Add FAQ</span>
+                    </a>
+
+                    <a
+                        href="{{ url_for('chatbot.chatbot') }}"
+                        class="sidebar-link"
+                    >
+                        <i class="fa-solid fa-robot"></i>
+                        <span>Chatbot</span>
+                    </a>
+
+                    <a
+                        href="{{ url_for('chatbot.chatbot_preview') }}"
+                        class="sidebar-link"
+                    >
+                        <i class="fa-solid fa-eye"></i>
+                        <span>Preview</span>
+                    </a>
+
+                    <a
+                        href="{{ url_for('chatbot.integration') }}"
+                        class="sidebar-link active"
+                    >
+                        <i class="fa-solid fa-code"></i>
+                        <span>Integration</span>
+                    </a>
+
+                    <div class="sidebar-divider"></div>
+
+                    <a
+                        href="{{ url_for('dashboard.profile') }}"
+                        class="sidebar-link"
+                    >
+                        <i class="fa-regular fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+
+                    <a
+                        href="{{ url_for('dashboard.settings') }}"
+                        class="sidebar-link"
+                    >
+                        <i class="fa-solid fa-gear"></i>
+                        <span>Settings</span>
+                    </a>
+
+                </nav>
+
+            </div>
+
+            <div class="sidebar-bottom">
+
+                <a
+                    href="{{ url_for('auth.logout') }}"
+                    class="sidebar-logout"
+                >
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
+
+            </div>
+
+        </aside>
+
+
+        <!-- ================= MAIN CONTENT ================= -->
+
+        <main class="dashboard-main">
+
+            <header class="dashboard-header">
+
+                <div>
+
+                    <p class="dashboard-label">
+                        Website Setup
+                    </p>
+
+                    <h1>Chatbot Integration</h1>
+
+                    <p class="dashboard-subtitle">
+
+                        Add your FAQFlow AI assistant to any website using a
+                        simple JavaScript code snippet.
+
+                    </p>
+
+                </div>
+
+                <div class="dashboard-header-actions">
+
+                    <a
+                        href="{{ url_for('chatbot.chatbot_preview') }}"
+                        class="dashboard-outline-button"
+                    >
+                        <i class="fa-solid fa-eye"></i>
+                        Preview Widget
+                    </a>
+
+                    <a
+                        href="{{ url_for('chatbot.chatbot') }}"
+                        class="dashboard-primary-button"
+                    >
+                        <i class="fa-solid fa-robot"></i>
+                        Test Chatbot
+                    </a>
+
+                </div>
+
+            </header>
+
+
+            <!-- ================= INTEGRATION OVERVIEW ================= -->
+
+            <section class="integration-summary-grid">
+
+                <article class="integration-summary-card">
+
+                    <div class="integration-summary-icon">
+
+                        <i class="fa-solid fa-building"></i>
+
+                    </div>
+
+                    <div>
+
+                        <span>Company</span>
+
+                        <strong>
+                            {{ session.get("company_name", "Company") }}
+                        </strong>
+
+                    </div>
+
+                </article>
+
+
+                <article class="integration-summary-card">
+
+                    <div class="integration-summary-icon">
+
+                        <i class="fa-solid fa-fingerprint"></i>
+
+                    </div>
+
+                    <div>
+
+                        <span>Company ID</span>
+
+                        <strong>
+                            {{ session.get("company_id") }}
+                        </strong>
+
+                    </div>
+
+                </article>
+
+
+                <article class="integration-summary-card">
+
+                    <div class="integration-summary-icon">
+
+                        <i class="fa-solid fa-circle-check"></i>
+
+                    </div>
+
+                    <div>
+
+                        <span>Widget Status</span>
+
+                        <strong class="integration-active-status">
+                            Ready
+                        </strong>
+
+                    </div>
+
+                </article>
+
+            </section>
+
+
+            <section class="integration-page-grid">
+
+                <!-- ================= CODE SECTION ================= -->
+
+                <div class="integration-main-column">
+
+                    <article class="dashboard-card integration-code-card">
+
+                        <div class="dashboard-card-header">
+
+                            <div>
+
+                                <span class="card-label">
+                                    Installation Code
+                                </span>
+
+                                <h2>Copy Your Widget Script</h2>
+
+                                <p>
+                                    Paste this code before the closing
+                                    <code>&lt;/body&gt;</code> tag of your
+                                    website.
+                                </p>
+
+                            </div>
+
+                            <div class="card-header-icon">
+
+                                <i class="fa-solid fa-code"></i>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="integration-code-wrapper">
+
+                            <div class="code-window-header">
+
+                                <div class="code-window-dots">
+
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+
+                                </div>
+
+                                <span>HTML</span>
+
+                                <button
+                                    type="button"
+                                    id="copyCodeButton"
+                                    class="copy-code-button"
+                                >
+                                    <i class="fa-regular fa-copy"></i>
+                                    Copy Code
+                                </button>
+
+                            </div>
+
+                            <pre id="integrationCode"><code>{{ widget_code | e }}</code></pre>
+
+                        </div>
+
+
+                        <div
+                            id="copySuccessMessage"
+                            class="copy-success-message"
+                        >
+
+                            <i class="fa-solid fa-circle-check"></i>
+
+                            Integration code copied successfully.
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- ================= INSTALLATION STEPS ================= -->
+
+                    <article class="dashboard-card installation-steps-card">
+
+                        <div class="dashboard-card-header">
+
+                            <div>
+
+                                <span class="card-label">
+                                    Setup Guide
+                                </span>
+
+                                <h2>Installation Steps</h2>
+
+                                <p>
+                                    Follow these steps to add the chatbot to
+                                    your website.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="installation-step-list">
+
+                            <div class="installation-step">
+
+                                <div class="installation-step-number">
+                                    01
+                                </div>
+
+                                <div>
+
+                                    <h3>Copy the integration code</h3>
+
+                                    <p>
+                                        Use the Copy Code button above to copy
+                                        your company-specific chatbot script.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="installation-step">
+
+                                <div class="installation-step-number">
+                                    02
+                                </div>
+
+                                <div>
+
+                                    <h3>Open your website files</h3>
+
+                                    <p>
+                                        Open the HTML file or layout file used
+                                        by your website.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="installation-step">
+
+                                <div class="installation-step-number">
+                                    03
+                                </div>
+
+                                <div>
+
+                                    <h3>Paste before the body closing tag</h3>
+
+                                    <p>
+                                        Paste the code immediately before
+                                        <code>&lt;/body&gt;</code>.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="installation-step">
+
+                                <div class="installation-step-number">
+                                    04
+                                </div>
+
+                                <div>
+
+                                    <h3>Save and test your website</h3>
+
+                                    <p>
+                                        Reload your website and click the
+                                        chatbot button in the bottom corner.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- ================= SAMPLE IMPLEMENTATION ================= -->
+
+                    <article class="dashboard-card sample-code-card">
+
+                        <div class="dashboard-card-header">
+
+                            <div>
+
+                                <span class="card-label">
+                                    Example
+                                </span>
+
+                                <h2>HTML Placement Example</h2>
+
+                                <p>
+                                    Your final HTML structure should look like
+                                    this.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <div class="integration-code-wrapper">
+
+                            <div class="code-window-header">
+
+                                <div class="code-window-dots">
+
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+
+                                </div>
+
+                                <span>index.html</span>
+
+                            </div>
+
+                            <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+
+&lt;head&gt;
+    &lt;title&gt;My Company Website&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+    &lt;h1&gt;Welcome to our website&lt;/h1&gt;
+
+    &lt;!-- Paste FAQFlow AI code here --&gt;
+
+{{ widget_code | e }}
+
+&lt;/body&gt;
+
+&lt;/html&gt;</code></pre>
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+
+                <!-- ================= RIGHT INFORMATION COLUMN ================= -->
+
+                <aside class="integration-side-column">
+
+                    <article class="dashboard-card integration-status-card">
+
+                        <div class="integration-status-icon">
+
+                            <i class="fa-solid fa-circle-check"></i>
+
+                        </div>
+
+                        <h3>Widget Ready</h3>
+
+                        <p>
+                            Your chatbot integration code has been generated
+                            for company ID
+                            <strong>{{ session.get("company_id") }}</strong>.
+                        </p>
+
+                        <a
+                            href="{{ url_for('chatbot.chatbot_preview') }}"
+                            class="dashboard-primary-button"
+                        >
+                            <i class="fa-solid fa-eye"></i>
+                            Preview Chatbot
+                        </a>
+
+                    </article>
+
+
+                    <article class="dashboard-card platform-guide-card">
+
+                        <div class="chatbot-info-header">
+
+                            <div class="chatbot-info-icon">
+
+                                <i class="fa-solid fa-laptop-code"></i>
+
+                            </div>
+
+                            <div>
+
+                                <h3>Supported Websites</h3>
+
+                                <p>
+                                    Add FAQFlow AI to different platforms.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <div class="platform-list">
+
+                            <div class="platform-item">
+
+                                <i class="fa-brands fa-html5"></i>
+
+                                <div>
+
+                                    <strong>HTML Website</strong>
+
+                                    <span>
+                                        Paste before the body closing tag
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="platform-item">
+
+                                <i class="fa-brands fa-wordpress"></i>
+
+                                <div>
+
+                                    <strong>WordPress</strong>
+
+                                    <span>
+                                        Add using a custom HTML block
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="platform-item">
+
+                                <i class="fa-brands fa-react"></i>
+
+                                <div>
+
+                                    <strong>React Website</strong>
+
+                                    <span>
+                                        Add the script inside the main layout
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="platform-item">
+
+                                <i class="fa-solid fa-store"></i>
+
+                                <div>
+
+                                    <strong>E-Commerce Website</strong>
+
+                                    <span>
+                                        Add inside the global footer section
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+                    <article class="dashboard-card integration-security-card">
+
+                        <div class="integration-security-header">
+
+                            <i class="fa-solid fa-shield-halved"></i>
+
+                            <h3>Security Information</h3>
+
+                        </div>
+
+                        <p>
+                            The company ID connects website questions only to
+                            your company FAQ knowledge base.
+                        </p>
+
+                        <div class="security-check-list">
+
+                            <div>
+
+                                <i class="fa-solid fa-check"></i>
+
+                                <span>
+                                    Company-specific FAQ data
+                                </span>
+
+                            </div>
+
+                            <div>
+
+                                <i class="fa-solid fa-check"></i>
+
+                                <span>
+                                    Separate query history
+                                </span>
+
+                            </div>
+
+                            <div>
+
+                                <i class="fa-solid fa-check"></i>
+
+                                <span>
+                                    No password stored in widget
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+                    <article class="dashboard-card integration-help-card">
+
+                        <div class="integration-help-icon">
+
+                            <i class="fa-solid fa-headset"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h3>Having trouble?</h3>
+
+                            <p>
+                                First test the chatbot and confirm that your
+                                FAQs are returning correct answers.
+                            </p>
+
+                            <a href="{{ url_for('chatbot.chatbot') }}">
+
+                                Test Chatbot
+
+                                <i class="fa-solid fa-arrow-right"></i>
+
+                            </a>
+
+                        </div>
+
+                    </article>
+
+                </aside>
+
+            </section>
+
+        </main>
+
+    </div>
+
+</section>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script>
+
+    const copyCodeButton =
+        document.getElementById("copyCodeButton");
+
+    const integrationCode =
+        document.getElementById("integrationCode");
+
+    const copySuccessMessage =
+        document.getElementById("copySuccessMessage");
+
+
+    copyCodeButton.addEventListener(
+        "click",
+        async function() {
+
+            const codeText =
+                integrationCode.textContent.trim();
+
+            try {
+
+                await navigator.clipboard.writeText(
+                    codeText
+                );
+
+                showCopySuccess();
+
+            } catch (error) {
+
+                const temporaryTextArea =
+                    document.createElement("textarea");
+
+                temporaryTextArea.value = codeText;
+
+                temporaryTextArea.style.position =
+                    "fixed";
+
+                temporaryTextArea.style.opacity =
+                    "0";
+
+                document.body.appendChild(
+                    temporaryTextArea
+                );
+
+                temporaryTextArea.select();
+
+                document.execCommand("copy");
+
+                temporaryTextArea.remove();
+
+                showCopySuccess();
+
+            }
+
+        }
+    );
+
+
+    function showCopySuccess() {
+
+        copyCodeButton.innerHTML = `
+            <i class="fa-solid fa-check"></i>
+            Copied
+        `;
+
+        copyCodeButton.classList.add("copied");
+
+        copySuccessMessage.classList.add("show");
+
+
+        setTimeout(function() {
+
+            copyCodeButton.innerHTML = `
+                <i class="fa-regular fa-copy"></i>
+                Copy Code
+            `;
+
+            copyCodeButton.classList.remove("copied");
+
+            copySuccessMessage.classList.remove("show");
+
+        }, 3000);
+
+    }
+
+</script>
+
+{% endblock %}

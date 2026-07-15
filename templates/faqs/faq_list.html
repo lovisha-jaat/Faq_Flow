@@ -1,0 +1,700 @@
+{% extends "base.html" %}
+
+{% block title %}
+Manage FAQs | FAQFlow AI
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-page">
+
+    <div class="dashboard-layout">
+
+        <!-- ================= SIDEBAR ================= -->
+
+        <aside class="dashboard-sidebar">
+
+            <div class="sidebar-top">
+
+                <div class="sidebar-company">
+
+                    <div class="company-avatar">
+
+                        <i class="fa-solid fa-building"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h3>{{ session.get("company_name","Company") }}</h3>
+
+                        <p>FAQ Workspace</p>
+
+                    </div>
+
+                </div>
+
+                <nav class="sidebar-menu">
+
+                    <a href="{{ url_for('dashboard.dashboard') }}" class="sidebar-link">
+
+                        <i class="fa-solid fa-table-columns"></i>
+
+                        <span>Dashboard</span>
+
+                    </a>
+
+                    <a href="{{ url_for('faq.faq_list') }}" class="sidebar-link active">
+
+                        <i class="fa-solid fa-circle-question"></i>
+
+                        <span>Manage FAQs</span>
+
+                    </a>
+
+                    <a href="{{ url_for('faq.add_faq') }}" class="sidebar-link">
+
+                        <i class="fa-solid fa-plus"></i>
+
+                        <span>Add FAQ</span>
+
+                    </a>
+
+                    <a href="{{ url_for('chatbot.chatbot') }}" class="sidebar-link">
+
+                        <i class="fa-solid fa-robot"></i>
+
+                        <span>Chatbot</span>
+
+                    </a>
+
+                    <a href="{{ url_for('chatbot.integration') }}" class="sidebar-link">
+
+                        <i class="fa-solid fa-code"></i>
+
+                        <span>Integration</span>
+
+                    </a>
+
+                </nav>
+
+            </div>
+
+        </aside>
+
+        <!-- ================= MAIN ================= -->
+
+        <main class="dashboard-main">
+
+            <!-- Header -->
+
+            <div class="dashboard-header">
+
+                <div>
+
+                    <p class="dashboard-label">
+
+                        Knowledge Base
+
+                    </p>
+
+                    <h1>
+
+                        Manage FAQs
+
+                    </h1>
+
+                    <p class="dashboard-subtitle">
+
+                        Create, edit and organize your company FAQs.
+
+                    </p>
+
+                </div>
+
+                <a href="{{ url_for('faq.add_faq') }}" class="dashboard-primary-button">
+
+                    <i class="fa-solid fa-plus"></i>
+
+                    Add FAQ
+
+                </a>
+
+            </div>
+
+            <!-- Search Card -->
+
+            <div class="dashboard-card">
+
+                <div class="faq-toolbar">
+
+                    <form action="{{ url_for('faq.search_faq') }}" method="GET" class="faq-search">
+
+                        <div class="search-box">
+
+                            <i class="fa-solid fa-magnifying-glass"></i>
+
+                            <input type="text" name="keyword" placeholder="Search question, answer or category..."
+                                value="{{ keyword if keyword else '' }}">
+
+                        </div>
+
+                        <button type="submit" class="dashboard-primary-button">
+
+                            Search
+
+                        </button>
+
+                    </form>
+
+                    <div class="faq-filter">
+
+                        <select id="categoryFilter">
+
+                            <option value="all">
+
+                                All Categories
+
+                            </option>
+
+                            {% for faq in faqs %}
+
+                            <option value="{{ faq['category'] }}">
+
+                                {{ faq['category'] }}
+
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- FAQ Table -->
+
+            <div class="dashboard-card">
+
+                <div class="table-header">
+
+                    <h2>
+
+                        Company FAQ List
+
+                    </h2>
+
+                    <span>
+
+                        {{ faqs|length }}
+
+                        FAQs
+
+                    </span>
+
+                </div>
+
+                <div class="table-responsive">
+
+                    <table class="faq-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+
+                                    Question
+
+                                </th>
+
+                                <th>
+
+                                    Category
+
+                                </th>
+
+                                <th>
+
+                                    Answer
+
+                                </th>
+
+                                <th>
+
+                                    Actions
+
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+                            {% if faqs %}
+
+                            {% for faq in faqs %}
+
+                            <tr class="faq-row" data-category="{{ faq['category'] }}">
+
+                                <td>
+
+                                    <div class="faq-question-cell">
+
+                                        <div class="faq-question-icon">
+
+                                            <i class="fa-regular fa-circle-question"></i>
+
+                                        </div>
+
+                                        <div>
+
+                                            <strong>
+
+                                                {{ faq["question"] }}
+
+                                            </strong>
+
+                                            <small>
+
+                                                FAQ ID: #{{ faq["id"] }}
+
+                                            </small>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+                                <td>
+
+                                    <span class="faq-category-badge">
+
+                                        {{ faq["category"] if faq["category"] else "General" }}
+
+                                    </span>
+
+                                </td>
+
+                                <td>
+
+                                    <p class="faq-answer-text">
+
+                                        {{ faq["answer"] }}
+
+                                    </p>
+
+                                </td>
+
+                                <td>
+
+                                    <div class="faq-action-buttons">
+
+                                        <a href="{{ url_for('faq.edit_faq', faq_id=faq['id']) }}"
+                                            class="faq-edit-button" title="Edit FAQ">
+
+                                            <i class="fa-solid fa-pen"></i>
+
+                                        </a>
+
+                                        <button type="button" class="faq-delete-button" title="Delete FAQ" onclick="openDeleteModal(
+                            '{{ faq['id'] }}',
+                            '{{ faq['question'] | replace("'", "\\'") }}'
+                        )">
+
+                                            <i class="fa-solid fa-trash"></i>
+
+                                        </button>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                            {% else %}
+
+                            <tr>
+
+                                <td colspan="4">
+
+                                    <div class="faq-empty-state">
+
+                                        <div class="faq-empty-icon">
+
+                                            <i class="fa-regular fa-folder-open"></i>
+
+                                        </div>
+
+                                        <h3>No FAQs found</h3>
+
+                                        <p>
+
+                                            Your company knowledge base is currently empty.
+                                            Add your first approved question and answer.
+
+                                        </p>
+
+                                        <a href="{{ url_for('faq.add_faq') }}" class="dashboard-primary-button">
+
+                                            <i class="fa-solid fa-plus"></i>
+
+                                            Add First FAQ
+
+                                        </a>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                            {% endif %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= FAQ SUMMARY ================= -->
+
+            <section class="faq-summary-grid">
+
+                <article class="faq-summary-card">
+
+                    <div class="faq-summary-icon">
+
+                        <i class="fa-solid fa-database"></i>
+
+                    </div>
+
+                    <div>
+
+                        <span>Total FAQs</span>
+
+                        <strong>{{ faqs|length }}</strong>
+
+                    </div>
+
+                </article>
+
+                <article class="faq-summary-card">
+
+                    <div class="faq-summary-icon">
+
+                        <i class="fa-solid fa-layer-group"></i>
+
+                    </div>
+
+                    <div>
+
+                        <span>Knowledge Status</span>
+
+                        {% if faqs %}
+
+                        <strong class="summary-ready">
+
+                            Ready
+
+                        </strong>
+
+                        {% else %}
+
+                        <strong class="summary-pending">
+
+                            Empty
+
+                        </strong>
+
+                        {% endif %}
+
+                    </div>
+
+                </article>
+
+                <article class="faq-summary-card">
+
+                    <div class="faq-summary-icon">
+
+                        <i class="fa-solid fa-robot"></i>
+
+                    </div>
+
+                    <div>
+
+                        <span>Chatbot</span>
+
+                        {% if faqs %}
+
+                        <strong class="summary-ready">
+
+                            Active
+
+                        </strong>
+
+                        {% else %}
+
+                        <strong class="summary-pending">
+
+                            Setup Required
+
+                        </strong>
+
+                        {% endif %}
+
+                    </div>
+
+                </article>
+
+            </section>
+            <!-- ================= DELETE CONFIRMATION MODAL ================= -->
+
+            <div id="deleteModal" class="delete-modal" aria-hidden="true">
+
+                <div class="delete-modal-overlay" onclick="closeDeleteModal()"></div>
+
+                <div class="delete-modal-content" role="dialog" aria-modal="true" aria-labelledby="deleteModalTitle">
+
+                    <button type="button" class="delete-modal-close" onclick="closeDeleteModal()"
+                        aria-label="Close delete confirmation">
+
+                        <i class="fa-solid fa-xmark"></i>
+
+                    </button>
+
+                    <div class="delete-modal-icon">
+
+                        <i class="fa-solid fa-trash"></i>
+
+                    </div>
+
+                    <h2 id="deleteModalTitle">
+
+                        Delete this FAQ?
+
+                    </h2>
+
+                    <p>
+
+                        You are about to permanently delete:
+
+                    </p>
+
+                    <div class="delete-faq-preview">
+
+                        <i class="fa-regular fa-circle-question"></i>
+
+                        <span id="deleteFaqQuestion">
+
+                            Selected FAQ
+
+                        </span>
+
+                    </div>
+
+                    <p class="delete-warning">
+
+                        This action cannot be undone.
+
+                    </p>
+
+                    <div class="delete-modal-actions">
+
+                        <button type="button" class="dashboard-outline-button" onclick="closeDeleteModal()">
+
+                            Cancel
+
+                        </button>
+
+                        <a href="#" id="confirmDeleteButton" class="confirm-delete-button">
+
+                            <i class="fa-solid fa-trash"></i>
+
+                            Delete FAQ
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= NO FILTER RESULT ================= -->
+
+            <div id="filterEmptyMessage" class="filter-empty-message">
+
+                <div class="faq-empty-icon">
+
+                    <i class="fa-solid fa-filter-circle-xmark"></i>
+
+                </div>
+
+                <h3>No FAQs in this category</h3>
+
+                <p>
+
+                    Select another category or view all FAQs.
+
+                </p>
+
+            </div>
+
+
+        </main>
+
+    </div>
+
+</section>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script>
+
+    // Category filter
+
+    const categoryFilter = document.getElementById("categoryFilter");
+
+    const faqRows = document.querySelectorAll(".faq-row");
+
+    const filterEmptyMessage =
+        document.getElementById("filterEmptyMessage");
+
+
+    if (categoryFilter) {
+
+        categoryFilter.addEventListener("change", function () {
+
+            const selectedCategory = this.value
+                .trim()
+                .toLowerCase();
+
+            let visibleRows = 0;
+
+
+            faqRows.forEach(function (row) {
+
+                const rowCategory = row.dataset.category
+                    .trim()
+                    .toLowerCase();
+
+
+                if (
+                    selectedCategory === "all" ||
+                    rowCategory === selectedCategory
+                ) {
+
+                    row.style.display = "";
+
+                    visibleRows++;
+
+                } else {
+
+                    row.style.display = "none";
+
+                }
+
+            });
+
+
+            if (
+                filterEmptyMessage &&
+                faqRows.length > 0
+            ) {
+
+                filterEmptyMessage.style.display =
+                    visibleRows === 0
+                        ? "flex"
+                        : "none";
+
+            }
+
+        });
+
+    }
+
+
+    // Delete modal
+
+    function openDeleteModal(faqId, faqQuestion) {
+
+        const modal =
+            document.getElementById("deleteModal");
+
+        const questionElement =
+            document.getElementById("deleteFaqQuestion");
+
+        const confirmButton =
+            document.getElementById("confirmDeleteButton");
+
+
+        questionElement.textContent = faqQuestion;
+
+        confirmButton.href =
+            "/faqs/delete/" + faqId;
+
+        modal.classList.add("show");
+
+        modal.setAttribute(
+            "aria-hidden",
+            "false"
+        );
+
+        document.body.classList.add(
+            "modal-open"
+        );
+
+    }
+
+
+    function closeDeleteModal() {
+
+        const modal =
+            document.getElementById("deleteModal");
+
+        modal.classList.remove("show");
+
+        modal.setAttribute(
+            "aria-hidden",
+            "true"
+        );
+
+        document.body.classList.remove(
+            "modal-open"
+        );
+
+    }
+
+
+    // Close modal using Escape key
+
+    document.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (event.key === "Escape") {
+
+                closeDeleteModal();
+
+            }
+
+        }
+    );
+
+</script>
+
+{% endblock %}

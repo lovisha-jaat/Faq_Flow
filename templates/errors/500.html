@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}
+Server Error | FAQFlow AI
+{% endblock %}
+
+{% block content %}
+
+<section class="error-page">
+
+    <div class="error-container">
+
+        <div class="error-visual server-error-visual">
+
+            <div class="error-circle server-error-circle">
+
+                <i class="fa-solid fa-server"></i>
+
+            </div>
+
+            <span class="error-code">
+                500
+            </span>
+
+        </div>
+
+        <span class="error-label">
+
+            Internal Server Error
+
+        </span>
+
+        <h1>
+
+            Something went wrong on our server.
+
+        </h1>
+
+        <p>
+
+            The application could not complete your request. Please return
+            to the previous page or try again.
+
+        </p>
+
+        <div class="error-actions">
+
+            <button
+                type="button"
+                class="dashboard-primary-button"
+                onclick="window.location.reload()"
+            >
+
+                <i class="fa-solid fa-rotate-right"></i>
+
+                Try Again
+
+            </button>
+
+            {% if session.get("user_id") %}
+
+                <a
+                    href="{{ url_for('dashboard.dashboard') }}"
+                    class="dashboard-outline-button"
+                >
+
+                    <i class="fa-solid fa-table-columns"></i>
+
+                    Go to Dashboard
+
+                </a>
+
+            {% else %}
+
+                <a
+                    href="{{ url_for('index') }}"
+                    class="dashboard-outline-button"
+                >
+
+                    <i class="fa-solid fa-house"></i>
+
+                    Return Home
+
+                </a>
+
+            {% endif %}
+
+        </div>
+
+        <div class="error-help">
+
+            <i class="fa-solid fa-shield-halved"></i>
+
+            <span>
+
+                Your saved company data remains secure.
+
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

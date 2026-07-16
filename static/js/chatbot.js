@@ -1,454 +1,344 @@
 /* =========================================================
-   FAQFLOW AI
-   CHATBOT JAVASCRIPT
+   FAQFLOW AI - CHATBOT
 ========================================================= */
 
 document.addEventListener("DOMContentLoaded", function () {
+    const chatForm = document.getElementById("chatForm");
+    const questionInput = document.getElementById("questionInput");
+    const chatMessages = document.getElementById("chatMessages");
+    const sendButton = document.getElementById("sendMessageButton");
+    const clearButton = document.getElementById("clearChatButton");
+    const characterCount = document.getElementById(
+        "chatCharacterCount"
+    );
 
-    initializeChatbot();
-    initializeSuggestedQuestions();
-    initializeTextareaResize();
-    initializeChatPreview();
-    initializeWidget();
-    initializeCopyButtons();
+    const suggestedButtons = document.querySelectorAll(
+        ".suggested-question"
+    );
 
-});
-
-
-/* =========================================================
-   CHATBOT
-========================================================= */
-
-function initializeChatbot() {
-
-    const form = document.getElementById("chatForm");
-
-    if (!form) return;
-
-    form.addEventListener("submit", sendMessage);
-
-}
-
-
-async function sendMessage(event) {
-
-    event.preventDefault();
-
-    const input = document.getElementById("chatInput");
-    const messages = document.getElementById("chatMessages");
-
-    const text = input.value.trim();
-
-    if (text === "") return;
-
-    appendUserMessage(text);
-
-    input.value = "";
-
-    showTyping();
-
-    try {
-
-        const response = await fetch("/chatbot/message", {
-
-            method: "POST",
-
-            headers: {
-                "Content-Type": "application/json"
-            },
-
-            body: JSON.stringify({
-
-                message: text
-
-            })
-
-        });
-
-        const data = await response.json();
-
-        removeTyping();
-
-        appendBotMessage(data.answer);
-
-    }
-
-    catch {
-
-        removeTyping();
-
-        appendBotMessage(
-            "Sorry, something went wrong."
+    if (
+        !chatForm ||
+        !questionInput ||
+        !chatMessages ||
+        !sendButton
+    ) {
+        console.error(
+            "FAQFlow: Chatbot HTML elements were not found."
         );
-
+        return;
     }
 
-}
+    const config = window.FAQFLOW_CONFIG || {};
+
+    const apiUrl = config.apiUrl || "/api/chat";
+    const companyId = config.companyId;
+
+    console.log("FAQFlow API URL:", apiUrl);
+    console.log("FAQFlow Company ID:", companyId);
 
 
-/* =========================================================
-   USER MESSAGE
-========================================================= */
+    function getCurrentTime() {
+        return new Date().toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit"
+        });
+    }
 
-function appendUserMessage(message) {
 
-    const container =
-        document.getElementById("chatMessages");
+    function scrollToBottom() {
+        chatMessages.scrollTop =
+            chatMessages.scrollHeight;
+    }
 
-    container.insertAdjacentHTML(
 
-        "beforeend",
+    function updateCharacterCount() {
+        if (characterCount) {
+            characterCount.textContent =
+                questionInput.value.length + " / 500";
+        }
+    }
 
-        `
-        <div class="user-chat-message chatbot-message">
 
+    function resizeTextarea() {
+        questionInput.style.height = "auto";
+
+        questionInput.style.height =
+            Math.min(
+                questionInput.scrollHeight,
+                130
+            ) + "px";
+    }
+
+
+    function appendUserMessage(message) {
+        const row = document.createElement("div");
+
+        row.className =
+            "chatbot-message user-chat-message";
+
+        row.innerHTML = `
             <div class="message-avatar">
                 <i class="fa-solid fa-user"></i>
             </div>
 
             <div class="message-wrapper">
-
                 <div class="message-bubble">
-
-                    <p>${escapeHtml(message)}</p>
-
+                    <p></p>
                 </div>
 
-                <span class="message-time">
-
-                    ${getCurrentTime()}
-
-                </span>
-
+                <span class="message-time"></span>
             </div>
+        `;
 
-        </div>
-        `
-    );
+        row.querySelector("p").textContent =
+            message;
 
-    scrollBottom();
+        row.querySelector(".message-time").textContent =
+            getCurrentTime();
 
-}
+        chatMessages.appendChild(row);
 
-
-/* =========================================================
-   BOT MESSAGE
-========================================================= */
-
-function appendBotMessage(message) {
-
-    const container =
-        document.getElementById("chatMessages");
-
-    container.insertAdjacentHTML(
-
-        "beforeend",
-
-        `
-        <div class="chatbot-message">
-
-            <div class="message-avatar">
-
-                <i class="fa-solid fa-robot"></i>
-
-            </div>
-
-            <div class="message-wrapper">
-
-                <div class="message-bubble">
-
-                    <p>${escapeHtml(message)}</p>
-
-                </div>
-
-                <span class="message-time">
-
-                    ${getCurrentTime()}
-
-                </span>
-
-            </div>
-
-        </div>
-        `
-    );
-
-    scrollBottom();
-
-}
-
-
-/* =========================================================
-   TYPING
-========================================================= */
-
-function showTyping() {
-
-    const container =
-        document.getElementById("chatMessages");
-
-    container.insertAdjacentHTML(
-
-        "beforeend",
-
-        `
-        <div
-            class="typing-message chatbot-message"
-            id="typingAnimation"
-        >
-
-            <div class="message-avatar">
-
-                <i class="fa-solid fa-robot"></i>
-
-            </div>
-
-            <div class="message-wrapper">
-
-                <div class="message-bubble">
-
-                    <div class="typing-dot"></div>
-                    <div class="typing-dot"></div>
-                    <div class="typing-dot"></div>
-
-                </div>
-
-            </div>
-
-        </div>
-        `
-    );
-
-    scrollBottom();
-
-}
-
-
-function removeTyping() {
-
-    const typing =
-        document.getElementById(
-            "typingAnimation"
-        );
-
-    if (typing) {
-
-        typing.remove();
-
+        scrollToBottom();
     }
 
-}
+
+    function appendBotMessage(message, data = {}) {
+        const row = document.createElement("div");
+
+        row.className =
+            "chatbot-message bot-chat-message";
+
+        if (data.status === "unanswered") {
+            row.classList.add(
+                "chatbot-response-unanswered"
+            );
+        }
+
+        row.innerHTML = `
+            <div class="message-avatar">
+                <i class="fa-solid fa-robot"></i>
+            </div>
+
+            <div class="message-wrapper">
+                <div class="message-bubble">
+                    <p></p>
+                </div>
+
+                <span class="message-time"></span>
+            </div>
+        `;
+
+        row.querySelector("p").textContent =
+            message;
+
+        row.querySelector(".message-time").textContent =
+            getCurrentTime();
+
+        if (
+            data.category &&
+            data.category !== "Unknown"
+        ) {
+            const category =
+                document.createElement("span");
+
+            category.className =
+                "message-category";
+
+            category.textContent =
+                data.category;
+
+            row.querySelector(
+                ".message-wrapper"
+            ).insertBefore(
+                category,
+                row.querySelector(".message-time")
+            );
+        }
+
+        chatMessages.appendChild(row);
+
+        scrollToBottom();
+    }
 
 
-/* =========================================================
-   SUGGESTIONS
-========================================================= */
+    function showTypingIndicator() {
+        const typing = document.createElement("div");
 
-function initializeSuggestedQuestions() {
+        typing.id = "chatbotTypingIndicator";
 
-    document.querySelectorAll(
-        ".suggested-question"
-    ).forEach(function (button) {
+        typing.className =
+            "chatbot-message bot-chat-message typing-message";
 
-        button.addEventListener(
+        typing.innerHTML = `
+            <div class="message-avatar">
+                <i class="fa-solid fa-robot"></i>
+            </div>
 
-            "click",
+            <div class="message-wrapper">
+                <div class="message-bubble">
+                    <span class="typing-dot"></span>
+                    <span class="typing-dot"></span>
+                    <span class="typing-dot"></span>
+                </div>
+            </div>
+        `;
 
-            function () {
+        chatMessages.appendChild(typing);
 
-                document.getElementById(
-                    "chatInput"
-                ).value =
-                    this.innerText;
+        scrollToBottom();
 
+        return typing;
+    }
+
+
+    async function sendQuestion(question) {
+        if (!question) {
+            return;
+        }
+
+        if (!companyId) {
+            appendBotMessage(
+                "Company ID is missing. Please log in again."
+            );
+            return;
+        }
+
+        appendUserMessage(question);
+
+        questionInput.value = "";
+        questionInput.disabled = true;
+        sendButton.disabled = true;
+
+        updateCharacterCount();
+        resizeTextarea();
+
+        const typingIndicator =
+            showTypingIndicator();
+
+        try {
+            const response = await fetch(apiUrl, {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    company_id: companyId,
+                    question: question
+                })
+            });
+
+            const data = await response.json();
+
+            typingIndicator.remove();
+
+            console.log("Chatbot response:", data);
+
+            if (!response.ok) {
+                throw new Error(
+                    data.message ||
+                    data.error ||
+                    "Unable to get an answer."
+                );
             }
 
-        );
+            appendBotMessage(
+                data.answer ||
+                "No answer was returned.",
+                data
+            );
 
-    });
+        } catch (error) {
+            typingIndicator.remove();
 
-}
+            console.error(
+                "Chatbot error:",
+                error
+            );
+
+            appendBotMessage(
+                error.message ||
+                "Something went wrong. Please try again."
+            );
+
+        } finally {
+            questionInput.disabled = false;
+            sendButton.disabled = false;
+
+            questionInput.focus();
+
+            scrollToBottom();
+        }
+    }
 
 
-/* =========================================================
-   AUTO RESIZE
-========================================================= */
+    chatForm.addEventListener(
+        "submit",
+        function (event) {
+            event.preventDefault();
 
-function initializeTextareaResize() {
+            const question =
+                questionInput.value.trim();
 
-    const textarea =
-        document.getElementById(
-            "chatInput"
-        );
+            sendQuestion(question);
+        }
+    );
 
-    if (!textarea) return;
 
-    textarea.addEventListener(
-
+    questionInput.addEventListener(
         "input",
-
         function () {
-
-            autoResizeTextarea(this);
-
+            updateCharacterCount();
+            resizeTextarea();
         }
-
     );
 
-}
 
+    questionInput.addEventListener(
+        "keydown",
+        function (event) {
+            if (
+                event.key === "Enter" &&
+                !event.shiftKey
+            ) {
+                event.preventDefault();
 
-/* =========================================================
-   CHAT PREVIEW
-========================================================= */
-
-function initializeChatPreview() {
-
-    const toggle =
-        document.getElementById(
-            "previewToggle"
-        );
-
-    const widget =
-        document.getElementById(
-            "previewWidget"
-        );
-
-    if (!toggle || !widget) return;
-
-    toggle.addEventListener(
-
-        "click",
-
-        function () {
-
-            widget.classList.toggle("show");
-
-        }
-
-    );
-
-}
-
-
-/* =========================================================
-   WEBSITE WIDGET
-========================================================= */
-
-function initializeWidget() {
-
-    const widgetButton =
-        document.getElementById(
-            "widgetButton"
-        );
-
-    const widget =
-        document.getElementById(
-            "websiteWidget"
-        );
-
-    if (!widgetButton || !widget) return;
-
-    widgetButton.addEventListener(
-
-        "click",
-
-        function () {
-
-            widget.classList.toggle("show");
-
-        }
-
-    );
-
-}
-
-
-/* =========================================================
-   COPY CODE
-========================================================= */
-
-function initializeCopyButtons() {
-
-    document.querySelectorAll(
-
-        ".copy-code-button"
-
-    ).forEach(function (button) {
-
-        button.addEventListener(
-
-            "click",
-
-            async function () {
-
-                const code =
-                    this.closest(
-                        ".integration-code-wrapper"
-                    )
-                    .querySelector("pre")
-                    .innerText;
-
-                const copied =
-                    await copyTextToClipboard(
-                        code
-                    );
-
-                if (copied) {
-
-                    this.innerHTML =
-
-                        `<i class="fa-solid fa-check"></i> Copied`;
-
-                    this.classList.add("copied");
-
-                    setTimeout(() => {
-
-                        this.innerHTML =
-
-                            `<i class="fa-solid fa-copy"></i> Copy`;
-
-                        this.classList.remove("copied");
-
-                    }, 2000);
-
-                }
-
+                chatForm.requestSubmit();
             }
+        }
+    );
 
+
+    suggestedButtons.forEach(function (button) {
+        button.addEventListener(
+            "click",
+            function () {
+                const question =
+                    this.dataset.question ||
+                    this.textContent.trim();
+
+                sendQuestion(question);
+            }
         );
-
     });
 
-}
 
+    if (clearButton) {
+        clearButton.addEventListener(
+            "click",
+            function () {
+                chatMessages.innerHTML = "";
 
-/* =========================================================
-   HELPERS
-========================================================= */
-
-function scrollBottom() {
-
-    const messages =
-        document.getElementById(
-            "chatMessages"
+                appendBotMessage(
+                    "Conversation cleared. How can I help you?"
+                );
+            }
         );
-
-    if (!messages) return;
-
-    messages.scrollTop =
-        messages.scrollHeight;
-
-}
+    }
 
 
-function escapeHtml(text) {
-
-    const div =
-        document.createElement("div");
-
-    div.textContent = text;
-
-    return div.innerHTML;
-
-}
+    updateCharacterCount();
+    resizeTextarea();
+    scrollToBottom();
+});

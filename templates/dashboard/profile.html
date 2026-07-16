@@ -38,68 +38,44 @@ Profile | FAQFlow AI
 
                 <nav class="sidebar-menu">
 
-                    <a
-                        href="{{ url_for('dashboard.dashboard') }}"
-                        class="sidebar-link"
-                    >
+                    <a href="{{ url_for('dashboard.dashboard') }}" class="sidebar-link">
                         <i class="fa-solid fa-table-columns"></i>
                         <span>Dashboard</span>
                     </a>
 
-                    <a
-                        href="{{ url_for('faq.faq_list') }}"
-                        class="sidebar-link"
-                    >
+                    <a href="{{ url_for('faq.faq_list') }}" class="sidebar-link">
                         <i class="fa-solid fa-circle-question"></i>
                         <span>Manage FAQs</span>
                     </a>
 
-                    <a
-                        href="{{ url_for('faq.add_faq') }}"
-                        class="sidebar-link"
-                    >
-                        <i class="fa-solid fa-plus"></i>
-                        <span>Add FAQ</span>
+                    <a href="{{ url_for('faq.upload_data') }}" class="sidebar-link">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <span>Upload Knowledge</span>
                     </a>
 
-                    <a
-                        href="{{ url_for('chatbot.chatbot') }}"
-                        class="sidebar-link"
-                    >
+                    <a href="{{ url_for('chatbot.chatbot') }}" class="sidebar-link">
                         <i class="fa-solid fa-robot"></i>
                         <span>Chatbot</span>
                     </a>
 
-                    <a
-                        href="{{ url_for('chatbot.chatbot_preview') }}"
-                        class="sidebar-link"
-                    >
+                    <a href="{{ url_for('chatbot.chatbot_preview') }}" class="sidebar-link">
                         <i class="fa-solid fa-eye"></i>
                         <span>Preview</span>
                     </a>
 
-                    <a
-                        href="{{ url_for('chatbot.integration') }}"
-                        class="sidebar-link"
-                    >
+                    <a href="{{ url_for('chatbot.integration') }}" class="sidebar-link">
                         <i class="fa-solid fa-code"></i>
                         <span>Integration</span>
                     </a>
 
                     <div class="sidebar-divider"></div>
 
-                    <a
-                        href="{{ url_for('dashboard.profile') }}"
-                        class="sidebar-link active"
-                    >
+                    <a href="{{ url_for('dashboard.profile') }}" class="sidebar-link active">
                         <i class="fa-regular fa-user"></i>
                         <span>Profile</span>
                     </a>
 
-                    <a
-                        href="{{ url_for('dashboard.settings') }}"
-                        class="sidebar-link"
-                    >
+                    <a href="{{ url_for('dashboard.settings') }}" class="sidebar-link">
                         <i class="fa-solid fa-gear"></i>
                         <span>Settings</span>
                     </a>
@@ -110,10 +86,7 @@ Profile | FAQFlow AI
 
             <div class="sidebar-bottom">
 
-                <a
-                    href="{{ url_for('auth.logout') }}"
-                    class="sidebar-logout"
-                >
+                <a href="{{ url_for('auth.logout') }}" class="sidebar-logout">
                     <i class="fa-solid fa-arrow-right-from-bracket"></i>
                     <span>Logout</span>
                 </a>
@@ -145,10 +118,7 @@ Profile | FAQFlow AI
 
                 </div>
 
-                <a
-                    href="{{ url_for('dashboard.settings') }}"
-                    class="dashboard-primary-button"
-                >
+                <a href="{{ url_for('dashboard.settings') }}" class="dashboard-primary-button">
                     <i class="fa-solid fa-pen"></i>
                     Manage Settings
                 </a>
@@ -172,11 +142,11 @@ Profile | FAQFlow AI
 
                         {% if user and user["name"] %}
 
-                            {{ user["name"][0] | upper }}
+                        {{ user["name"][0] | upper }}
 
                         {% else %}
 
-                            U
+                        U
 
                         {% endif %}
 
@@ -394,20 +364,16 @@ Profile | FAQFlow AI
 
                                 {% if user and user["website"] %}
 
-                                    <a
-                                        href="{{ user['website'] }}"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        class="profile-website-link"
-                                    >
-                                        {{ user["website"] }}
+                                <a href="{{ user['website'] }}" target="_blank" rel="noopener noreferrer"
+                                    class="profile-website-link">
+                                    {{ user["website"] }}
 
-                                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                                    </a>
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                </a>
 
                                 {% else %}
 
-                                    <strong>Not added</strong>
+                                <strong>Not added</strong>
 
                                 {% endif %}
 
@@ -431,11 +397,11 @@ Profile | FAQFlow AI
 
                                     {% if user and user["description"] %}
 
-                                        {{ user["description"] }}
+                                    {{ user["description"] }}
 
                                     {% else %}
 
-                                        No company description has been added.
+                                    No company description has been added.
 
                                     {% endif %}
 
@@ -476,10 +442,7 @@ Profile | FAQFlow AI
 
                 <div class="profile-action-grid">
 
-                    <a
-                        href="{{ url_for('faq.faq_list') }}"
-                        class="profile-action-item"
-                    >
+                    <a href="{{ url_for('faq.faq_list') }}" class="profile-action-item">
 
                         <div class="profile-action-icon">
 
@@ -501,10 +464,7 @@ Profile | FAQFlow AI
 
                     </a>
 
-                    <a
-                        href="{{ url_for('chatbot.chatbot') }}"
-                        class="profile-action-item"
-                    >
+                    <a href="{{ url_for('chatbot.chatbot') }}" class="profile-action-item">
 
                         <div class="profile-action-icon">
 
@@ -526,10 +486,7 @@ Profile | FAQFlow AI
 
                     </a>
 
-                    <a
-                        href="{{ url_for('chatbot.integration') }}"
-                        class="profile-action-item"
-                    >
+                    <a href="{{ url_for('chatbot.integration') }}" class="profile-action-item">
 
                         <div class="profile-action-icon">
 

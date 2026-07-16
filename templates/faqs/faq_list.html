@@ -52,12 +52,9 @@ Manage FAQs | FAQFlow AI
 
                     </a>
 
-                    <a href="{{ url_for('faq.add_faq') }}" class="sidebar-link">
-
-                        <i class="fa-solid fa-plus"></i>
-
-                        <span>Add FAQ</span>
-
+                    <a href="{{ url_for('faq.upload_data') }}" class="sidebar-link">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <span>Upload Knowledge</span>
                     </a>
 
                     <a href="{{ url_for('chatbot.chatbot') }}" class="sidebar-link">
@@ -112,12 +109,9 @@ Manage FAQs | FAQFlow AI
 
                 </div>
 
-                <a href="{{ url_for('faq.add_faq') }}" class="dashboard-primary-button">
-
-                    <i class="fa-solid fa-plus"></i>
-
-                    Add FAQ
-
+                <a href="{{ url_for('faq.upload_data') }}" class="sidebar-link">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    <span>Upload Knowledge</span>
                 </a>
 
             </div>
@@ -301,7 +295,7 @@ Manage FAQs | FAQFlow AI
 
                                         </a>
 
-                                        <button type="button" class="faq-delete-button" title="Delete FAQ" onclick="openDeleteModal(
+                                        <button type="button" class="faq-delete-button" title="Delete FAQ" onclick="openDeleteModal"(
                             '{{ faq['id'] }}',
                             '{{ faq['question'] | replace("'", "\\'") }}'
                         )">
@@ -341,12 +335,9 @@ Manage FAQs | FAQFlow AI
 
                                         </p>
 
-                                        <a href="{{ url_for('faq.add_faq') }}" class="dashboard-primary-button">
-
-                                            <i class="fa-solid fa-plus"></i>
-
-                                            Add First FAQ
-
+                                        <a href="{{ url_for('faq.upload_data') }}" class="sidebar-link">
+                                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                                            <span>Upload Knowledge</span>
                                         </a>
 
                                     </div>

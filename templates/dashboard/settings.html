@@ -38,68 +38,44 @@ Settings | FAQFlow AI
 
                 <nav class="sidebar-menu">
 
-                    <a
-                        href="{{ url_for('dashboard.dashboard') }}"
-                        class="sidebar-link"
-                    >
+                    <a href="{{ url_for('dashboard.dashboard') }}" class="sidebar-link">
                         <i class="fa-solid fa-table-columns"></i>
                         <span>Dashboard</span>
                     </a>
 
-                    <a
-                        href="{{ url_for('faq.faq_list') }}"
-                        class="sidebar-link"
-                    >
+                    <a href="{{ url_for('faq.faq_list') }}" class="sidebar-link">
                         <i class="fa-solid fa-circle-question"></i>
                         <span>Manage FAQs</span>
                     </a>
 
-                    <a
-                        href="{{ url_for('faq.add_faq') }}"
-                        class="sidebar-link"
-                    >
-                        <i class="fa-solid fa-plus"></i>
-                        <span>Add FAQ</span>
+                    <a href="{{ url_for('faq.upload_data') }}" class="sidebar-link">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <span>Upload Knowledge</span>
                     </a>
 
-                    <a
-                        href="{{ url_for('chatbot.chatbot') }}"
-                        class="sidebar-link"
-                    >
+                    <a href="{{ url_for('chatbot.chatbot') }}" class="sidebar-link">
                         <i class="fa-solid fa-robot"></i>
                         <span>Chatbot</span>
                     </a>
 
-                    <a
-                        href="{{ url_for('chatbot.chatbot_preview') }}"
-                        class="sidebar-link"
-                    >
+                    <a href="{{ url_for('chatbot.chatbot_preview') }}" class="sidebar-link">
                         <i class="fa-solid fa-eye"></i>
                         <span>Preview</span>
                     </a>
 
-                    <a
-                        href="{{ url_for('chatbot.integration') }}"
-                        class="sidebar-link"
-                    >
+                    <a href="{{ url_for('chatbot.integration') }}" class="sidebar-link">
                         <i class="fa-solid fa-code"></i>
                         <span>Integration</span>
                     </a>
 
                     <div class="sidebar-divider"></div>
 
-                    <a
-                        href="{{ url_for('dashboard.profile') }}"
-                        class="sidebar-link"
-                    >
+                    <a href="{{ url_for('dashboard.profile') }}" class="sidebar-link">
                         <i class="fa-regular fa-user"></i>
                         <span>Profile</span>
                     </a>
 
-                    <a
-                        href="{{ url_for('dashboard.settings') }}"
-                        class="sidebar-link active"
-                    >
+                    <a href="{{ url_for('dashboard.settings') }}" class="sidebar-link active">
                         <i class="fa-solid fa-gear"></i>
                         <span>Settings</span>
                     </a>
@@ -110,10 +86,7 @@ Settings | FAQFlow AI
 
             <div class="sidebar-bottom">
 
-                <a
-                    href="{{ url_for('auth.logout') }}"
-                    class="sidebar-logout"
-                >
+                <a href="{{ url_for('auth.logout') }}" class="sidebar-logout">
                     <i class="fa-solid fa-arrow-right-from-bracket"></i>
                     <span>Logout</span>
                 </a>
@@ -146,10 +119,7 @@ Settings | FAQFlow AI
 
                 </div>
 
-                <a
-                    href="{{ url_for('dashboard.dashboard') }}"
-                    class="dashboard-outline-button"
-                >
+                <a href="{{ url_for('dashboard.dashboard') }}" class="dashboard-outline-button">
                     <i class="fa-solid fa-arrow-left"></i>
                     Back to Dashboard
                 </a>
@@ -161,38 +131,22 @@ Settings | FAQFlow AI
 
             <section class="settings-navigation">
 
-                <button
-                    type="button"
-                    class="settings-tab active"
-                    data-target="company-settings"
-                >
+                <button type="button" class="settings-tab active" data-target="company-settings">
                     <i class="fa-solid fa-building"></i>
                     Company
                 </button>
 
-                <button
-                    type="button"
-                    class="settings-tab"
-                    data-target="chatbot-settings"
-                >
+                <button type="button" class="settings-tab" data-target="chatbot-settings">
                     <i class="fa-solid fa-robot"></i>
                     Chatbot
                 </button>
 
-                <button
-                    type="button"
-                    class="settings-tab"
-                    data-target="security-settings"
-                >
+                <button type="button" class="settings-tab" data-target="security-settings">
                     <i class="fa-solid fa-shield-halved"></i>
                     Security
                 </button>
 
-                <button
-                    type="button"
-                    class="settings-tab"
-                    data-target="notification-settings"
-                >
+                <button type="button" class="settings-tab" data-target="notification-settings">
                     <i class="fa-regular fa-bell"></i>
                     Notifications
                 </button>
@@ -202,10 +156,7 @@ Settings | FAQFlow AI
 
             <!-- ================= COMPANY SETTINGS ================= -->
 
-            <section
-                id="company-settings"
-                class="settings-panel active"
-            >
+            <section id="company-settings" class="settings-panel active">
 
                 <article class="dashboard-card settings-card">
 
@@ -248,12 +199,8 @@ Settings | FAQFlow AI
 
                                     <i class="fa-solid fa-building"></i>
 
-                                    <input
-                                        type="text"
-                                        id="company-name"
-                                        value="{{ session.get('company_name', '') }}"
-                                        placeholder="Enter company name"
-                                    >
+                                    <input type="text" id="company-name" value="{{ session.get('company_name', '') }}"
+                                        placeholder="Enter company name">
 
                                 </div>
 
@@ -269,11 +216,7 @@ Settings | FAQFlow AI
 
                                     <i class="fa-regular fa-envelope"></i>
 
-                                    <input
-                                        type="email"
-                                        id="company-email"
-                                        placeholder="support@company.com"
-                                    >
+                                    <input type="email" id="company-email" placeholder="support@company.com">
 
                                 </div>
 
@@ -289,11 +232,7 @@ Settings | FAQFlow AI
 
                                     <i class="fa-solid fa-globe"></i>
 
-                                    <input
-                                        type="url"
-                                        id="company-website"
-                                        placeholder="https://company.com"
-                                    >
+                                    <input type="url" id="company-website" placeholder="https://company.com">
 
                                 </div>
 
@@ -353,28 +292,18 @@ Settings | FAQFlow AI
                                 Company Description
                             </label>
 
-                            <textarea
-                                id="company-description"
-                                rows="5"
-                                placeholder="Describe your company and its services"
-                            ></textarea>
+                            <textarea id="company-description" rows="5"
+                                placeholder="Describe your company and its services"></textarea>
 
                         </div>
 
                         <div class="settings-form-actions">
 
-                            <button
-                                type="reset"
-                                class="dashboard-outline-button"
-                            >
+                            <button type="reset" class="dashboard-outline-button">
                                 Reset
                             </button>
 
-                            <button
-                                type="button"
-                                class="dashboard-primary-button"
-                                onclick="showSettingsMessage()"
-                            >
+                            <button type="button" class="dashboard-primary-button" onclick="showSettingsMessage()">
                                 <i class="fa-solid fa-floppy-disk"></i>
                                 Save Changes
                             </button>
@@ -390,10 +319,7 @@ Settings | FAQFlow AI
 
             <!-- ================= CHATBOT SETTINGS ================= -->
 
-            <section
-                id="chatbot-settings"
-                class="settings-panel"
-            >
+            <section id="chatbot-settings" class="settings-panel">
 
                 <article class="dashboard-card settings-card">
 
@@ -436,11 +362,8 @@ Settings | FAQFlow AI
 
                                     <i class="fa-solid fa-robot"></i>
 
-                                    <input
-                                        type="text"
-                                        id="chatbot-name"
-                                        value="{{ session.get('company_name', 'Company') }} Assistant"
-                                    >
+                                    <input type="text" id="chatbot-name"
+                                        value="{{ session.get('company_name', 'Company') }} Assistant">
 
                                 </div>
 
@@ -452,10 +375,7 @@ Settings | FAQFlow AI
                                     Welcome Message
                                 </label>
 
-                                <textarea
-                                    id="welcome-message"
-                                    rows="4"
-                                >Hello! How can I help you today?</textarea>
+                                <textarea id="welcome-message" rows="4">Hello! How can I help you today?</textarea>
 
                             </div>
 
@@ -465,10 +385,8 @@ Settings | FAQFlow AI
                                     Unanswered Query Message
                                 </label>
 
-                                <textarea
-                                    id="fallback-message"
-                                    rows="4"
-                                >Sorry, I could not find an approved answer. Please contact our support team.</textarea>
+                                <textarea id="fallback-message"
+                                    rows="4">Sorry, I could not find an approved answer. Please contact our support team.</textarea>
 
                             </div>
 
@@ -524,11 +442,7 @@ Settings | FAQFlow AI
 
                                 <div class="color-input-wrapper">
 
-                                    <input
-                                        type="color"
-                                        id="theme-color"
-                                        value="#0f2f75"
-                                    >
+                                    <input type="color" id="theme-color" value="#0f2f75">
 
                                     <span>#0F2F75</span>
 
@@ -538,11 +452,7 @@ Settings | FAQFlow AI
 
                             <div class="settings-form-actions">
 
-                                <button
-                                    type="button"
-                                    class="dashboard-primary-button"
-                                    onclick="showSettingsMessage()"
-                                >
+                                <button type="button" class="dashboard-primary-button" onclick="showSettingsMessage()">
                                     <i class="fa-solid fa-floppy-disk"></i>
                                     Save Chatbot Settings
                                 </button>
@@ -634,10 +544,7 @@ Settings | FAQFlow AI
 
             <!-- ================= SECURITY SETTINGS ================= -->
 
-            <section
-                id="security-settings"
-                class="settings-panel"
-            >
+            <section id="security-settings" class="settings-panel">
 
                 <article class="dashboard-card settings-card">
 
@@ -678,11 +585,7 @@ Settings | FAQFlow AI
 
                                 <i class="fa-solid fa-lock"></i>
 
-                                <input
-                                    type="password"
-                                    id="current-password"
-                                    placeholder="Enter current password"
-                                >
+                                <input type="password" id="current-password" placeholder="Enter current password">
 
                             </div>
 
@@ -700,11 +603,7 @@ Settings | FAQFlow AI
 
                                     <i class="fa-solid fa-key"></i>
 
-                                    <input
-                                        type="password"
-                                        id="new-password"
-                                        placeholder="Enter new password"
-                                    >
+                                    <input type="password" id="new-password" placeholder="Enter new password">
 
                                 </div>
 
@@ -720,11 +619,7 @@ Settings | FAQFlow AI
 
                                     <i class="fa-solid fa-key"></i>
 
-                                    <input
-                                        type="password"
-                                        id="confirm-password"
-                                        placeholder="Confirm new password"
-                                    >
+                                    <input type="password" id="confirm-password" placeholder="Confirm new password">
 
                                 </div>
 
@@ -745,11 +640,7 @@ Settings | FAQFlow AI
 
                         <div class="settings-form-actions">
 
-                            <button
-                                type="button"
-                                class="dashboard-primary-button"
-                                onclick="showSettingsMessage()"
-                            >
+                            <button type="button" class="dashboard-primary-button" onclick="showSettingsMessage()">
                                 <i class="fa-solid fa-shield-halved"></i>
                                 Update Password
                             </button>
@@ -800,10 +691,7 @@ Settings | FAQFlow AI
 
                         </div>
 
-                        <a
-                            href="{{ url_for('auth.logout') }}"
-                            class="danger-outline-button"
-                        >
+                        <a href="{{ url_for('auth.logout') }}" class="danger-outline-button">
                             Logout
                         </a>
 
@@ -816,10 +704,7 @@ Settings | FAQFlow AI
 
             <!-- ================= NOTIFICATION SETTINGS ================= -->
 
-            <section
-                id="notification-settings"
-                class="settings-panel"
-            >
+            <section id="notification-settings" class="settings-panel">
 
                 <article class="dashboard-card settings-card">
 
@@ -986,11 +871,7 @@ Settings | FAQFlow AI
 
                     <div class="settings-form-actions">
 
-                        <button
-                            type="button"
-                            class="dashboard-primary-button"
-                            onclick="showSettingsMessage()"
-                        >
+                        <button type="button" class="dashboard-primary-button" onclick="showSettingsMessage()">
                             <i class="fa-solid fa-floppy-disk"></i>
                             Save Preferences
                         </button>
@@ -1010,10 +891,7 @@ Settings | FAQFlow AI
 
 <!-- Temporary message -->
 
-<div
-    id="settingsMessage"
-    class="settings-message"
->
+<div id="settingsMessage" class="settings-message">
     <i class="fa-solid fa-circle-info"></i>
 
     <span>
@@ -1034,21 +912,21 @@ Settings | FAQFlow AI
     const settingsPanels = document.querySelectorAll(".settings-panel");
 
 
-    settingsTabs.forEach(function(tab) {
+    settingsTabs.forEach(function (tab) {
 
-        tab.addEventListener("click", function() {
+        tab.addEventListener("click", function () {
 
             const targetId = this.dataset.target;
 
 
-            settingsTabs.forEach(function(item) {
+            settingsTabs.forEach(function (item) {
 
                 item.classList.remove("active");
 
             });
 
 
-            settingsPanels.forEach(function(panel) {
+            settingsPanels.forEach(function (panel) {
 
                 panel.classList.remove("active");
 
@@ -1073,7 +951,7 @@ Settings | FAQFlow AI
         message.classList.add("show");
 
 
-        setTimeout(function() {
+        setTimeout(function () {
 
             message.classList.remove("show");
 
@@ -1086,7 +964,7 @@ Settings | FAQFlow AI
 
     if (themeColorInput) {
 
-        themeColorInput.addEventListener("input", function() {
+        themeColorInput.addEventListener("input", function () {
 
             const colorText = this.nextElementSibling;
 

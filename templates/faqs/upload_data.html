@@ -1,0 +1,457 @@
+{% extends "base.html" %}
+
+{% block title %}
+Upload Knowledge | FAQFlow AI
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-page">
+
+    <div class="dashboard-layout">
+
+        <aside class="dashboard-sidebar">
+
+            <div class="sidebar-top">
+
+                <div class="sidebar-company">
+
+                    <div class="company-avatar">
+                        <i class="fa-solid fa-building"></i>
+                    </div>
+
+                    <div>
+                        <h3>
+                            {{ session.get("company_name", "Company") }}
+                        </h3>
+
+                        <p>FAQ Workspace</p>
+                    </div>
+
+                </div>
+
+                <nav class="sidebar-menu">
+
+                    <a href="{{ url_for('dashboard.dashboard') }}" class="sidebar-link">
+                        <i class="fa-solid fa-table-columns"></i>
+                        Dashboard
+                    </a>
+
+                    <a href="{{ url_for('faq.upload_data') }}" class="sidebar-link active">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <span>Upload Knowledge</span>
+                    </a>
+
+                    <a href="{{ url_for('faq.faq_list') }}" class="sidebar-link">
+                        <i class="fa-solid fa-database"></i>
+                        Knowledge Data
+                    </a>
+
+                    <a href="{{ url_for('chatbot.chatbot') }}" class="sidebar-link">
+                        <i class="fa-solid fa-robot"></i>
+                        Test Chatbot
+                    </a>
+
+                    <a href="{{ url_for('chatbot.chatbot_preview') }}" class="sidebar-link">
+                        <i class="fa-solid fa-eye"></i>
+                        Preview
+                    </a>
+
+                    <a href="{{ url_for('chatbot.integration') }}" class="sidebar-link">
+                        <i class="fa-solid fa-code"></i>
+                        Integration
+                    </a>
+
+                </nav>
+
+            </div>
+
+            <div class="sidebar-bottom">
+
+                <a href="{{ url_for('auth.logout') }}" class="sidebar-logout">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    Logout
+                </a>
+
+            </div>
+
+        </aside>
+
+
+        <main class="dashboard-main">
+
+            <header class="dashboard-header">
+
+                <div>
+                    <p class="dashboard-label">
+                        Company Training Data
+                    </p>
+
+                    <h1>Upload Knowledge File</h1>
+
+                    <p class="dashboard-subtitle">
+                        Upload CSV, Excel or TXT data and automatically
+                        train your company chatbot.
+                    </p>
+                </div>
+
+                <a href="{{ url_for('chatbot.chatbot') }}" class="dashboard-primary-button">
+                    <i class="fa-solid fa-robot"></i>
+                    Test Chatbot
+                </a>
+
+            </header>
+
+
+            <section class="knowledge-upload-grid">
+
+                <div class="knowledge-main-column">
+
+                    <article class="dashboard-card">
+                        <div class="dashboard-card-header">
+
+                            <div>
+                                <span class="card-label">
+                                    Upload and Train
+                                </span>
+
+                                <h2>Select Company Data</h2>
+
+                                <p>
+                                    The model will be trained automatically
+                                    after the file is processed.
+                                </p>
+                            </div>
+
+                            <div class="card-header-icon">
+                                <i class="fa-solid fa-brain"></i>
+                            </div>
+
+                        </div>
+
+
+                        <form method="POST" action="{{ url_for('faq.upload_data') }}" enctype="multipart/form-data"
+                            id="knowledgeUploadForm" class="knowledge-upload-form">
+
+                            <label for="knowledgeFile" class="knowledge-drop-area">
+
+                                <input type="file" id="knowledgeFile" name="knowledge_file"
+                                    accept=".csv,.xlsx,.xls,.txt" required>
+
+                                <div class="knowledge-upload-icon">
+                                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                                </div>
+
+                                <h3>Choose your knowledge file</h3>
+
+                                <p>
+                                    CSV, XLSX, XLS and TXT files are supported.
+                                </p>
+
+                                <span>
+                                    Click here to choose a file
+                                </span>
+
+                            </label>
+
+
+                            <div id="knowledgeFilePreview" class="knowledge-file-preview">
+
+                                <i class="fa-solid fa-file-lines"></i>
+
+                                <div>
+                                    <strong id="knowledgeFileName">
+                                        Selected file
+                                    </strong>
+
+                                    <span id="knowledgeFileSize"></span>
+                                </div>
+
+                                <button type="button" id="removeKnowledgeFile">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+
+                            </div>
+
+
+                            <div class="upload-mode-section">
+
+                                <h3>Upload Mode</h3>
+
+                                <label class="upload-mode-option">
+
+                                    <input type="radio" name="upload_mode" value="replace" checked>
+
+                                    <div>
+                                        <strong>Replace existing data</strong>
+
+                                        <span>
+                                            Remove the old data and train using
+                                            this new file.
+                                        </span>
+                                    </div>
+
+                                </label>
+
+
+                                <label class="upload-mode-option">
+
+                                    <input type="radio" name="upload_mode" value="append">
+
+                                    <div>
+                                        <strong>Add to existing data</strong>
+
+                                        <span>
+                                            Keep existing records and add new
+                                            questions.
+                                        </span>
+                                    </div>
+
+                                </label>
+
+                            </div>
+
+
+                            <button type="submit" id="trainModelButton"
+                                class="dashboard-primary-button train-model-button">
+                                <i class="fa-solid fa-brain"></i>
+                                Upload and Train Model
+                            </button>
+
+                        </form>
+
+                    </article>
+                    </form>
+
+                    </article>
+
+
+                    <!-- Website import card starts here -->
+
+                    <article class="dashboard-card website-import-card">
+
+                        <div class="dashboard-card-header">
+
+                            <div>
+                                <span class="card-label">
+                                    Website Import
+                                </span>
+
+                                <h2>Import Company Website</h2>
+
+                                <p>
+                                    Extract public information from the company
+                                    website and add it to the knowledge base.
+                                </p>
+                            </div>
+
+                            <div class="card-header-icon">
+                                <i class="fa-solid fa-globe"></i>
+                            </div>
+
+                        </div>
+
+
+                        <form method="POST" action="{{ url_for('faq.import_website') }}" class="website-import-form">
+
+                            <div class="form-group">
+
+                                <label for="websiteUrl">
+                                    Company Website URL
+                                </label>
+
+                                <div class="input-wrapper">
+
+                                    <i class="fa-solid fa-link"></i>
+
+                                    <input type="url" id="websiteUrl" name="website_url"
+                                        placeholder="https://www.company.com" required>
+
+                                </div>
+
+                            </div>
+
+                            <button type="submit" class="dashboard-primary-button">
+                                <i class="fa-solid fa-globe"></i>
+                                Import Website and Train
+                            </button>
+
+                        </form>
+
+                    </article>
+
+                    <!-- Website import card ends here -->
+
+                </div>
+
+
+                <aside class="knowledge-guide-column">
+
+
+                    <aside class="knowledge-guide-column">
+
+                        <article class="dashboard-card">
+
+                            <div class="guidance-icon">
+                                <i class="fa-solid fa-table-columns"></i>
+                            </div>
+
+                            <h3>CSV and Excel Format</h3>
+
+                            <p class="knowledge-guide-text">
+                                Your file should contain:
+                            </p>
+
+                            <div class="csv-column-list">
+                                <span>question</span>
+                                <span>answer</span>
+                                <span>category</span>
+                            </div>
+
+                            <div class="knowledge-example">
+
+                                <strong>Example</strong>
+
+                                <p>
+                                    question: What are the fees?
+                                </p>
+
+                                <p>
+                                    answer: The course fee is ₹50,000.
+                                </p>
+
+                                <p>
+                                    category: Fees
+                                </p>
+
+                            </div>
+
+                        </article>
+
+
+                        <article class="dashboard-card">
+
+                            <div class="guidance-icon">
+                                <i class="fa-solid fa-file-lines"></i>
+                            </div>
+
+                            <h3>TXT File Format</h3>
+
+                            <pre class="text-format-example">Question: What are the fees?
+Answer: The fee is ₹50,000.
+Category: Fees
+
+Question: How can I apply?
+Answer: Complete the online form.
+Category: Admission</pre>
+
+                        </article>
+
+
+                        <article class="dashboard-card">
+
+                            <div class="guidance-icon">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                            </div>
+
+                            <h3>Automatic Training</h3>
+
+                            <p class="knowledge-guide-text">
+                                After uploading, the system converts questions
+                                into TF-IDF vectors and learns the closest
+                                matching company answer.
+                            </p>
+
+                        </article>
+
+                    </aside>
+
+            </section>
+
+        </main>
+
+    </div>
+
+</section>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script>
+    const knowledgeFile =
+        document.getElementById("knowledgeFile");
+
+    const filePreview =
+        document.getElementById("knowledgeFilePreview");
+
+    const fileName =
+        document.getElementById("knowledgeFileName");
+
+    const fileSize =
+        document.getElementById("knowledgeFileSize");
+
+    const removeFileButton =
+        document.getElementById("removeKnowledgeFile");
+
+    const uploadForm =
+        document.getElementById("knowledgeUploadForm");
+
+    const trainButton =
+        document.getElementById("trainModelButton");
+
+
+    knowledgeFile.addEventListener(
+        "change",
+        function () {
+            const selectedFile =
+                this.files[0];
+
+            if (!selectedFile) {
+                filePreview.classList.remove("show");
+                return;
+            }
+
+            fileName.textContent =
+                selectedFile.name;
+
+            fileSize.textContent =
+                (
+                    selectedFile.size /
+                    1024
+                ).toFixed(1) + " KB";
+
+            filePreview.classList.add("show");
+        }
+    );
+
+
+    removeFileButton.addEventListener(
+        "click",
+        function () {
+            knowledgeFile.value = "";
+
+            filePreview.classList.remove("show");
+        }
+    );
+
+
+    uploadForm.addEventListener(
+        "submit",
+        function () {
+            if (!knowledgeFile.files.length) {
+                return;
+            }
+
+            trainButton.disabled = true;
+
+            trainButton.innerHTML = `
+                <i class="fa-solid fa-spinner fa-spin"></i>
+                Processing and Training...
+            `;
+        }
+    );
+</script>
+
+{% endblock %}

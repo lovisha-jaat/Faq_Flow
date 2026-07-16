@@ -1,2 +1,9 @@
-Flask==3.1.2
-python-dotenv==1.1.1
+Flask
+python-dotenv
+pandas
+openpyxl
+xlrd
+numpy
+scikit-learn
+requests
+beautifulsoup4

@@ -36,68 +36,44 @@ Website Integration | FAQFlow AI
 
                 <nav class="sidebar-menu">
 
-                    <a
-                        href="{{ url_for('dashboard.dashboard') }}"
-                        class="sidebar-link"
-                    >
+                    <a href="{{ url_for('dashboard.dashboard') }}" class="sidebar-link">
                         <i class="fa-solid fa-table-columns"></i>
                         <span>Dashboard</span>
                     </a>
 
-                    <a
-                        href="{{ url_for('faq.faq_list') }}"
-                        class="sidebar-link"
-                    >
+                    <a href="{{ url_for('faq.faq_list') }}" class="sidebar-link">
                         <i class="fa-solid fa-circle-question"></i>
                         <span>Manage FAQs</span>
                     </a>
 
-                    <a
-                        href="{{ url_for('faq.add_faq') }}"
-                        class="sidebar-link"
-                    >
-                        <i class="fa-solid fa-plus"></i>
-                        <span>Add FAQ</span>
+                    <a href="{{ url_for('faq.upload_data') }}" class="sidebar-link">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <span>Upload Knowledge</span>
                     </a>
 
-                    <a
-                        href="{{ url_for('chatbot.chatbot') }}"
-                        class="sidebar-link"
-                    >
+                    <a href="{{ url_for('chatbot.chatbot') }}" class="sidebar-link">
                         <i class="fa-solid fa-robot"></i>
                         <span>Chatbot</span>
                     </a>
 
-                    <a
-                        href="{{ url_for('chatbot.chatbot_preview') }}"
-                        class="sidebar-link"
-                    >
+                    <a href="{{ url_for('chatbot.chatbot_preview') }}" class="sidebar-link">
                         <i class="fa-solid fa-eye"></i>
                         <span>Preview</span>
                     </a>
 
-                    <a
-                        href="{{ url_for('chatbot.integration') }}"
-                        class="sidebar-link active"
-                    >
+                    <a href="{{ url_for('chatbot.integration') }}" class="sidebar-link active">
                         <i class="fa-solid fa-code"></i>
                         <span>Integration</span>
                     </a>
 
                     <div class="sidebar-divider"></div>
 
-                    <a
-                        href="{{ url_for('dashboard.profile') }}"
-                        class="sidebar-link"
-                    >
+                    <a href="{{ url_for('dashboard.profile') }}" class="sidebar-link">
                         <i class="fa-regular fa-user"></i>
                         <span>Profile</span>
                     </a>
 
-                    <a
-                        href="{{ url_for('dashboard.settings') }}"
-                        class="sidebar-link"
-                    >
+                    <a href="{{ url_for('dashboard.settings') }}" class="sidebar-link">
                         <i class="fa-solid fa-gear"></i>
                         <span>Settings</span>
                     </a>
@@ -108,10 +84,7 @@ Website Integration | FAQFlow AI
 
             <div class="sidebar-bottom">
 
-                <a
-                    href="{{ url_for('auth.logout') }}"
-                    class="sidebar-logout"
-                >
+                <a href="{{ url_for('auth.logout') }}" class="sidebar-logout">
                     <i class="fa-solid fa-arrow-right-from-bracket"></i>
                     <span>Logout</span>
                 </a>
@@ -146,18 +119,12 @@ Website Integration | FAQFlow AI
 
                 <div class="dashboard-header-actions">
 
-                    <a
-                        href="{{ url_for('chatbot.chatbot_preview') }}"
-                        class="dashboard-outline-button"
-                    >
+                    <a href="{{ url_for('chatbot.chatbot_preview') }}" class="dashboard-outline-button">
                         <i class="fa-solid fa-eye"></i>
                         Preview Widget
                     </a>
 
-                    <a
-                        href="{{ url_for('chatbot.chatbot') }}"
-                        class="dashboard-primary-button"
-                    >
+                    <a href="{{ url_for('chatbot.chatbot') }}" class="dashboard-primary-button">
                         <i class="fa-solid fa-robot"></i>
                         Test Chatbot
                     </a>
@@ -285,11 +252,7 @@ Website Integration | FAQFlow AI
 
                                 <span>HTML</span>
 
-                                <button
-                                    type="button"
-                                    id="copyCodeButton"
-                                    class="copy-code-button"
-                                >
+                                <button type="button" id="copyCodeButton" class="copy-code-button">
                                     <i class="fa-regular fa-copy"></i>
                                     Copy Code
                                 </button>
@@ -301,10 +264,7 @@ Website Integration | FAQFlow AI
                         </div>
 
 
-                        <div
-                            id="copySuccessMessage"
-                            class="copy-success-message"
-                        >
+                        <div id="copySuccessMessage" class="copy-success-message">
 
                             <i class="fa-solid fa-circle-check"></i>
 
@@ -510,10 +470,7 @@ Website Integration | FAQFlow AI
                             <strong>{{ session.get("company_id") }}</strong>.
                         </p>
 
-                        <a
-                            href="{{ url_for('chatbot.chatbot_preview') }}"
-                            class="dashboard-primary-button"
-                        >
+                        <a href="{{ url_for('chatbot.chatbot_preview') }}" class="dashboard-primary-button">
                             <i class="fa-solid fa-eye"></i>
                             Preview Chatbot
                         </a>
@@ -727,7 +684,7 @@ Website Integration | FAQFlow AI
 
     copyCodeButton.addEventListener(
         "click",
-        async function() {
+        async function () {
 
             const codeText =
                 integrationCode.textContent.trim();
@@ -783,7 +740,7 @@ Website Integration | FAQFlow AI
         copySuccessMessage.classList.add("show");
 
 
-        setTimeout(function() {
+        setTimeout(function () {
 
             copyCodeButton.innerHTML = `
                 <i class="fa-regular fa-copy"></i>

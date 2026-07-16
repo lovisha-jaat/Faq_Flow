@@ -40,10 +40,7 @@ Dashboard | FAQFlow AI
 
                 <nav class="sidebar-menu">
 
-                    <a
-                        href="{{ url_for('dashboard.dashboard') }}"
-                        class="sidebar-link active"
-                    >
+                    <a href="{{ url_for('dashboard.dashboard') }}" class="sidebar-link active">
 
                         <i class="fa-solid fa-grid-2"></i>
 
@@ -51,10 +48,7 @@ Dashboard | FAQFlow AI
 
                     </a>
 
-                    <a
-                        href="{{ url_for('faq.faq_list') }}"
-                        class="sidebar-link"
-                    >
+                    <a href="{{ url_for('faq.faq_list') }}" class="sidebar-link">
 
                         <i class="fa-solid fa-circle-question"></i>
 
@@ -62,21 +56,12 @@ Dashboard | FAQFlow AI
 
                     </a>
 
-                    <a
-                        href="{{ url_for('faq.add_faq') }}"
-                        class="sidebar-link"
-                    >
-
-                        <i class="fa-solid fa-plus"></i>
-
-                        <span>Add FAQ</span>
-
+                    <a href="{{ url_for('faq.upload_data') }}" class="sidebar-link">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <span>Upload Knowledge</span>
                     </a>
 
-                    <a
-                        href="{{ url_for('chatbot.chatbot') }}"
-                        class="sidebar-link"
-                    >
+                    <a href="{{ url_for('chatbot.chatbot') }}" class="sidebar-link">
 
                         <i class="fa-solid fa-robot"></i>
 
@@ -84,10 +69,7 @@ Dashboard | FAQFlow AI
 
                     </a>
 
-                    <a
-                        href="{{ url_for('chatbot.chatbot_preview') }}"
-                        class="sidebar-link"
-                    >
+                    <a href="{{ url_for('chatbot.chatbot_preview') }}" class="sidebar-link">
 
                         <i class="fa-solid fa-eye"></i>
 
@@ -95,10 +77,7 @@ Dashboard | FAQFlow AI
 
                     </a>
 
-                    <a
-                        href="{{ url_for('chatbot.integration') }}"
-                        class="sidebar-link"
-                    >
+                    <a href="{{ url_for('chatbot.integration') }}" class="sidebar-link">
 
                         <i class="fa-solid fa-code"></i>
 
@@ -108,10 +87,7 @@ Dashboard | FAQFlow AI
 
                     <div class="sidebar-divider"></div>
 
-                    <a
-                        href="{{ url_for('dashboard.profile') }}"
-                        class="sidebar-link"
-                    >
+                    <a href="{{ url_for('dashboard.profile') }}" class="sidebar-link">
 
                         <i class="fa-regular fa-user"></i>
 
@@ -119,10 +95,7 @@ Dashboard | FAQFlow AI
 
                     </a>
 
-                    <a
-                        href="{{ url_for('dashboard.settings') }}"
-                        class="sidebar-link"
-                    >
+                    <a href="{{ url_for('dashboard.settings') }}" class="sidebar-link">
 
                         <i class="fa-solid fa-gear"></i>
 
@@ -158,10 +131,7 @@ Dashboard | FAQFlow AI
 
                 </div>
 
-                <a
-                    href="{{ url_for('auth.logout') }}"
-                    class="sidebar-logout"
-                >
+                <a href="{{ url_for('auth.logout') }}" class="sidebar-logout">
 
                     <i class="fa-solid fa-arrow-right-from-bracket"></i>
 
@@ -208,10 +178,7 @@ Dashboard | FAQFlow AI
 
                 <div class="dashboard-header-actions">
 
-                    <a
-                        href="{{ url_for('chatbot.chatbot') }}"
-                        class="dashboard-outline-button"
-                    >
+                    <a href="{{ url_for('chatbot.chatbot') }}" class="dashboard-outline-button">
 
                         <i class="fa-solid fa-robot"></i>
 
@@ -219,15 +186,9 @@ Dashboard | FAQFlow AI
 
                     </a>
 
-                    <a
-                        href="{{ url_for('faq.add_faq') }}"
-                        class="dashboard-primary-button"
-                    >
-
-                        <i class="fa-solid fa-plus"></i>
-
-                        Add FAQ
-
+                    <a href="{{ url_for('faq.upload_data') }}" class="sidebar-link">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <span>Upload Knowledge</span>
                     </a>
 
                 </div>
@@ -420,11 +381,11 @@ Dashboard | FAQFlow AI
                         {% set total = total_queries if total_queries > 0 else 1 %}
 
                         {% set answered_percentage =
-                            ((answered_queries / total) * 100) | round | int
+                        ((answered_queries / total) * 100) | round | int
                         %}
 
                         {% set unanswered_percentage =
-                            ((unanswered_queries / total) * 100) | round | int
+                        ((unanswered_queries / total) * 100) | round | int
                         %}
 
                         <div class="performance-circle">
@@ -463,10 +424,8 @@ Dashboard | FAQFlow AI
 
                             <div class="performance-progress">
 
-                                <div
-                                    class="progress-bar answered-progress"
-                                    style="width: {{ answered_percentage }}%;"
-                                ></div>
+                                <div class="progress-bar answered-progress" style="width: {{ answered_percentage }}%;">
+                                </div>
 
                             </div>
 
@@ -488,10 +447,8 @@ Dashboard | FAQFlow AI
 
                             <div class="performance-progress">
 
-                                <div
-                                    class="progress-bar unanswered-progress"
-                                    style="width: {{ unanswered_percentage }}%;"
-                                ></div>
+                                <div class="progress-bar unanswered-progress"
+                                    style="width: {{ unanswered_percentage }}%;"></div>
 
                             </div>
 
@@ -551,45 +508,42 @@ Dashboard | FAQFlow AI
 
                         {% if total_faqs > 0 %}
 
-                            <p>
+                        <p>
 
-                                Your chatbot is ready with
-                                <strong>{{ total_faqs }}</strong>
-                                approved FAQs.
+                            Your chatbot is ready with
+                            <strong>{{ total_faqs }}</strong>
+                            approved FAQs.
 
-                            </p>
+                        </p>
 
-                            <span class="knowledge-status ready-status">
+                        <span class="knowledge-status ready-status">
 
-                                <i class="fa-solid fa-circle-check"></i>
+                            <i class="fa-solid fa-circle-check"></i>
 
-                                Knowledge Base Ready
+                            Knowledge Base Ready
 
-                            </span>
+                        </span>
 
                         {% else %}
 
-                            <p>
+                        <p>
 
-                                Add your first FAQ to start answering
-                                visitor questions.
+                            Add your first FAQ to start answering
+                            visitor questions.
 
-                            </p>
+                        </p>
 
-                            <span class="knowledge-status pending-status">
+                        <span class="knowledge-status pending-status">
 
-                                <i class="fa-solid fa-clock"></i>
+                            <i class="fa-solid fa-clock"></i>
 
-                                Setup Required
+                            Setup Required
 
-                            </span>
+                        </span>
 
                         {% endif %}
 
-                        <a
-                            href="{{ url_for('chatbot.chatbot') }}"
-                            class="chatbot-test-button"
-                        >
+                        <a href="{{ url_for('chatbot.chatbot') }}" class="chatbot-test-button">
 
                             Start Test Conversation
 
@@ -630,36 +584,32 @@ Dashboard | FAQFlow AI
 
                 <div class="quick-action-grid">
 
-                    <a
-                        href="{{ url_for('faq.add_faq') }}"
-                        class="quick-action-card"
-                    >
+                    <a href="{{ url_for('faq.upload_data') }}" class="sidebar-link">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <span>Upload Knowledge</span>
+                    </a>
+                    <div class="quick-action-icon">
 
-                        <div class="quick-action-icon">
+                        <i class="fa-solid fa-plus"></i>
 
-                            <i class="fa-solid fa-plus"></i>
+                    </div>
 
-                        </div>
+                    <div>
 
-                        <div>
+                        <h3>Add New FAQ</h3>
 
-                            <h3>Add New FAQ</h3>
+                        <p>
+                            Add a new approved question and answer.
+                        </p>
 
-                            <p>
-                                Add a new approved question and answer.
-                            </p>
+                    </div>
 
-                        </div>
-
-                        <i class="fa-solid fa-chevron-right"></i>
+                    <i class="fa-solid fa-chevron-right"></i>
 
                     </a>
 
 
-                    <a
-                        href="{{ url_for('faq.faq_list') }}"
-                        class="quick-action-card"
-                    >
+                    <a href="{{ url_for('faq.faq_list') }}" class="quick-action-card">
 
                         <div class="quick-action-icon">
 
@@ -682,10 +632,7 @@ Dashboard | FAQFlow AI
                     </a>
 
 
-                    <a
-                        href="{{ url_for('chatbot.chatbot_preview') }}"
-                        class="quick-action-card"
-                    >
+                    <a href="{{ url_for('chatbot.chatbot_preview') }}" class="quick-action-card">
 
                         <div class="quick-action-icon">
 
@@ -708,10 +655,7 @@ Dashboard | FAQFlow AI
                     </a>
 
 
-                    <a
-                        href="{{ url_for('chatbot.integration') }}"
-                        class="quick-action-card"
-                    >
+                    <a href="{{ url_for('chatbot.integration') }}" class="quick-action-card">
 
                         <div class="quick-action-icon">
 
@@ -770,139 +714,136 @@ Dashboard | FAQFlow AI
 
                 {% if recent_queries %}
 
-                    <div class="query-table-wrapper">
+                <div class="query-table-wrapper">
 
-                        <table class="query-table">
+                    <table class="query-table">
 
-                            <thead>
+                        <thead>
 
-                                <tr>
+                            <tr>
 
-                                    <th>Question</th>
+                                <th>Question</th>
 
-                                    <th>Bot Answer</th>
+                                <th>Bot Answer</th>
 
-                                    <th>Status</th>
+                                <th>Status</th>
 
-                                    <th>Date</th>
+                                <th>Date</th>
 
-                                </tr>
+                            </tr>
 
-                            </thead>
+                        </thead>
 
-                            <tbody>
+                        <tbody>
 
-                                {% for query in recent_queries %}
+                            {% for query in recent_queries %}
 
-                                    <tr>
+                            <tr>
 
-                                        <td>
+                                <td>
 
-                                            <div class="query-question">
+                                    <div class="query-question">
 
-                                                <div class="query-icon">
+                                        <div class="query-icon">
 
-                                                    <i class="fa-regular fa-message"></i>
+                                            <i class="fa-regular fa-message"></i>
 
-                                                </div>
+                                        </div>
 
-                                                <span>
+                                        <span>
 
-                                                    {{ query["user_question"] }}
+                                            {{ query["user_question"] }}
 
-                                                </span>
+                                        </span>
 
-                                            </div>
+                                    </div>
 
-                                        </td>
+                                </td>
 
-                                        <td>
+                                <td>
 
-                                            <p class="query-answer">
+                                    <p class="query-answer">
 
-                                                {{ query["bot_answer"] }}
+                                        {{ query["bot_answer"] }}
 
-                                            </p>
+                                    </p>
 
-                                        </td>
+                                </td>
 
-                                        <td>
+                                <td>
 
-                                            {% if query["status"] == "answered" %}
+                                    {% if query["status"] == "answered" %}
 
-                                                <span class="query-status answered-status">
+                                    <span class="query-status answered-status">
 
-                                                    <i class="fa-solid fa-check"></i>
+                                        <i class="fa-solid fa-check"></i>
 
-                                                    Answered
+                                        Answered
 
-                                                </span>
+                                    </span>
 
-                                            {% else %}
+                                    {% else %}
 
-                                                <span class="query-status unanswered-status">
+                                    <span class="query-status unanswered-status">
 
-                                                    <i class="fa-solid fa-exclamation"></i>
+                                        <i class="fa-solid fa-exclamation"></i>
 
-                                                    Unanswered
+                                        Unanswered
 
-                                                </span>
+                                    </span>
 
-                                            {% endif %}
+                                    {% endif %}
 
-                                        </td>
+                                </td>
 
-                                        <td>
+                                <td>
 
-                                            <span class="query-date">
+                                    <span class="query-date">
 
-                                                {{ query["created_at"] }}
+                                        {{ query["created_at"] }}
 
-                                            </span>
+                                    </span>
 
-                                        </td>
+                                </td>
 
-                                    </tr>
+                            </tr>
 
-                                {% endfor %}
+                            {% endfor %}
 
-                            </tbody>
+                        </tbody>
 
-                        </table>
+                    </table>
 
-                    </div>
+                </div>
 
                 {% else %}
 
-                    <div class="dashboard-empty-state">
+                <div class="dashboard-empty-state">
 
-                        <div class="empty-state-icon">
+                    <div class="empty-state-icon">
 
-                            <i class="fa-regular fa-comments"></i>
-
-                        </div>
-
-                        <h3>No queries received yet</h3>
-
-                        <p>
-
-                            Test your chatbot to create your first
-                            conversation.
-
-                        </p>
-
-                        <a
-                            href="{{ url_for('chatbot.chatbot') }}"
-                            class="dashboard-primary-button"
-                        >
-
-                            <i class="fa-solid fa-robot"></i>
-
-                            Test Chatbot
-
-                        </a>
+                        <i class="fa-regular fa-comments"></i>
 
                     </div>
+
+                    <h3>No queries received yet</h3>
+
+                    <p>
+
+                        Test your chatbot to create your first
+                        conversation.
+
+                    </p>
+
+                    <a href="{{ url_for('chatbot.chatbot') }}" class="dashboard-primary-button">
+
+                        <i class="fa-solid fa-robot"></i>
+
+                        Test Chatbot
+
+                    </a>
+
+                </div>
 
                 {% endif %}
 

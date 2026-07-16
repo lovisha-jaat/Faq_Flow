@@ -1,5 +1,5 @@
 """
-Routes Package
+FAQFlow AI - Routes Package
 """
 
 from .auth_routes import auth_bp

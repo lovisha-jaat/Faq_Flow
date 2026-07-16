@@ -34,68 +34,44 @@ Chatbot Preview | FAQFlow AI
 
                 <nav class="sidebar-menu">
 
-                    <a
-                        href="{{ url_for('dashboard.dashboard') }}"
-                        class="sidebar-link"
-                    >
+                    <a href="{{ url_for('dashboard.dashboard') }}" class="sidebar-link">
                         <i class="fa-solid fa-table-columns"></i>
                         <span>Dashboard</span>
                     </a>
 
-                    <a
-                        href="{{ url_for('faq.faq_list') }}"
-                        class="sidebar-link"
-                    >
+                    <a href="{{ url_for('faq.faq_list') }}" class="sidebar-link">
                         <i class="fa-solid fa-circle-question"></i>
                         <span>Manage FAQs</span>
                     </a>
 
-                    <a
-                        href="{{ url_for('faq.add_faq') }}"
-                        class="sidebar-link"
-                    >
-                        <i class="fa-solid fa-plus"></i>
-                        <span>Add FAQ</span>
+                    <a href="{{ url_for('faq.upload_data') }}" class="sidebar-link">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <span>Upload Knowledge</span>
                     </a>
 
-                    <a
-                        href="{{ url_for('chatbot.chatbot') }}"
-                        class="sidebar-link"
-                    >
+                    <a href="{{ url_for('chatbot.chatbot') }}" class="sidebar-link">
                         <i class="fa-solid fa-robot"></i>
                         <span>Chatbot</span>
                     </a>
 
-                    <a
-                        href="{{ url_for('chatbot.chatbot_preview') }}"
-                        class="sidebar-link active"
-                    >
+                    <a href="{{ url_for('chatbot.chatbot_preview') }}" class="sidebar-link active">
                         <i class="fa-solid fa-eye"></i>
                         <span>Preview</span>
                     </a>
 
-                    <a
-                        href="{{ url_for('chatbot.integration') }}"
-                        class="sidebar-link"
-                    >
+                    <a href="{{ url_for('chatbot.integration') }}" class="sidebar-link">
                         <i class="fa-solid fa-code"></i>
                         <span>Integration</span>
                     </a>
 
                     <div class="sidebar-divider"></div>
 
-                    <a
-                        href="{{ url_for('dashboard.profile') }}"
-                        class="sidebar-link"
-                    >
+                    <a href="{{ url_for('dashboard.profile') }}" class="sidebar-link">
                         <i class="fa-regular fa-user"></i>
                         <span>Profile</span>
                     </a>
 
-                    <a
-                        href="{{ url_for('dashboard.settings') }}"
-                        class="sidebar-link"
-                    >
+                    <a href="{{ url_for('dashboard.settings') }}" class="sidebar-link">
                         <i class="fa-solid fa-gear"></i>
                         <span>Settings</span>
                     </a>
@@ -106,10 +82,7 @@ Chatbot Preview | FAQFlow AI
 
             <div class="sidebar-bottom">
 
-                <a
-                    href="{{ url_for('auth.logout') }}"
-                    class="sidebar-logout"
-                >
+                <a href="{{ url_for('auth.logout') }}" class="sidebar-logout">
                     <i class="fa-solid fa-arrow-right-from-bracket"></i>
                     <span>Logout</span>
                 </a>
@@ -144,18 +117,12 @@ Chatbot Preview | FAQFlow AI
 
                 <div class="dashboard-header-actions">
 
-                    <a
-                        href="{{ url_for('chatbot.chatbot') }}"
-                        class="dashboard-outline-button"
-                    >
+                    <a href="{{ url_for('chatbot.chatbot') }}" class="dashboard-outline-button">
                         <i class="fa-solid fa-message"></i>
                         Test Chatbot
                     </a>
 
-                    <a
-                        href="{{ url_for('chatbot.integration') }}"
-                        class="dashboard-primary-button"
-                    >
+                    <a href="{{ url_for('chatbot.integration') }}" class="dashboard-primary-button">
                         <i class="fa-solid fa-code"></i>
                         Get Integration Code
                     </a>
@@ -311,12 +278,8 @@ Chatbot Preview | FAQFlow AI
 
                         <!-- Chatbot Floating Button -->
 
-                        <button
-                            type="button"
-                            id="previewChatButton"
-                            class="preview-chat-button"
-                            aria-label="Open chatbot"
-                        >
+                        <button type="button" id="previewChatButton" class="preview-chat-button"
+                            aria-label="Open chatbot">
 
                             <i class="fa-solid fa-comment-dots"></i>
 
@@ -327,10 +290,7 @@ Chatbot Preview | FAQFlow AI
 
                         <!-- Chatbot Widget -->
 
-                        <div
-                            id="previewChatWidget"
-                            class="preview-chat-widget"
-                        >
+                        <div id="previewChatWidget" class="preview-chat-widget">
 
                             <div class="preview-widget-header">
 
@@ -359,22 +319,15 @@ Chatbot Preview | FAQFlow AI
 
                                 </div>
 
-                                <button
-                                    type="button"
-                                    id="closePreviewWidget"
-                                    class="preview-widget-close"
-                                    aria-label="Close chatbot"
-                                >
+                                <button type="button" id="closePreviewWidget" class="preview-widget-close"
+                                    aria-label="Close chatbot">
                                     <i class="fa-solid fa-xmark"></i>
                                 </button>
 
                             </div>
 
 
-                            <div
-                                id="previewMessages"
-                                class="preview-widget-messages"
-                            >
+                            <div id="previewMessages" class="preview-widget-messages">
 
                                 <div class="preview-widget-bot-message">
 
@@ -403,44 +356,25 @@ Chatbot Preview | FAQFlow AI
 
                             <div class="preview-suggestions">
 
-                                <button
-                                    type="button"
-                                    class="preview-suggestion"
-                                    data-question="What services do you provide?"
-                                >
+                                <button type="button" class="preview-suggestion"
+                                    data-question="What services do you provide?">
                                     What services do you provide?
                                 </button>
 
-                                <button
-                                    type="button"
-                                    class="preview-suggestion"
-                                    data-question="How can I contact support?"
-                                >
+                                <button type="button" class="preview-suggestion"
+                                    data-question="How can I contact support?">
                                     How can I contact support?
                                 </button>
 
                             </div>
 
 
-                            <form
-                                id="previewChatForm"
-                                class="preview-widget-input"
-                            >
+                            <form id="previewChatForm" class="preview-widget-input">
 
-                                <input
-                                    type="text"
-                                    id="previewQuestionInput"
-                                    placeholder="Type your question..."
-                                    maxlength="500"
-                                    autocomplete="off"
-                                    required
-                                >
+                                <input type="text" id="previewQuestionInput" placeholder="Type your question..."
+                                    maxlength="500" autocomplete="off" required>
 
-                                <button
-                                    type="submit"
-                                    id="previewSendButton"
-                                    aria-label="Send question"
-                                >
+                                <button type="submit" id="previewSendButton" aria-label="Send question">
                                     <i class="fa-solid fa-paper-plane"></i>
                                 </button>
 
@@ -523,11 +457,7 @@ Chatbot Preview | FAQFlow AI
 
                                 <div class="preview-color-control">
 
-                                    <input
-                                        type="color"
-                                        id="previewColor"
-                                        value="#0f2f75"
-                                    >
+                                    <input type="color" id="previewColor" value="#0f2f75">
 
                                     <span id="previewColorValue">
                                         #0F2F75
@@ -544,12 +474,8 @@ Chatbot Preview | FAQFlow AI
                                     Assistant Name
                                 </label>
 
-                                <input
-                                    type="text"
-                                    id="previewTitle"
-                                    value="{{ session.get('company_name', 'Company') }} Assistant"
-                                    maxlength="50"
-                                >
+                                <input type="text" id="previewTitle"
+                                    value="{{ session.get('company_name', 'Company') }} Assistant" maxlength="50">
 
                             </div>
 
@@ -560,11 +486,8 @@ Chatbot Preview | FAQFlow AI
                                     Welcome Message
                                 </label>
 
-                                <textarea
-                                    id="previewWelcome"
-                                    rows="4"
-                                    maxlength="150"
-                                >Hello! How can I help you today?</textarea>
+                                <textarea id="previewWelcome" rows="4"
+                                    maxlength="150">Hello! How can I help you today?</textarea>
 
                             </div>
 
@@ -573,19 +496,12 @@ Chatbot Preview | FAQFlow AI
 
                         <div class="preview-control-actions">
 
-                            <button
-                                type="button"
-                                id="openWidgetButton"
-                                class="dashboard-outline-button"
-                            >
+                            <button type="button" id="openWidgetButton" class="dashboard-outline-button">
                                 <i class="fa-solid fa-eye"></i>
                                 Open Widget
                             </button>
 
-                            <a
-                                href="{{ url_for('chatbot.integration') }}"
-                                class="dashboard-primary-button"
-                            >
+                            <a href="{{ url_for('chatbot.integration') }}" class="dashboard-primary-button">
                                 <i class="fa-solid fa-code"></i>
                                 Integrate
                             </a>
@@ -766,7 +682,7 @@ Chatbot Preview | FAQFlow AI
 
     previewPosition.addEventListener(
         "change",
-        function() {
+        function () {
 
             const previewWebsite =
                 document.querySelector(".preview-website");
@@ -788,7 +704,7 @@ Chatbot Preview | FAQFlow AI
 
     previewColor.addEventListener(
         "input",
-        function() {
+        function () {
 
             const selectedColor = this.value;
 
@@ -811,7 +727,7 @@ Chatbot Preview | FAQFlow AI
 
     previewTitle.addEventListener(
         "input",
-        function() {
+        function () {
 
             const widgetTitle =
                 document.querySelector(
@@ -828,7 +744,7 @@ Chatbot Preview | FAQFlow AI
 
     previewWelcome.addEventListener(
         "input",
-        function() {
+        function () {
 
             const welcomeMessage =
                 document.querySelector(
@@ -955,57 +871,57 @@ Chatbot Preview | FAQFlow AI
                     body: JSON.stringify({
                         company_id:
                             {{ session.get("company_id") | tojson }},
-                        question: question
+                question: question
                     })
-                }
+    }
             );
 
 
-            const data = await response.json();
+    const data = await response.json();
 
-            typingMessage.remove();
-
-
-            if (!response.ok) {
-
-                throw new Error(
-                    data.message ||
-                    "Unable to get an answer."
-                );
-
-            }
+    typingMessage.remove();
 
 
-            appendPreviewBotMessage(
-                data.answer
-            );
+    if (!response.ok) {
+
+        throw new Error(
+            data.message ||
+            "Unable to get an answer."
+        );
+
+    }
+
+
+    appendPreviewBotMessage(
+        data.answer
+    );
 
         } catch (error) {
 
-            typingMessage.remove();
+        typingMessage.remove();
 
-            appendPreviewBotMessage(
-                error.message ||
-                "Something went wrong. Please try again."
-            );
+        appendPreviewBotMessage(
+            error.message ||
+            "Something went wrong. Please try again."
+        );
 
-        } finally {
+    } finally {
 
-            previewQuestionInput.disabled = false;
-            previewSendButton.disabled = false;
+        previewQuestionInput.disabled = false;
+        previewSendButton.disabled = false;
 
-            previewQuestionInput.focus();
+        previewQuestionInput.focus();
 
-            scrollPreviewToBottom();
+        scrollPreviewToBottom();
 
-        }
+    }
 
     }
 
 
     previewChatForm.addEventListener(
         "submit",
-        function(event) {
+        function (event) {
 
             event.preventDefault();
 
@@ -1023,11 +939,11 @@ Chatbot Preview | FAQFlow AI
 
 
     previewSuggestions.forEach(
-        function(button) {
+        function (button) {
 
             button.addEventListener(
                 "click",
-                function() {
+                function () {
 
                     openPreviewChat();
 

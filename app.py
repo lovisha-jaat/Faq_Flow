@@ -9,6 +9,7 @@ from routes.api_routes import api_bp
 from services.database_service import initialize_database
 
 
+
 def create_app():
     """
     Create and configure the Flask application.

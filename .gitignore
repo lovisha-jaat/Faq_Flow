@@ -1,14 +1,16 @@
-# Environment
+# Environment variables
 .env
-.env.*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
 
 # Virtual environment
 venv/
 
-# Python cache
-__pycache__/
-**/__pycache__/
-*.py[cod]
+# VS Code
+.vscode/
 
-# SQLite database
-*.db
+# Database (optional if local only)
+# database/*.db

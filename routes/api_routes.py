@@ -33,49 +33,26 @@ def get_database_path():
     )
 
 
-def save_query(
-    company_id,
-    question,
-    result
-):
+def save_query(company_id, question, result):
     connection = sqlite3.connect(
         get_database_path()
     )
 
     connection.execute(
         """
-        CREATE TABLE IF NOT EXISTS queries (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            company_id INTEGER NOT NULL,
-            question TEXT NOT NULL,
-            answer TEXT,
-            category TEXT,
-            status TEXT,
-            similarity REAL DEFAULT 0,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )
-        """
-    )
-
-    connection.execute(
-        """
         INSERT INTO queries (
             company_id,
-            question,
-            answer,
-            category,
-            status,
-            similarity
+            user_question,
+            bot_answer,
+            status
         )
-        VALUES (?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?)
         """,
         (
             company_id,
             question,
-            result.get("answer"),
-            result.get("category"),
-            result.get("status"),
-            result.get("similarity", 0)
+            result.get("answer", ""),
+            result.get("status", "unanswered")
         )
     )
 
@@ -83,19 +60,11 @@ def save_query(
     connection.close()
 
 
-@api_bp.route(
-    "/chat",
-    methods=["POST"]
-)
+@api_bp.route("/chat", methods=["POST"])
 def chat():
-    data = request.get_json(
-        silent=True
-    ) or {}
+    data = request.get_json(silent=True) or {}
 
-    company_id = data.get(
-        "company_id"
-    )
-
+    company_id = data.get("company_id")
     question = str(
         data.get("question", "")
     ).strip()
@@ -124,14 +93,11 @@ def chat():
 
         return jsonify(result), 200
 
-    except Exception:
+    except Exception as error:
         current_app.logger.exception(
             "Chatbot API error."
         )
 
         return jsonify({
-            "error": (
-                "The chatbot could not process "
-                "your question."
-            )
+            "error": str(error)
         }), 500

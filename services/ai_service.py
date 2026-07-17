@@ -1,9 +1,12 @@
 import os
+import time
+import requests
+
+from flask import current_app
 import sqlite3
 from threading import Lock
 
 import numpy as np
-import requests
 from flask import current_app
 from sklearn.feature_extraction.text import (
     TfidfVectorizer
@@ -215,37 +218,63 @@ def retrieve_context(
 
 
 def ask_gemini(question, chunks):
-    api_key = current_app.config.get(
-        "AI_API_KEY"
-    ) or os.getenv("AI_API_KEY")
+    """
+    Generate an answer using retrieved company knowledge.
 
-    model_name = os.getenv(
-        "GEMINI_MODEL",
-        "gemini-3.5-flash"
+    Retries temporary Gemini errors such as 429, 500 and 503.
+    """
+
+    api_key = (
+        current_app.config.get("AI_API_KEY")
+        or os.getenv("AI_API_KEY")
     )
 
     if not api_key:
         raise ValueError(
-            "AI_API_KEY is missing from the .env file."
+            "Gemini API key is missing."
         )
+
+    model_name = os.getenv(
+        "GEMINI_MODEL",
+        "gemini-flash-latest"
+    ).strip()
+
+    # Remove common incorrect values
+    model_name = model_name.removeprefix("models/")
+    model_name = model_name.removesuffix(
+        ":generateContent"
+    )
+
+    api_url = (
+        "https://generativelanguage.googleapis.com/"
+        f"v1beta/models/{model_name}:generateContent"
+    )
 
     context_parts = []
 
+    # Send only the two most relevant chunks
     for number, chunk in enumerate(
-        chunks,
+        chunks[:2],
         start=1
     ):
+        content = str(
+            chunk.get("content", "")
+        ).strip()
+
+        # Prevent very large prompts
+        content = content[:2500]
+
         source = (
             chunk.get("source_url")
             or chunk.get("source_name")
-            or "Uploaded data"
+            or "Uploaded company data"
         )
 
         context_parts.append(
             f"""
 Source {number}: {source}
-Content:
-{chunk["content"]}
+Company information:
+{content}
 """
         )
 
@@ -254,90 +283,153 @@ Content:
     )
 
     prompt = f"""
-You are FAQFlow AI, a company knowledge assistant.
+You are FAQFlow AI, a company support assistant.
 
-Answer the visitor's question using only the supplied company
-knowledge.
+Answer the visitor's question using only the company information
+provided below.
 
 Rules:
-1. Do not invent policies, prices, dates or contact details.
-2. Combine information from multiple sources when useful.
-3. Give a clear and concise answer.
-4. If the answer is not present in the context, reply exactly:
-   "I could not find this information in the company's knowledge base."
-5. Do not mention TF-IDF, database chunks or internal retrieval.
+- Do not invent information.
+- Give a direct and concise answer.
+- Use only the supplied company knowledge.
+- If the answer is unavailable, reply:
+  "I could not find this information in the company's knowledge base."
 
-COMPANY KNOWLEDGE:
+Company knowledge:
 {context_text}
 
-VISITOR QUESTION:
+Visitor question:
 {question}
 """
 
-    api_url = (
-        "https://generativelanguage.googleapis.com/"
-        f"v1beta/models/{model_name}:generateContent"
-    )
-
-    response = requests.post(
-        api_url,
-        params={
-            "key": api_key
-        },
-        json={
-            "contents": [
-                {
-                    "parts": [
-                        {
-                            "text": prompt
-                        }
-                    ]
-                }
-            ],
-            "generationConfig": {
-                "temperature": 0.2,
-                "maxOutputTokens": 500
+    payload = {
+        "contents": [
+            {
+                "role": "user",
+                "parts": [
+                    {
+                        "text": prompt
+                    }
+                ]
             }
-        },
-        timeout=45
-    )
+        ],
+        "generationConfig": {
+            "temperature": 0.1,
+            "maxOutputTokens": 300
+        }
+    }
 
-    if not response.ok:
-        raise RuntimeError(
-            "Gemini API error: "
-            + response.text[:300]
+    retry_status_codes = {
+        429,
+        500,
+        502,
+        503,
+        504
+    }
+
+    maximum_attempts = 4
+
+    for attempt in range(maximum_attempts):
+        try:
+            response = requests.post(
+                api_url,
+                params={
+                    "key": api_key
+                },
+                json=payload,
+                timeout=(10, 60)
+            )
+
+        except requests.exceptions.Timeout:
+            if attempt < maximum_attempts - 1:
+                time.sleep(2 ** attempt)
+                continue
+
+            raise RuntimeError(
+                "The AI service took too long to respond."
+            )
+
+        except requests.exceptions.ConnectionError:
+            if attempt < maximum_attempts - 1:
+                time.sleep(2 ** attempt)
+                continue
+
+            raise RuntimeError(
+                "Unable to connect to the AI service."
+            )
+
+        if response.status_code in retry_status_codes:
+            if attempt < maximum_attempts - 1:
+                wait_time = 2 ** attempt
+
+                current_app.logger.warning(
+                    "Gemini temporary error %s. "
+                    "Retrying in %s seconds.",
+                    response.status_code,
+                    wait_time
+                )
+
+                time.sleep(wait_time)
+                continue
+
+            raise RuntimeError(
+                "The AI service is temporarily busy."
+            )
+
+        if not response.ok:
+            try:
+                error_data = response.json()
+
+                error_message = (
+                    error_data
+                    .get("error", {})
+                    .get(
+                        "message",
+                        "Gemini request failed."
+                    )
+                )
+
+            except ValueError:
+                error_message = (
+                    "Gemini request failed."
+                )
+
+            raise RuntimeError(error_message)
+
+        data = response.json()
+
+        candidates = data.get(
+            "candidates",
+            []
         )
 
-    data = response.json()
+        if not candidates:
+            raise RuntimeError(
+                "The AI service returned no answer."
+            )
 
-    candidates = data.get(
-        "candidates",
-        []
-    )
-
-    if not candidates:
-        raise RuntimeError(
-            "Gemini returned no answer."
+        parts = (
+            candidates[0]
+            .get("content", {})
+            .get("parts", [])
         )
 
-    parts = (
-        candidates[0]
-        .get("content", {})
-        .get("parts", [])
+        answer = " ".join(
+            part.get("text", "")
+            for part in parts
+            if part.get("text")
+        ).strip()
+
+        if not answer:
+            raise RuntimeError(
+                "The AI service returned an empty answer."
+            )
+
+        return answer
+
+    raise RuntimeError(
+        "The AI service is temporarily unavailable."
     )
-
-    answer = " ".join(
-        part.get("text", "")
-        for part in parts
-    ).strip()
-
-    if not answer:
-        raise RuntimeError(
-            "Gemini returned an empty answer."
-        )
-
-    return answer
-
 
 def answer_question(company_id, question):
     question = str(question).strip()

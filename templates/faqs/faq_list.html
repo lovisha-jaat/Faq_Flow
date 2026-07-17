@@ -122,7 +122,7 @@ Manage FAQs | FAQFlow AI
 
                 <div class="faq-toolbar">
 
-                    <form action="{{ url_for('faq.search_faq') }}" method="GET" class="faq-search">
+                    <form action="{{ url_for('faq.faq_list') }}" method="GET" class="faq-search">
 
                         <div class="search-box">
 
@@ -285,24 +285,11 @@ Manage FAQs | FAQFlow AI
                                 </td>
 
                                 <td>
-
                                     <div class="faq-action-buttons">
 
-                                        <a href="{{ url_for('faq.edit_faq', faq_id=faq['id']) }}"
-                                            class="faq-edit-button" title="Edit FAQ">
-
-                                            <i class="fa-solid fa-pen"></i>
-
-                                        </a>
-
-                                        <button type="button" class="faq-delete-button" title="Delete FAQ" onclick="openDeleteModal"(
-                            '{{ faq['id'] }}',
-                            '{{ faq['question'] | replace("'", "\\'") }}'
-                        )">
-
-                                            <i class="fa-solid fa-trash"></i>
-
-                                        </button>
+                                        <span class="status-badge info">
+                                            Knowledge Chunk
+                                        </span>
 
                                     </div>
 

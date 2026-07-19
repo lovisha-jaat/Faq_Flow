@@ -42,11 +42,10 @@ Upload Knowledge | FAQFlow AI
                         <span>Upload Knowledge</span>
                     </a>
 
-                    <a href="{{ url_for('faq.faq_list') }}" class="sidebar-link">
+                    <a href="{{ url_for('faq.knowledge_data') }}" class="sidebar-link">
                         <i class="fa-solid fa-database"></i>
-                        Knowledge Data
+                        <span>Knowledge Data</span>
                     </a>
-
                     <a href="{{ url_for('chatbot.chatbot') }}" class="sidebar-link">
                         <i class="fa-solid fa-robot"></i>
                         Test Chatbot
@@ -60,6 +59,17 @@ Upload Knowledge | FAQFlow AI
                     <a href="{{ url_for('chatbot.integration') }}" class="sidebar-link">
                         <i class="fa-solid fa-code"></i>
                         Integration
+                    </a>
+                    <div class="sidebar-divider"></div>
+
+                    <a href="{{ url_for('dashboard.profile') }}" class="sidebar-link">
+                        <i class="fa-regular fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+
+                    <a href="{{ url_for('dashboard.settings') }}" class="sidebar-link">
+                        <i class="fa-solid fa-gear"></i>
+                        <span>Settings</span>
                     </a>
 
                 </nav>

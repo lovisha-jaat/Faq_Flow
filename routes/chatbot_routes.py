@@ -1,10 +1,11 @@
 from flask import (
     Blueprint,
+    redirect,
     render_template,
     session,
-    redirect,
     url_for
 )
+
 
 chatbot_bp = Blueprint(
     "chatbot",
@@ -18,9 +19,10 @@ def login_required():
 
 @chatbot_bp.route("/chatbot")
 def chatbot():
-
     if not login_required():
-        return redirect(url_for("auth.login"))
+        return redirect(
+            url_for("auth.login")
+        )
 
     return render_template(
         "chatbot/chatbot.html"
@@ -29,9 +31,10 @@ def chatbot():
 
 @chatbot_bp.route("/chatbot/preview")
 def chatbot_preview():
-
     if not login_required():
-        return redirect(url_for("auth.login"))
+        return redirect(
+            url_for("auth.login")
+        )
 
     return render_template(
         "chatbot/chatbot_preview.html"
@@ -40,23 +43,24 @@ def chatbot_preview():
 
 @chatbot_bp.route("/chatbot/integration")
 def integration():
-
     if not login_required():
-        return redirect(url_for("auth.login"))
+        return redirect(
+            url_for("auth.login")
+        )
 
-    company_id = session["company_id"]
+    company_id = session.get("company_id")
 
-    widget_code = f"""
-<!-- FAQFlow AI Chatbot -->
-<script>
-(function() {{
-    var script = document.createElement("script");
-    script.src = "/static/js/widget.js";
-    script.setAttribute("data-company-id", "{company_id}");
-    document.body.appendChild(script);
-}})();
-</script>
-"""
+    if not company_id:
+        return redirect(
+            url_for("auth.login")
+        )
+
+    widget_code = f"""<!-- FAQFlow AI Chatbot -->
+<script
+    src="http://127.0.0.1:5000/static/js/widget.js"
+    data-company-id="{company_id}"
+    data-api-base="http://127.0.0.1:5000"
+></script>"""
 
     return render_template(
         "chatbot/integration.html",

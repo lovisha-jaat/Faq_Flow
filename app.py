@@ -7,7 +7,7 @@ from routes.faq_routes import faq_bp
 from routes.chatbot_routes import chatbot_bp
 from routes.api_routes import api_bp
 from services.database_service import initialize_database
-
+from flask_cors import CORS
 
 
 def create_app():
@@ -19,6 +19,14 @@ def create_app():
 
     # Load configuration from config.py
     app.config.from_object(Config)
+    CORS(
+    app,
+    resources={
+        r"/api/*": {
+            "origins": "*"
+        }
+    }
+)
 
     # Create SQLite database tables
     initialize_database(app.config["DATABASE_PATH"])

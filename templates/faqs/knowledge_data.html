@@ -1,0 +1,585 @@
+{% extends "base.html" %}
+
+{% block title %}
+Knowledge Data | FAQFlow AI
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-page">
+
+    <div class="dashboard-layout">
+
+        <!-- ================= SIDEBAR ================= -->
+
+        <aside class="dashboard-sidebar">
+
+            <div class="sidebar-top">
+
+                <div class="sidebar-company">
+
+                    <div class="company-avatar">
+                        <i class="fa-solid fa-building"></i>
+                    </div>
+
+                    <div>
+                        <h3>
+                            {{ session.get("company_name", "Company") }}
+                        </h3>
+
+                        <p>FAQ Workspace</p>
+                    </div>
+
+                </div>
+
+                <nav class="sidebar-menu">
+
+                    <a
+                        href="{{ url_for('dashboard.dashboard') }}"
+                        class="sidebar-link"
+                    >
+                        <i class="fa-solid fa-table-columns"></i>
+                        <span>Dashboard</span>
+                    </a>
+
+                    <a
+                        href="{{ url_for('faq.upload_data') }}"
+                        class="sidebar-link"
+                    >
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <span>Upload Knowledge</span>
+                    </a>
+
+                    <a
+                        href="{{ url_for('faq.knowledge_data') }}"
+                        class="sidebar-link active"
+                    >
+                        <i class="fa-solid fa-database"></i>
+                        <span>Knowledge Data</span>
+                    </a>
+
+                    <a
+                        href="{{ url_for('chatbot.chatbot') }}"
+                        class="sidebar-link"
+                    >
+                        <i class="fa-solid fa-robot"></i>
+                        <span>Test Chatbot</span>
+                    </a>
+
+                    <a
+                        href="{{ url_for('chatbot.chatbot_preview') }}"
+                        class="sidebar-link"
+                    >
+                        <i class="fa-solid fa-eye"></i>
+                        <span>Preview</span>
+                    </a>
+
+                    <a
+                        href="{{ url_for('chatbot.integration') }}"
+                        class="sidebar-link"
+                    >
+                        <i class="fa-solid fa-code"></i>
+                        <span>Integration</span>
+                    </a>
+
+                    <div class="sidebar-divider"></div>
+
+                    <a
+                        href="{{ url_for('dashboard.profile') }}"
+                        class="sidebar-link"
+                    >
+                        <i class="fa-regular fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+
+                    <a
+                        href="{{ url_for('dashboard.settings') }}"
+                        class="sidebar-link"
+                    >
+                        <i class="fa-solid fa-gear"></i>
+                        <span>Settings</span>
+                    </a>
+
+                </nav>
+
+            </div>
+
+            <div class="sidebar-bottom">
+
+                <a
+                    href="{{ url_for('auth.logout') }}"
+                    class="sidebar-logout"
+                >
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
+
+            </div>
+
+        </aside>
+
+        <!-- ================= MAIN CONTENT ================= -->
+
+        <main class="dashboard-main">
+
+            <header class="dashboard-header">
+
+                <div>
+
+                    <p class="dashboard-label">
+                        Company Knowledge
+                    </p>
+
+                    <h1>Uploaded Knowledge Sources</h1>
+
+                    <p class="dashboard-subtitle">
+                        View each uploaded file or website as one source.
+                    </p>
+
+                </div>
+
+                <div class="dashboard-header-actions">
+
+                    <a
+                        href="{{ url_for('faq.upload_data') }}"
+                        class="dashboard-primary-button"
+                    >
+                        <i class="fa-solid fa-plus"></i>
+                        Upload More Data
+                    </a>
+
+                </div>
+
+            </header>
+
+            <!-- ================= FLASH MESSAGES ================= -->
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+
+                {% if messages %}
+
+                    <div class="dashboard-flash-container">
+
+                        {% for category, message in messages %}
+
+                            <div class="alert alert-{{ category }}">
+                                {{ message }}
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+            {% endwith %}
+
+            <!-- ================= STATISTICS ================= -->
+
+            <section class="knowledge-stat-grid">
+
+                <article class="knowledge-stat-card">
+
+                    <div class="knowledge-stat-icon">
+                        <i class="fa-solid fa-layer-group"></i>
+                    </div>
+
+                    <div>
+                        <span>Total Chunks</span>
+
+                        <strong>
+                            {{ statistics["total_chunks"] or 0 }}
+                        </strong>
+                    </div>
+
+                </article>
+
+                <article class="knowledge-stat-card">
+
+                    <div class="knowledge-stat-icon">
+                        <i class="fa-solid fa-folder-open"></i>
+                    </div>
+
+                    <div>
+                        <span>Total Sources</span>
+
+                        <strong>
+                            {{ statistics["total_sources"] or 0 }}
+                        </strong>
+                    </div>
+
+                </article>
+
+                <article class="knowledge-stat-card">
+
+                    <div class="knowledge-stat-icon">
+                        <i class="fa-solid fa-file"></i>
+                    </div>
+
+                    <div>
+                        <span>File Sources</span>
+
+                        <strong>
+                            {{ statistics["file_sources"] or 0 }}
+                        </strong>
+                    </div>
+
+                </article>
+
+                <article class="knowledge-stat-card">
+
+                    <div class="knowledge-stat-icon">
+                        <i class="fa-solid fa-globe"></i>
+                    </div>
+
+                    <div>
+                        <span>Website Sources</span>
+
+                        <strong>
+                            {{ statistics["website_sources"] or 0 }}
+                        </strong>
+                    </div>
+
+                </article>
+
+            </section>
+
+            <!-- ================= SEARCH AND FILTER ================= -->
+
+            <article class="dashboard-card knowledge-filter-card">
+
+                <form
+                    method="GET"
+                    action="{{ url_for('faq.knowledge_data') }}"
+                    class="knowledge-filter-form"
+                >
+
+                    <div class="knowledge-search-wrapper">
+
+                        <i class="fa-solid fa-magnifying-glass"></i>
+
+                        <input
+                            type="search"
+                            name="search"
+                            value="{{ search_text }}"
+                            placeholder="Search files, websites or content..."
+                        >
+
+                    </div>
+
+                    <select name="source_type">
+
+                        <option value="">
+                            All source types
+                        </option>
+
+                        <option
+                            value="website"
+                            {% if selected_source_type == "website" %}
+                                selected
+                            {% endif %}
+                        >
+                            Website
+                        </option>
+
+                        <option
+                            value="file"
+                            {% if selected_source_type == "file" %}
+                                selected
+                            {% endif %}
+                        >
+                            File
+                        </option>
+
+                        <option
+                            value="text"
+                            {% if selected_source_type == "text" %}
+                                selected
+                            {% endif %}
+                        >
+                            Text
+                        </option>
+
+                    </select>
+
+                    <button
+                        type="submit"
+                        class="dashboard-primary-button"
+                    >
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        Search
+                    </button>
+
+                    <a
+                        href="{{ url_for('faq.knowledge_data') }}"
+                        class="dashboard-outline-button"
+                    >
+                        Reset
+                    </a>
+
+                </form>
+
+            </article>
+
+            <!-- ================= SOURCES ================= -->
+
+            <article class="dashboard-card knowledge-data-card">
+
+                <div class="dashboard-card-header">
+
+                    <div>
+
+                        <span class="card-label">
+                            Knowledge Sources
+                        </span>
+
+                        <h2>Imported Files and Websites</h2>
+
+                        <p>
+                            Each uploaded file or website appears only once.
+                        </p>
+
+                    </div>
+
+                    {% if knowledge_sources %}
+
+                        <form
+                            method="POST"
+                            action="{{ url_for('faq.delete_all_knowledge') }}"
+                            onsubmit="
+                                return confirm(
+                                    'Delete all uploaded knowledge?'
+                                );
+                            "
+                        >
+
+                            <button
+                                type="submit"
+                                class="knowledge-delete-all-button"
+                            >
+                                <i class="fa-solid fa-trash"></i>
+                                Delete All
+                            </button>
+
+                        </form>
+
+                    {% endif %}
+
+                </div>
+
+                {% if knowledge_sources %}
+
+                    <div class="knowledge-record-list">
+
+                        {% for source in knowledge_sources %}
+
+                            <article class="knowledge-record">
+
+                                <div class="knowledge-record-header">
+
+                                    <div class="knowledge-source-info">
+
+                                        <div class="knowledge-source-icon">
+
+                                            {% if source["source_type"] == "website" %}
+
+                                                <i class="fa-solid fa-globe"></i>
+
+                                            {% elif source["source_type"] == "text" %}
+
+                                                <i class="fa-solid fa-file-lines"></i>
+
+                                            {% else %}
+
+                                                <i class="fa-solid fa-file"></i>
+
+                                            {% endif %}
+
+                                        </div>
+
+                                        <div>
+
+                                            <h3>
+                                                {{
+                                                    source["source_name"]
+                                                    or "Uploaded Data"
+                                                }}
+                                            </h3>
+
+                                            <div class="knowledge-record-meta">
+
+                                                <span class="knowledge-source-badge">
+                                                    {{
+                                                        source["source_type"]
+                                                        or "file"
+                                                    }}
+                                                </span>
+
+                                                <span>
+                                                    {{
+                                                        source["chunk_count"]
+                                                    }}
+                                                    internal chunks
+                                                </span>
+
+                                                {% if source["created_at"] %}
+
+                                                    <span>
+                                                        {{
+                                                            source["created_at"]
+                                                        }}
+                                                    </span>
+
+                                                {% endif %}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <form
+                                        method="POST"
+                                        action="{{
+                                            url_for(
+                                                'faq.delete_knowledge_source'
+                                            )
+                                        }}"
+                                        onsubmit="
+                                            return confirm(
+                                                'Delete this complete source and all its chunks?'
+                                            );
+                                        "
+                                    >
+
+                                        <input
+                                            type="hidden"
+                                            name="source_name"
+                                            value="{{
+                                                source['source_name']
+                                                or ''
+                                            }}"
+                                        >
+
+                                        <input
+                                            type="hidden"
+                                            name="source_type"
+                                            value="{{
+                                                source['source_type']
+                                                or ''
+                                            }}"
+                                        >
+
+                                        <input
+                                            type="hidden"
+                                            name="source_url"
+                                            value="{{
+                                                source['source_url']
+                                                or ''
+                                            }}"
+                                        >
+
+                                        <button
+                                            type="submit"
+                                            class="knowledge-delete-button"
+                                            title="Delete complete source"
+                                        >
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+
+                                    </form>
+
+                                </div>
+
+                                <div class="knowledge-content">
+
+                                    <p>
+                                        {{
+                                            source["combined_content"][:450]
+                                        }}
+
+                                        {% if
+                                            source["combined_content"]
+                                            and
+                                            source["combined_content"]|length > 450
+                                        %}
+                                            ...
+                                        {% endif %}
+                                    </p>
+
+                                </div>
+
+                                <div class="knowledge-source-footer">
+
+                                    {% if source["source_url"] %}
+
+                                        <a
+                                            href="{{ source['source_url'] }}"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            class="knowledge-source-link"
+                                        >
+                                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                            Open source website
+                                        </a>
+
+                                    {% else %}
+
+                                        <span class="knowledge-source-link">
+                                            <i class="fa-solid fa-file"></i>
+                                            Uploaded file
+                                        </span>
+
+                                    {% endif %}
+
+                                    <span>
+                                        {{
+                                            source["chunk_count"]
+                                        }}
+                                        chunks used by chatbot
+                                    </span>
+
+                                </div>
+
+                            </article>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% else %}
+
+                    <div class="knowledge-empty-state">
+
+                        <div class="knowledge-empty-icon">
+                            <i class="fa-solid fa-database"></i>
+                        </div>
+
+                        <h3>No knowledge sources found</h3>
+
+                        <p>
+                            Upload a CSV, Excel or TXT file, or import a
+                            website to build your chatbot knowledge.
+                        </p>
+
+                        <a
+                            href="{{ url_for('faq.upload_data') }}"
+                            class="dashboard-primary-button"
+                        >
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                            Upload Knowledge
+                        </a>
+
+                    </div>
+
+                {% endif %}
+
+            </article>
+
+        </main>
+
+    </div>
+
+</section>
+
+{% endblock %}

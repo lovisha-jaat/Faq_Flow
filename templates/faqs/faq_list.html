@@ -43,13 +43,9 @@ Manage FAQs | FAQFlow AI
                         <span>Dashboard</span>
 
                     </a>
-
-                    <a href="{{ url_for('faq.faq_list') }}" class="sidebar-link active">
-
-                        <i class="fa-solid fa-circle-question"></i>
-
-                        <span>Manage FAQs</span>
-
+                    <a href="{{ url_for('faq.knowledge_data') }}" class="sidebar-link">
+                        <i class="fa-solid fa-database"></i>
+                        <span>Knowledge Data</span>
                     </a>
 
                     <a href="{{ url_for('faq.upload_data') }}" class="sidebar-link">
@@ -122,11 +118,11 @@ Manage FAQs | FAQFlow AI
 
                 <div class="faq-toolbar">
 
-                    <form action="{{ url_for('faq.faq_list') }}" method="GET" class="faq-search">
+                    <form action="{{  url_for('faq.knowledge_data') }}" method="GET" class="faq-search">
 
                         <div class="search-box">
 
-                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <i class="fa-solid fa-database"></i>
 
                             <input type="text" name="keyword" placeholder="Search question, answer or category..."
                                 value="{{ keyword if keyword else '' }}">

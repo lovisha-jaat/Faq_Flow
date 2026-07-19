@@ -1,4 +1,6 @@
 Flask
+gunicorn
+playwright
 python-dotenv
 pandas
 openpyxl

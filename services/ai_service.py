@@ -326,7 +326,21 @@ def extract_gemini_result(response_data):
     try:
         parsed = json.loads(cleaned_json)
 
-        answer = clean_answer_text(parsed.get("answer", ""))
+        answer = parsed.get("answer", "")
+
+        # Gemini sometimes returns JSON inside the answer string
+        if isinstance(answer, str):
+            try:
+                nested = json.loads(answer)
+
+                if isinstance(nested, dict):
+                    answer = nested.get("answer", answer)
+
+            except Exception:
+                pass
+
+        answer = clean_answer_text(answer)
+
         found_in_company_data = bool(
             parsed.get("found_in_company_data", False)
         )
@@ -337,7 +351,22 @@ def extract_gemini_result(response_data):
         return answer, found_in_company_data
 
     except (json.JSONDecodeError, TypeError, ValueError):
-        return clean_answer_text(raw_text), False
+
+        # If Gemini returned plain text instead of JSON
+        answer = raw_text
+
+        # Check for nested JSON in plain text
+        if isinstance(answer, str):
+            try:
+                nested = json.loads(answer)
+
+                if isinstance(nested, dict):
+                    answer = nested.get("answer", answer)
+
+            except Exception:
+                pass
+
+        return clean_answer_text(answer), False
 
 
 def ask_gemini(

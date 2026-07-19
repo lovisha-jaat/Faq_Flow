@@ -57,11 +57,10 @@ def integration():
 
     widget_code = f"""<!-- FAQFlow AI Chatbot -->
 <script
-    src="http://127.0.0.1:5000/static/js/widget.js"
+    src="https://faq-flow.onrender.com/static/js/widget.js"
     data-company-id="{company_id}"
-    data-api-base="http://127.0.0.1:5000"
+    data-api-base="https://faq-flow.onrender.com"
 ></script>"""
-
     return render_template(
         "chatbot/integration.html",
         widget_code=widget_code
